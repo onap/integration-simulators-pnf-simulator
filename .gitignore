@@ -1,5 +1,4 @@
-.idea
-target
-*.iml
-logs
+**/*.iml
+**/.idea
+**/target
 .tox/
