@@ -318,30 +318,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.31.0</version>
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>${onap.nexus.dockerregistry.daily}/${docker.image.name}</name>
-                            <build>
-                                <contextDir>${project.basedir}</contextDir>
-                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.1</version>
@@ -368,4 +344,60 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <os.detected.name>linux</os.detected.name>
+                <os.detected.arch>x86_64</os.detected.arch>
+                <os.detected.classifier>${os.detected.name}-${os.detected.arch}</os.detected.classifier>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>docker-build-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>docker-push-image</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skipPush>${skipDockerPush}</skipPush>
+                            <verbose>true</verbose>
+                            <imagePullPolicy>IfNotPresent</imagePullPolicy>
+                            <images>
+                                <image>
+                                    <alias>${project.artifactId}</alias>
+                                    <name>${onap.nexus.dockerregistry.daily}/${docker.image.name}</name>
+                                    <registry>${onap.nexus.dockerregistry.daily}</registry>
+                                    <build>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                        <tags>
+                                            <tag>${project.version}-${maven.build.timestamp}Z</tag>
+                                        </tags>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

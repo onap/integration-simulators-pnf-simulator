@@ -60,7 +60,7 @@ public class KeywordsExtractorValidRandomPrimitiveIntegerTest {
 
     @Test
     public void checkValidRandomStringKeyword() {
-        assertEquals(keywordsExtractor.substitutePrimitiveKeyword(this.keyword), this.shouldParseTo);
+        assertEquals(keywordsExtractor.substitutePrimitiveKeyword(this.keyword), Long.valueOf(this.shouldParseTo));
     }
 
 }
