@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03851040_db810bc8",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-03T09:23:53Z",
+      "side": 1,
+      "message": "Bogumil Zebek",
+      "revId": "5587032f1209750346bbcce2b6f3ce6fe1a4aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
