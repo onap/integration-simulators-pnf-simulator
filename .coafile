@@ -9,7 +9,9 @@ bears = JSONFormatBear
 json_sort = False
 indent_size = 2
 ignore =
-  .tox/**
+  .tox/**,
+  pnfsimulator/src/test/resources/**,
+  netconfsimulator/src/test/resources/**
 
 [py]
 bears = PyLintBear
