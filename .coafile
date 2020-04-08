@@ -10,6 +10,7 @@ json_sort = False
 indent_size = 2
 ignore =
   .tox/**
+  .pnfsimulator/src/test/resources/org/onap/pnfsimulator/simulator/invalidJsonStructureEvent.json
 
 [py]
 bears = PyLintBear
