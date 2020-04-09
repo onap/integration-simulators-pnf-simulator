@@ -5,7 +5,7 @@ Simulator that generates VES events related to PNF PNP integration.
 ### Setting up
 Preferred way to start simulator is to use `docker-compose up -d` command.
 All required docker images will be downloaded from ONAP Nexus, however there is possibility to build those 
-images locally. It can be achieve by invoking `mvn clean package docker:build` from top directory.
+images locally. It can be achieve by invoking `mvn clean install -P docker` from top directory.
  
 ### API
 Simulator provides REST endpoints which can be used to trigger sending events to VES.
@@ -22,7 +22,8 @@ Parameters:
         repeatInterval -  time (in seconds) between events
         vesServerUrl   -  valid path to VES Collector
     templateName   -  name of template file (check *Templates* section) 
-    patch          -  part of event which will be merged into template
+    patch           - part of event which will be merged into template
+    variables    - correct json containing variables to merge with patched template
 
   
 Sample Request:
@@ -42,7 +43,13 @@ Sample Request:
                            "version": 3.0
                        }
                    }
-               }
+               },
+       "variables": {
+                    "dn":"Abcd",
+                    "anyObject": {
+                        "key": "value"
+                    }
+       }        
     }
     
 *One-time event sending*
@@ -263,6 +270,103 @@ Corresponding result of keyword substitution (event that will be sent):
       }
     }
  
+### In place variables support
+Simulator supports dynamic keywords e.g. #dN to automatically substitute selected phrases in defined json schema.
+Keywords have to be specified as separated json values, so no mixing keywords inside textual fields are acceptable. Current implementation 
+supports placing variables in json templates as well as in patches latter sent as part of the requests.
+
+####Example:
+
+Request:
+```json
+{
+  "simulatorParams": {
+    "repeatCount": 1,
+    "repeatInterval": 1,
+    "vesServerUrl": "http://ves:5123"
+  },
+  "templateName": "cmNotification.json",
+  "patch": {},
+  "variables": {
+    "dN": "NRNB=5, NRCEL=1234",
+    "attributeList": {
+      "threshXHighQ": "50",
+      "threshXHighP": "52"
+    }
+  }
+}
+``` 
+
+cmNotification.json template is installed automatically after startup of the simulator but can be found also in repository in 'templates' folder:
+```json
+{
+  "event": {
+    "otherFields": {
+      "otherFieldsVersion": "3.0",
+      "jsonObjects": [
+        {
+          "objectName": "CustomNotification",
+          "objectInstances": [
+            {
+              "objectInstance": {
+                "cm3gppNotifyFields": {
+                  "dN": "#dN",
+                  "notificationType": "notifyMOIAttributeValueChange",
+                  "notificationId": "notificationID123121312323",
+                  "sourceIndicator": "sONOperation",
+                  "eventTime": "#Timestamp",
+                  "systemDN": "NRNB=5",
+                  "attributeList": "#attributeList",
+                  "correlatedNotifications": {
+                    "notificationID-notifyMOIAttributeValueChange": "sONOperation"
+                  },
+                  "additionalText": "sometext",
+                  "cm3gppNotifyFieldsVersion": "1.0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+Expected output of such request (body of an event being send to a ves) should be as follows:
+```json
+{
+	"event": {
+		"otherFields": {
+			"otherFieldsVersion": "3.0",
+			"jsonObjects": [{
+				"objectName": "CustomNotification",
+				"objectInstances": [{
+					"objectInstance": {
+						"cm3gppNotifyFields": {
+							"dN": "NRNB=5, NRCEL=1234",
+							"notificationType": "notifyMOIAttributeValueChange",
+							"notificationId": "notificationID123121312323",
+							"sourceIndicator": "sONOperation",
+							"eventTime": "1571306716",
+							"systemDN": "NRNB=5",
+							"attributeList": {
+								"threshXHighQ": "50",
+								"threshXHighP": "52"
+							},
+							"correlatedNotifications": {
+								"notificationID-notifyMOIAttributeValueChange": "sONOperation"
+							},
+							"additionalText": "sometext",
+							"cm3gppNotifyFieldsVersion": "1.0"
+						}
+					}
+				}]
+			}]
+		}
+	}
+}
+```
 
 ### Logging
 Every start of simulator will generate new logs that can be found in docker pnf-simualtor container under path: 
@@ -283,16 +387,15 @@ CA certificates are incorporated into simulator docker image, thus no additional
 Certificates can be found in docker container under path: */usr/local/share/ca-certificates/*
 
 Simulator works with VES that uses both self-signed certificate (already present in keystore) and VES integrated to AAF. 
- 
 
 ## Developers Guide
 
 ### Integration tests
 Integration tests are located in folder 'integration'. Tests are using docker-compose from root folder. 
-This docker-compose has pnfsimulator image set on nexus3.onap.org:10003/onap/pnf-simulator:5.0.0-SNAPSHOT. 
+This docker-compose has pnfsimulator image set on nexus3.onap.org:10003/onap/pnf-simulator. 
 To test your local changes before running integration tests please build project using:
 
-    'mvn clean package docker:build'
+    'mvn clean install -P docerk'
     
 then go to 'integration' folder and run: 
 
@@ -317,6 +420,9 @@ Warning: according to VES implementation which uses certificate with Common Name
  Create truststore with rootCA.crt: 
  1. ```keytool -import -file rootCA.crt -alias firstCA -keystore trustStore```
  2. Copy truststore to ```/app/store/```
+
+#### Testing keystore with real/mocked ves server
+```curl --cacert rootCA.crt --cert client.crt --key client.key https://VES_SECURED_URL -d "{}" -X POST -H "Content-type: application/json" -kv```
 
 #### How to refresh configuration of app
 Depends your needs, you are able to change client certificate, replace trustStore to accept new server certificate change keystore and truststore passwords or completely disable client cert authentication.

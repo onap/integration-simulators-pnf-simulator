@@ -31,7 +31,6 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
@@ -54,13 +53,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventScheduler {
 
-
     private final Scheduler scheduler;
     private final KeywordsHandler keywordsHandler;
     private final SSLAuthenticationHelper SSLAuthenticationHelper;
 
     @Autowired
-    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SSLAuthenticationHelper SSLAuthenticationHelper) {
+    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SSLAuthenticationHelper SSLAuthenticationHelper)  {
         this.scheduler = scheduler;
         this.keywordsHandler = keywordsHandler;
         this.SSLAuthenticationHelper = SSLAuthenticationHelper;
@@ -68,7 +66,7 @@ public class EventScheduler {
 
     public String scheduleEvent(String vesUrl, Integer repeatInterval, Integer repeatCount,
         String templateName, String eventId, JsonObject body)
-            throws SchedulerException, IOException, GeneralSecurityException {
+        throws SchedulerException, IOException, GeneralSecurityException {
 
         JobDetail jobDetail = createJobDetail(vesUrl, templateName, eventId, body);
         SimpleTrigger trigger = createTrigger(repeatInterval, repeatCount);
@@ -95,7 +93,8 @@ public class EventScheduler {
             .build();
     }
 
-    private JobDetail createJobDetail(String vesUrl, String templateName, String eventId, JsonObject body) throws IOException, GeneralSecurityException {
+    private JobDetail createJobDetail(String vesUrl, String templateName, String eventId, JsonObject body)
+        throws IOException, GeneralSecurityException {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put(TEMPLATE_NAME, templateName);
         jobDataMap.put(VES_URL, vesUrl);
