@@ -63,8 +63,6 @@ To regenerate all required certificates follow steps:
 Client authenticates using described TLS configuration, their username will resolve to test (more information in tls_listen.xml under the cert-to-name section). It is required that this username exists on the local system (just like for SSH), so you will need to (temporarily) create this user. The simplest way is executing # useradd -MN test, which creates the user without a home directory and user group.
 
 Currently by default there is only a possibility to substitute existing certificates for single user. 
-```
-
 
 ### Capturing netconf configuration changes
 
@@ -181,7 +179,10 @@ URL: http://<simulator_ip>:9000/store/less?offset=1
 ```
 response:
 ```
-[{"timestamp": 1542877413979, "configuration": "CREATED: /pnf-simulator:config/itemValue3 = 3333"}]
+    {
+        "timestamp": 1574337196665,
+        "configuration": "{\"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"201\"}, \"type\": \"CREATED\"}"
+    }
 ```
 
 Notice: if new value is the same as the old one, the change won’t be intercepted (because there is no state change). This is a limitation of used netconf implementation (Netopeer2).
@@ -213,8 +214,16 @@ http method: GET
 URL: http://<simulator_ip>:9000/store/less?offset=2
 ```
 ```
-[{"timestamp": 1542877413979, "configuration": "MODIFIED: : old value: /pnf-simulator:config/itemValue1 = 2781, new value: /pnf-simulator:config/itemValue1 = 111",
- {"timestamp": 1542877413979, "configuration": "MODIFIED: : old value: /pnf-simulator:config/itemValue2 = 3782, new value: /pnf-simulator:config/itemValue2 = 222"}]
+[
+    {
+        "timestamp": 1574336440791,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"42\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"2781\"}}"
+    },
+    {
+        "timestamp": 1574336440909,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"35\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}}"
+    }
+]
 ```
 
 **Move request** (inserting a value into leaf-list which in turn rearranges remaining elements)
@@ -235,8 +244,16 @@ http method: GET
 URL: http://<simulator_ip>:9000/store/less?offset=2
 ```
 ```
-[{"timestamp": 1542877413979, "configuration": "CREATED: /pnf-simulator:config/allow-user = mike"},
- {"timestamp": 1542877413979, "configuration": "MOVED: /pnf-simulator:config/allow-user = mike after /pnf-simulator:config/allow-user = alice"}]
+[
+   {
+        "timestamp": 1574336440791,
+        "configuration": "{ \"type\": \"CREATED\", \"new\": {\"path\": \"//pnf-simulator:config/allow-user\", \"value\": \"mike\"}}"
+    },
+   {
+        "timestamp": 1574336440791,
+        "configuration": "{ \"type\": \"MOVED\", \"old\": {\"path\": \"//pnf-simulator:config/allow-user\", \"value\": \"mike\"}, \"new\": {\"path\": \"//pnf-simulator:config/allow-user\", \"value\": \"alice\"}}"
+    },    
+]
 ```
 
 **Delete request**
@@ -258,7 +275,10 @@ http method: GET
 URL: http://<simulator_ip>:9000/store/less?offset=1
 ```
 ```
-[{"timestamp": 1542877413979, "configuration": "DELETED: /pnf-simulator:config/itemValue2 = 222"}]
+    {
+        "timestamp": 1574337091878,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}, \"type\": \"DELETED\"}"
+    }
 ```
 
 Getting all configuration changes:
@@ -268,12 +288,24 @@ URL: http://<simulator_ip>:9000/store/cm-history
 ```
 response:
 ```
-[{"timestamp":1542877413979,"configuration":"MODIFIED: : old value: /pnf-simulator:config/itemValue1 = 2781, new value: /pnf-simulator:config/itemValue1 = 111"},
- {"timestamp":1542877413979,"configuration":"MODIFIED: : old value: /pnf-simulator:config/itemValue2 = 3782, new value: /pnf-simulator:config/itemValue2 = 222"},
- {"timestamp":1542877414000,"configuration":"CREATED: : /pnf-simulator:config/itemValue3 = 3333"},
- {"timestamp":1542877414104,"configuration":"CREATED: : CREATED: /pnf-simulator:config/allow-user = mike"}
- {"timestamp":1542877414107,"configuration":"MOVED: /pnf-simulator:config/allow-user = mike after /pnf-simulator:config/allow-user = alice"},
- {"timestamp":1542877414275,"configuration":"DELETED: /pnf-simulator:config/itemValue2 = 222"}]
+[
+    {
+        "timestamp": 1574336440791,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"42\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"2781\"}}"
+    },
+    {
+        "timestamp": 1574336440909,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"35\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}}"
+    },
+    {
+        "timestamp": 1574337091868,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"2781\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"1111\"}}"
+    },
+    {
+        "timestamp": 1574337091878,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}, \"type\": \"DELETED\"}"
+    }
+]
 ```
 
 ### Logging
