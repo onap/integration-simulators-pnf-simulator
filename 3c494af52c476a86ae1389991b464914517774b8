@@ -1,0 +1,9 @@
+Code-Review+2: Bogumil Zebek <bogumil.zebek@nokia.com>
+Code-Review+1: Michał Bańka <michal.banka@nokia.com>
+Code-Review+1: Morgan Richomme <morgan.richomme@orange.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-at: Thu, 09 Apr 2020 08:29:15 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/simulators/pnf-simulator/+/105479
+Project: integration/simulators/pnf-simulator
+Branch: refs/heads/master
