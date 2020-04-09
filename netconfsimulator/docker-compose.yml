@@ -54,6 +54,7 @@ services:
     networks:
     - netconfnetwork
     depends_on:
+    - kafka1
     - sftp-server
     - ftpes-server
     command:

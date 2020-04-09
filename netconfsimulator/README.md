@@ -11,9 +11,9 @@ To run the simulator, the following software should be installed:
 ### API
 Simulator exposes both HTTP and native netconf interface.
 
-### Running simulator   
+### Running simulator
 In order to run simulator, invoke *mvn clean install docker:build* to build required images.
-Add executable permission to initialize_netopeer.sh (by executing `sudo chmod +x netconf/initialize_netopeer.sh`) 
+Add executable permission to initialize_netopeer.sh (by executing `sudo chmod +x netconf/initialize_netopeer.sh`)
 and then invoke *docker-compose up* command.
 In case of copying simulator files to another location, keep in mind to copy also *docker-compose.yml* and directories: *config, templates, netopeer-change-saver-native and netconf*.
 
@@ -26,9 +26,9 @@ The command *docker-compose down* can be used to shut the simulator down.
 ## Usage of simulator
 
 ### Netconf TLS support
-Embedded netconf server supports connections over TLS on port 6513. Default server and CA certificate have been generated using method described below. Please proceed with these steps to recreate own certificates. Important is to fulfill all needed data during certificate preparation because Netconf verifies certs description pretty strictly. 
+Embedded netconf server supports connections over TLS on port 6513. Default server and CA certificate have been generated using method described below. Please proceed with these steps to recreate own certificates. Important is to fulfill all needed data during certificate preparation because Netconf verifies certs description pretty strictly.
 
-Mentioned Github repository contains sample client certificate, which works out of the box. 
+Mentioned Github repository contains sample client certificate, which works out of the box.
 
 #### Replacing server certificates
 In order to replace TLS certificates with third-party ones, the following naming schema must be followed:
@@ -62,9 +62,7 @@ To regenerate all required certificates follow steps:
 
 Client authenticates using described TLS configuration, their username will resolve to test (more information in tls_listen.xml under the cert-to-name section). It is required that this username exists on the local system (just like for SSH), so you will need to (temporarily) create this user. The simplest way is executing # useradd -MN test, which creates the user without a home directory and user group.
 
-Currently by default there is only a possibility to substitute existing certificates for single user. 
-```
-
+Currently by default there is only a possibility to substitute existing certificates for single user.
 
 ### Capturing netconf configuration changes
 
@@ -74,12 +72,12 @@ The netconfsimulator tool will intercept changes in netconf configuration, done 
 - modifying an item
 - deleting an item
 
-Each captured change contains fully qualified parameter name (including xpath - namespace and container name) 
+Each captured change contains fully qualified parameter name (including xpath - namespace and container name)
 
 #### REST API usage with examples
 
-Application of native netconf operations on YANG model is covered by REST API layer. 
-Example invocation of operations with its requests and results are presented below. 
+Application of native netconf operations on YANG model is covered by REST API layer.
+Example invocation of operations with its requests and results are presented below.
 For basic edit-config and get config actions, response is in plain XML format, whereas stored data that can be accessed via API is returned in JSON format.
 
 **Load new YANG model**
@@ -148,7 +146,7 @@ response: plain XML
 ```
 
 **Edit configuration**
-To edit configuration XML file must be prepared. No plain request body is used here, 
+To edit configuration XML file must be prepared. No plain request body is used here,
 request content must be passed as multipart file (form data) with file name/key='editConfigXml' and file content in XML format
 
 http method: POST
@@ -177,11 +175,14 @@ Captured change, that can be obtained from db also via REST API:
 
 http method: GET
 ```
-URL: http://<simulator_ip>:9000/store/less?offset=1 
+URL: http://<simulator_ip>:9000/store/less?offset=1
 ```
 response:
 ```
-[{"timestamp": 1542877413979, "configuration": "CREATED: /pnf-simulator:config/itemValue3 = 3333"}]
+    {
+        "timestamp": 1574337196665,
+        "configuration": "{\"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"201\"}, \"type\": \"CREATED\"}"
+    }
 ```
 
 Notice: if new value is the same as the old one, the change won’t be intercepted (because there is no state change). This is a limitation of used netconf implementation (Netopeer2).
@@ -213,8 +214,16 @@ http method: GET
 URL: http://<simulator_ip>:9000/store/less?offset=2
 ```
 ```
-[{"timestamp": 1542877413979, "configuration": "MODIFIED: : old value: /pnf-simulator:config/itemValue1 = 2781, new value: /pnf-simulator:config/itemValue1 = 111",
- {"timestamp": 1542877413979, "configuration": "MODIFIED: : old value: /pnf-simulator:config/itemValue2 = 3782, new value: /pnf-simulator:config/itemValue2 = 222"}]
+[
+    {
+        "timestamp": 1574336440791,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"42\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"2781\"}}"
+    },
+    {
+        "timestamp": 1574336440909,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"35\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}}"
+    }
+]
 ```
 
 **Move request** (inserting a value into leaf-list which in turn rearranges remaining elements)
@@ -235,8 +244,16 @@ http method: GET
 URL: http://<simulator_ip>:9000/store/less?offset=2
 ```
 ```
-[{"timestamp": 1542877413979, "configuration": "CREATED: /pnf-simulator:config/allow-user = mike"},
- {"timestamp": 1542877413979, "configuration": "MOVED: /pnf-simulator:config/allow-user = mike after /pnf-simulator:config/allow-user = alice"}]
+[
+   {
+        "timestamp": 1574336440791,
+        "configuration": "{ \"type\": \"CREATED\", \"new\": {\"path\": \"//pnf-simulator:config/allow-user\", \"value\": \"mike\"}}"
+    },
+   {
+        "timestamp": 1574336440791,
+        "configuration": "{ \"type\": \"MOVED\", \"old\": {\"path\": \"//pnf-simulator:config/allow-user\", \"value\": \"mike\"}, \"new\": {\"path\": \"//pnf-simulator:config/allow-user\", \"value\": \"alice\"}}"
+    },
+]
 ```
 
 **Delete request**
@@ -258,7 +275,10 @@ http method: GET
 URL: http://<simulator_ip>:9000/store/less?offset=1
 ```
 ```
-[{"timestamp": 1542877413979, "configuration": "DELETED: /pnf-simulator:config/itemValue2 = 222"}]
+    {
+        "timestamp": 1574337091878,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}, \"type\": \"DELETED\"}"
+    }
 ```
 
 Getting all configuration changes:
@@ -268,12 +288,24 @@ URL: http://<simulator_ip>:9000/store/cm-history
 ```
 response:
 ```
-[{"timestamp":1542877413979,"configuration":"MODIFIED: : old value: /pnf-simulator:config/itemValue1 = 2781, new value: /pnf-simulator:config/itemValue1 = 111"},
- {"timestamp":1542877413979,"configuration":"MODIFIED: : old value: /pnf-simulator:config/itemValue2 = 3782, new value: /pnf-simulator:config/itemValue2 = 222"},
- {"timestamp":1542877414000,"configuration":"CREATED: : /pnf-simulator:config/itemValue3 = 3333"},
- {"timestamp":1542877414104,"configuration":"CREATED: : CREATED: /pnf-simulator:config/allow-user = mike"}
- {"timestamp":1542877414107,"configuration":"MOVED: /pnf-simulator:config/allow-user = mike after /pnf-simulator:config/allow-user = alice"},
- {"timestamp":1542877414275,"configuration":"DELETED: /pnf-simulator:config/itemValue2 = 222"}]
+[
+    {
+        "timestamp": 1574336440791,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"42\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"2781\"}}"
+    },
+    {
+        "timestamp": 1574336440909,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"35\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}}"
+    },
+    {
+        "timestamp": 1574337091868,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"2781\"}, \"type\": \"MODIFIED\", \"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"1111\"}}"
+    },
+    {
+        "timestamp": 1574337091878,
+        "configuration": "{\"old\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"3782\"}, \"type\": \"DELETED\"}"
+    }
+]
 ```
 
 ### Logging
@@ -283,9 +315,9 @@ response:
 ## Developers Guide
 
 ### Integration tests
-Integration tests use docker-compose for setting up cluster with all services. 
+Integration tests use docker-compose for setting up cluster with all services.
 Those tests are not part of build pipeline, but can be run manually by invoking *mvn verify -DskipITs=false* from project command line.
-Tests can be found in netconfsimulator project in src/integration directory. 
+Tests can be found in netconfsimulator project in src/integration directory.
 
 ## Troubleshooting
 Q: Simulator throws errors after shutting down with *docker-compose down* or *docker-compose restart*
