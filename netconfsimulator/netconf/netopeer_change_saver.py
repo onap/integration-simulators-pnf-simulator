@@ -39,7 +39,7 @@ class OperationType(Enum):
     MOVED = sr.SR_OP_MOVED
 
 
-def module_change_callback(session, name, event, private_ctx):
+def module_change_callback(session, name, event, dummy_private_ctx):
     if sr.SR_EV_APPLY == event:
         change_path = "/{}:*".format(name)
         changes = session.get_changes_iter(change_path)
@@ -71,7 +71,7 @@ def send_message(message):
 
 
 def create_producer(server):
-    for i in range(10): # pylint: disable=W0612
+    for dummy_index in range(10):
         try:
             return KafkaProducer(bootstrap_servers=server, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
         except Exception:
