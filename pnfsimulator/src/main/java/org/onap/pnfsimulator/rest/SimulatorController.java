@@ -22,6 +22,7 @@ package org.onap.pnfsimulator.rest;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonSyntaxException;
+import java.security.GeneralSecurityException;
 import org.json.JSONException;
 import org.onap.pnfsimulator.event.EventData;
 import org.onap.pnfsimulator.event.EventDataService;
@@ -53,7 +54,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -118,17 +118,16 @@ public class SimulatorController {
             return buildResponse(BAD_REQUEST, ImmutableMap.of(MESSAGE, String
                     .format(INCORRECT_TEMPLATE_MESSAGE, triggerEventRequest.getTemplateName(),
                             e.getMessage())));
-        } catch (GeneralSecurityException e ){
-            MDC.put(RESPONSE_CODE, INTERNAL_SERVER_ERROR.toString() );
-            LOGGER.error("Client certificate validation failed: {}", e.getMessage());
-            return buildResponse(INTERNAL_SERVER_ERROR,
-                    ImmutableMap.of(MESSAGE, "Invalid or misconfigured client certificate"));
-        }
-         catch (IOException e) {
+        } catch (IOException e) {
             MDC.put(RESPONSE_CODE, BAD_REQUEST.toString());
             LOGGER.warn("Json validation failed: {}", e.getMessage());
             return buildResponse(BAD_REQUEST,
                     ImmutableMap.of(MESSAGE, String.format(NOT_EXISTING_TEMPLATE, triggerEventRequest.getTemplateName())));
+        } catch (GeneralSecurityException e) {
+            MDC.put(RESPONSE_CODE, INTERNAL_SERVER_ERROR.toString());
+            LOGGER.error("Client certificate validation failed: {}", e.getMessage());
+            return buildResponse(INTERNAL_SERVER_ERROR,
+                    ImmutableMap.of(MESSAGE, "Invalid or misconfigured client certificate"));
         } catch (Exception e) {
             MDC.put(RESPONSE_CODE, INTERNAL_SERVER_ERROR.toString());
             LOGGER.error("Cannot trigger event - unexpected exception", e);
@@ -179,7 +178,7 @@ public class SimulatorController {
 
     @PostMapping("event")
     public ResponseEntity sendEventDirectly(@RequestHeader HttpHeaders headers, @Valid @RequestBody FullEvent event)
-            throws IOException, GeneralSecurityException{
+        throws IOException, GeneralSecurityException {
         logContextHeaders(headers, "/simulator/event");
         LOGGER.info(ENTRY, "Trying to send one-time event directly to VES Collector");
         simulatorService.triggerOneTimeEvent(event);
@@ -187,7 +186,7 @@ public class SimulatorController {
     }
 
     private ResponseEntity processRequest(SimulatorRequest triggerEventRequest)
-            throws IOException, SchedulerException, GeneralSecurityException {
+        throws IOException, SchedulerException, GeneralSecurityException {
 
         String jobName = simulatorService.triggerEvent(triggerEventRequest);
         MDC.put(RESPONSE_CODE, OK.toString());

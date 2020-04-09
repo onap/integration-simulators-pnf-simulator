@@ -20,9 +20,12 @@
 
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
+import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,6 +39,18 @@ class SslSupportLevelTest {
     void testShouldReturnAlwaysTrustSupportLevelForHttpsUrl() throws MalformedURLException {
         SslSupportLevel actualSupportLevel = SslSupportLevel.getSupportLevelBasedOnProtocol(HTTPS_URL);
         assertEquals(actualSupportLevel, SslSupportLevel.ALWAYS_TRUST);
+    }
+
+    @Test
+    void testShouldReturnClientAuthenticationSupportLevelForHttpsUrl() throws IOException, GeneralSecurityException {
+        SSLAuthenticationHelper sslAuthenticationHelper = new SSLAuthenticationHelper();
+        sslAuthenticationHelper.setClientCertificateEnabled(true);
+        sslAuthenticationHelper.setClientCertificateDir(getClass().getClassLoader().getResource("client.p12").getFile());
+        sslAuthenticationHelper.setClientCertificatePassword("collector");
+        sslAuthenticationHelper.setTrustStoreDir(getClass().getClassLoader().getResource("trustStore").getFile());
+        sslAuthenticationHelper.setTrustStorePassword("collector");
+        HttpClientAdapterImpl adapter = new HttpClientAdapterImpl("ANY URI", sslAuthenticationHelper);
+        assertEquals(adapter.getSslSupportLevel(), SslSupportLevel.CLIENT_CERT_AUTH);
     }
 
     @Test

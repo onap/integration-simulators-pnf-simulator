@@ -23,7 +23,6 @@ package org.onap.pnfsimulator.simulator;
 import com.google.common.base.Strings;
 import com.google.gson.JsonObject;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.util.Optional;
 import org.onap.pnfsimulator.event.EventData;
@@ -45,42 +44,53 @@ import org.springframework.stereotype.Service;
 public class SimulatorService {
 
     private final TemplatePatcher templatePatcher;
+    private final TemplateVariablesReplacer templateVariablesReplacer;
+    private final SSLAuthenticationHelper SSLAuthenticationHelper;
     private final TemplateReader templateReader;
     private final EventDataService eventDataService;
     private final EventScheduler eventScheduler;
-    private final SSLAuthenticationHelper sslAuthenticationHelper;
     private SimulatorConfigService simulatorConfigService;
     private static final JsonObject EMPTY_JSON_OBJECT = new JsonObject();
 
     @Autowired
-    public SimulatorService(TemplatePatcher templatePatcher, TemplateReader templateReader,
-                            EventScheduler eventScheduler, EventDataService eventDataService,
-                            SimulatorConfigService simulatorConfigService, SSLAuthenticationHelper sslAuthenticationHelper) {
+    public SimulatorService(
+        TemplatePatcher templatePatcher,
+        TemplateReader templateReader,
+        EventScheduler eventScheduler,
+        EventDataService eventDataService,
+        SimulatorConfigService simulatorConfigService,
+        TemplateVariablesReplacer templateVariablesReplacer,
+        SSLAuthenticationHelper SSLAuthenticationHelper) {
         this.templatePatcher = templatePatcher;
         this.templateReader = templateReader;
         this.eventDataService = eventDataService;
         this.eventScheduler = eventScheduler;
         this.simulatorConfigService = simulatorConfigService;
-        this.sslAuthenticationHelper = sslAuthenticationHelper;
+        this.templateVariablesReplacer = templateVariablesReplacer;
+        this.SSLAuthenticationHelper = SSLAuthenticationHelper;
     }
 
-    public String triggerEvent(SimulatorRequest simulatorRequest) throws IOException, SchedulerException, GeneralSecurityException {
+    public String triggerEvent(SimulatorRequest simulatorRequest)
+        throws IOException, SchedulerException, GeneralSecurityException {
         String templateName = simulatorRequest.getTemplateName();
         SimulatorParams simulatorParams = simulatorRequest.getSimulatorParams();
         JsonObject template = templateReader.readTemplate(templateName);
         JsonObject input = Optional.ofNullable(simulatorRequest.getPatch()).orElse(new JsonObject());
         JsonObject patchedJson = templatePatcher
                 .mergeTemplateWithPatch(template, input);
+        JsonObject variables = Optional.ofNullable(simulatorRequest.getVariables()).orElse(new JsonObject());
+        JsonObject patchedJsonWithVariablesSubstituted = templateVariablesReplacer.substituteVariables(patchedJson, variables);
+
         JsonObject keywords = new JsonObject();
 
-        EventData eventData = eventDataService.persistEventData(template, patchedJson, input, keywords);
+        EventData eventData = eventDataService.persistEventData(template, patchedJsonWithVariablesSubstituted, input, keywords);
 
         String targetVesUrl = getDefaultUrlIfNotProvided(simulatorParams.getVesServerUrl());
         return eventScheduler
                 .scheduleEvent(targetVesUrl, Optional.ofNullable(simulatorParams.getRepeatInterval()).orElse(1),
                         Optional.ofNullable(simulatorParams.getRepeatCount()).orElse(1), simulatorRequest.getTemplateName(),
                         eventData.getId(),
-                patchedJson);
+                    patchedJsonWithVariablesSubstituted);
     }
 
     public void triggerOneTimeEvent(FullEvent event) throws IOException, GeneralSecurityException {
@@ -111,7 +121,7 @@ public class SimulatorService {
 
     HttpClientAdapter createHttpClientAdapter(String vesServerUrl) throws IOException, GeneralSecurityException {
         String targetVesUrl = getDefaultUrlIfNotProvided(vesServerUrl);
-        return new HttpClientAdapterImpl(targetVesUrl, sslAuthenticationHelper);
+        return new HttpClientAdapterImpl(targetVesUrl, SSLAuthenticationHelper);
     }
 
     private String getDefaultUrlIfNotProvided(String vesUrlSimulatorParam) {
