@@ -73,6 +73,8 @@ public class EventJob implements Job {
     private Optional<HttpClientAdapter> getHttpClientAdapter(JobDataMap jobDataMap, String vesUrl) {
         HttpClientAdapter adapter = null;
         try {
+            adapter = (HttpClientAdapter) (jobDataMap.containsKey(CLIENT_ADAPTER) ? jobDataMap.get(CLIENT_ADAPTER)
+                : new HttpClientAdapterImpl(vesUrl, new SslAuthenticationHelper()));
             adapter = (HttpClientAdapter) (
                     jobDataMap.containsKey(CLIENT_ADAPTER)
                             ? jobDataMap.get(CLIENT_ADAPTER)

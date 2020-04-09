@@ -81,7 +81,7 @@ class SimulatorControllerTest {
     static void beforeAll() {
         SimulatorParams simulatorParams = new SimulatorParams("http://0.0.0.0:8080", 1, 1);
         SimulatorRequest simulatorRequest = new SimulatorRequest(simulatorParams,
-                "testTemplate.json", new JsonObject());
+                "testTemplate.json", new JsonObject(), new JsonObject());
 
         simulatorRequestBody = GSON_OBJ.toJson(simulatorRequest);
     }

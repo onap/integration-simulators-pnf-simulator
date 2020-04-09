@@ -48,4 +48,8 @@ public class SimulatorRequest {
     @JsonDeserialize(using = JsonObjectDeserializer.class)
     private JsonObject patch;
 
+    @Nullable
+    @JsonDeserialize(using = JsonObjectDeserializer.class)
+    private JsonObject variables;
+
 }

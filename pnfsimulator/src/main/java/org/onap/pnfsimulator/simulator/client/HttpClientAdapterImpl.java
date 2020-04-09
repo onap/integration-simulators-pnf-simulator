@@ -50,20 +50,20 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final RequestConfig CONFIG = RequestConfig.custom()
-            .setConnectTimeout(CONNECTION_TIMEOUT)
-            .setConnectionRequestTimeout(CONNECTION_TIMEOUT)
-            .setSocketTimeout(CONNECTION_TIMEOUT)
-            .build();
+        .setConnectTimeout(CONNECTION_TIMEOUT)
+        .setConnectionRequestTimeout(CONNECTION_TIMEOUT)
+        .setSocketTimeout(CONNECTION_TIMEOUT)
+        .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
     private SslSupportLevel sslSupportLevel;
     private HttpClient client;
     private final String targetUrl;
 
     public HttpClientAdapterImpl(String targetUrl, SslAuthenticationHelper sslAuthenticationHelper)
-            throws IOException, GeneralSecurityException {
+        throws IOException, GeneralSecurityException {
         this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled()
-                ? SslSupportLevel.CLIENT_CERT_AUTH
-                : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
+            ? SslSupportLevel.CLIENT_CERT_AUTH
+            : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
         this.client = sslSupportLevel.getClient(CONFIG, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }
@@ -76,11 +76,8 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
     @Override
     public void send(String content) {
         try {
-            HttpPost request = createRequest(content);
-            HttpResponse response = client.execute(request);
-
-            //response has to be fully consumed otherwise apache won't release connection
-            EntityUtils.consumeQuietly(response.getEntity());
+            HttpResponse response = sendAndRetrieve(content);
+            EntityUtils.consumeQuietly(response.getEntity()); //response has to be fully consumed otherwise apache won't release connection
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: {}", e.getMessage(), e.getCause());
@@ -89,6 +86,13 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
 
     public SslSupportLevel getSslSupportLevel() {
         return sslSupportLevel;
+    }
+
+    private HttpResponse sendAndRetrieve(String content) throws IOException {
+        HttpPost request = createRequest(content);
+        HttpResponse httpResponse = client.execute(request);
+        request.releaseConnection();
+        return httpResponse;
     }
 
     private HttpPost createRequest(String content) throws UnsupportedEncodingException {
@@ -100,6 +104,5 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         request.setEntity(stringEntity);
         return request;
     }
-
 
 }
