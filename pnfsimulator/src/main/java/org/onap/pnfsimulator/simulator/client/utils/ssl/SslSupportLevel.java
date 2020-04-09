@@ -20,6 +20,12 @@
 
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.util.Optional;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -34,22 +40,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
 
 public enum SslSupportLevel {
 
     NONE {
-        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper) {
+        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)  {
             LOGGER.info("<!-----IN SslSupportLevel.NONE, Creating BasicHttpClient for http protocol----!>");
             return HttpClientBuilder
                     .create()
@@ -58,8 +55,7 @@ public enum SslSupportLevel {
         }
     },
     ALWAYS_TRUST {
-        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)
-                throws GeneralSecurityException, IOException {
+        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper) throws GeneralSecurityException, IOException {
             LoggerFactory.getLogger(SslSupportLevel.class).info("<!-----IN SslSupportLevel.ALWAYS_TRUST, Creating client with SSL support for https protocol----!>");
             HttpClient client;
             try {
@@ -79,19 +75,19 @@ public enum SslSupportLevel {
     },
     CLIENT_CERT_AUTH {
         @Override
-        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)
-                throws GeneralSecurityException, IOException {
+        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper )
+            throws GeneralSecurityException, IOException {
 
             SSLContext sslContext = SSLContexts.custom()
-                    .loadKeyMaterial(readCertificate(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), getPasswordAsCharArray(sslAuthenticationHelper.getClientCertificatePassword()))
-                    .loadTrustMaterial(readCertificate(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
-                    .build();
+                .loadKeyMaterial(readCertificate(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), getPasswordAsCharArray(sslAuthenticationHelper.getClientCertificatePassword()))
+                .loadTrustMaterial(readCertificate(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
+                .build();
 
-            return HttpClients.custom()
-                    .setSSLContext(sslContext)
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setDefaultRequestConfig(requestConfig)
-                    .build();
+           return HttpClients.custom()
+                .setSSLContext(sslContext)
+               .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                .setDefaultRequestConfig(requestConfig)
+                .build();
         }
 
         private KeyStore readCertificate(String certificate, String password, String type) throws GeneralSecurityException, IOException {
@@ -102,7 +98,7 @@ public enum SslSupportLevel {
             }
         }
 
-        private char[] getPasswordAsCharArray(String clientCertificatePassword) {
+        private char[] getPasswordAsCharArray(String clientCertificatePassword){
             return Optional.ofNullable(clientCertificatePassword).map(String::toCharArray).orElse(null);
         }
     };
@@ -111,10 +107,9 @@ public enum SslSupportLevel {
     private static final TrustStrategy TRUST_STRATEGY_ALWAYS = new TrustAllStrategy();
 
     public static SslSupportLevel getSupportLevelBasedOnProtocol(String url) throws MalformedURLException {
-        return "https".equals(new URL(url).getProtocol()) ? SslSupportLevel.ALWAYS_TRUST : SslSupportLevel.NONE;
+            return "https".equals(new URL(url).getProtocol()) ? SslSupportLevel.ALWAYS_TRUST : SslSupportLevel.NONE;
     }
 
     public abstract HttpClient getClient(RequestConfig config, SSLAuthenticationHelper sslAuthenticationHelper)
-            throws GeneralSecurityException, IOException;
-
+        throws GeneralSecurityException, IOException;
 }

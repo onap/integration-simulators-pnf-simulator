@@ -26,11 +26,10 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.security.GeneralSecurityException;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -67,10 +66,11 @@ class HttpClientAdapterImplTest {
     void shouldThrowExceptionWhenMalformedVesUrlPassed(){
         assertThrows(MalformedURLException.class, () -> new HttpClientAdapterImpl("http://blablabla:VES-PORT", new SSLAuthenticationHelper()));
     }
+
     @Test
-    void shouldCreateAdapterWithClientNotSupportingSSLConnection() throws IOException, GeneralSecurityException {
-        HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTPS_URL, new SSLAuthenticationHelper());
+    void shouldCreateAdapterWithClientNotSupportingSSLConnection() {
         try {
+            HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTPS_URL, new SSLAuthenticationHelper());
             adapterWithHttps.send("sample");
         } catch (Exception actualException) {
             assertThat(actualException).hasStackTraceContaining(SSLConnectionSocketFactory.class.toString());
@@ -78,9 +78,9 @@ class HttpClientAdapterImplTest {
     }
 
     @Test
-    void shouldCreateAdapterWithClientSupportingPlainConnectionOnly() throws IOException, GeneralSecurityException {
-        HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTP_URL, new SSLAuthenticationHelper());
+    void shouldCreateAdapterWithClientSupportingPlainConnectionOnly() {
         try {
+            HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTP_URL, new SSLAuthenticationHelper());
             adapterWithHttps.send("sample");
         } catch (Exception actualException) {
             assertThat(actualException).hasStackTraceContaining(PlainConnectionSocketFactory.class.toString());

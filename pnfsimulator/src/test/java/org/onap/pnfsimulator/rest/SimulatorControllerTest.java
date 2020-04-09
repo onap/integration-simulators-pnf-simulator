@@ -23,6 +23,7 @@ package org.onap.pnfsimulator.rest;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import java.security.GeneralSecurityException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,19 +34,16 @@ import org.mockito.MockitoAnnotations;
 import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
-import org.onap.pnfsimulator.rest.util.JsonObjectDeserializer;
 import org.onap.pnfsimulator.simulator.SimulatorService;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
 import org.quartz.SchedulerException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -80,7 +78,7 @@ class SimulatorControllerTest {
     static void beforeAll() {
         SimulatorParams simulatorParams = new SimulatorParams("http://0.0.0.0:8080", 1, 1);
         SimulatorRequest simulatorRequest = new SimulatorRequest(simulatorParams,
-                "testTemplate.json", new JsonObject());
+                "testTemplate.json", new JsonObject(), new JsonObject());
 
         simulatorRequestBody = GSON_OBJ.toJson(simulatorRequest);
     }

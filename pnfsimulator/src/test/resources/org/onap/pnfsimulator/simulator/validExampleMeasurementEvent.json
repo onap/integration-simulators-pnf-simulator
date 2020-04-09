@@ -6,7 +6,7 @@
       "eventId": "4cfc-91cf-31a46",
       "nfType": "mrfx",
       "priority": "Normal",
-      "reportingEntityName": "myVNF",
+      "reportingEntityName": "#dn",
       "sequence": 1,
       "sourceName": "ClosedLoopVNF",
       "startEpochMicrosec": 1531616794,
@@ -45,10 +45,7 @@
         {
           "name": "licenseUsage",
           "arrayOfFields": [
-            {
-              "name": "G711AudioPort",
-              "value": "1"
-            },
+            "#measurement",
             {
               "name": "G729AudioPort",
               "value": "1"

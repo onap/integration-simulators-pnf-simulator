@@ -35,4 +35,5 @@ class QuartzConfiguration {
         scheduler.start();
         return scheduler;
     }
+
 }

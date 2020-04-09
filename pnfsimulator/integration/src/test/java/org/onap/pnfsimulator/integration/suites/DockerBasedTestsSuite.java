@@ -30,10 +30,11 @@ import org.onap.pnfsimulator.integration.BasicAvailabilityTest;
 import org.onap.pnfsimulator.integration.OptionalTemplatesTest;
 import org.onap.pnfsimulator.integration.SearchInTemplatesTest;
 import org.onap.pnfsimulator.integration.TemplatesManagementTest;
+import org.onap.pnfsimulator.integration.VariablesReplacement;
 
 @RunWith(Suite.class)
 @SuiteClasses({BasicAvailabilityTest.class, TemplatesManagementTest.class, OptionalTemplatesTest.class,
-    SearchInTemplatesTest.class})
+    SearchInTemplatesTest.class, VariablesReplacement.class})
 public class DockerBasedTestsSuite {
 
     @ClassRule

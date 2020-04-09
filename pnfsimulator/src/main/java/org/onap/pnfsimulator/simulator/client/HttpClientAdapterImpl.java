@@ -20,15 +20,8 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
-import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-import java.util.UUID;
-
+import lombok.val;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -43,6 +36,14 @@ import org.slf4j.MDC;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.UUID;
+
+import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
+
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
     private static final int CONNECTION_TIMEOUT = 1000;
@@ -55,14 +56,13 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             .setSocketTimeout(CONNECTION_TIMEOUT)
             .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
-    private  SslSupportLevel sslSupportLevel;
+    private SslSupportLevel sslSupportLevel;
     private HttpClient client;
     private final String targetUrl;
 
     public HttpClientAdapterImpl(String targetUrl, SSLAuthenticationHelper sslAuthenticationHelper)
-            throws IOException, GeneralSecurityException {
-        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled() ?
-                SslSupportLevel.CLIENT_CERT_AUTH : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
+        throws IOException, GeneralSecurityException {
+        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled() ? SslSupportLevel.CLIENT_CERT_AUTH : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
         this.client = sslSupportLevel.getClient(CONFIG, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }
@@ -75,19 +75,23 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
     @Override
     public void send(String content) {
         try {
-            HttpPost request = createRequest(content);
-            HttpResponse response = client.execute(request);
-
-            //response has to be fully consumed otherwise apache won't release connection
-            EntityUtils.consumeQuietly(response.getEntity());
+            HttpResponse response = sendAndRetrieve(content);
+            EntityUtils.consumeQuietly(response.getEntity()); //response has to be fully consumed otherwise apache won't release connection
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: " + e.getMessage(), e.getCause());
         }
     }
 
-    public SslSupportLevel getSslSupportLevel(){
+    public SslSupportLevel getSslSupportLevel() {
         return sslSupportLevel;
+    }
+
+    private HttpResponse sendAndRetrieve(String content) throws IOException {
+            HttpPost request = createRequest(content);
+            HttpResponse httpResponse = client.execute(request);
+            request.releaseConnection();
+            return httpResponse;
     }
 
     private HttpPost createRequest(String content) throws UnsupportedEncodingException {
@@ -99,6 +103,5 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         request.setEntity(stringEntity);
         return request;
     }
-
 
 }

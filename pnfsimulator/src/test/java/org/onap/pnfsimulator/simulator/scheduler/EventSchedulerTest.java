@@ -28,7 +28,6 @@ import static org.mockito.Mockito.when;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,10 +53,10 @@ class EventSchedulerTest {
     EventScheduler eventScheduler;
 
     @Mock
-    Scheduler quartzScheduler;
-    
+    SSLAuthenticationHelper SSLAuthenticationHelper;
+
     @Mock
-    SSLAuthenticationHelper sslAuthenticationHelper;
+    Scheduler quartzScheduler;
 
     @BeforeEach
     void setUp() {
