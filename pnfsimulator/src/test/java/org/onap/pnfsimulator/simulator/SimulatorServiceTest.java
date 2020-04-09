@@ -82,6 +82,10 @@ class SimulatorServiceTest {
         + "         \"domain\":\"notification\",\n"
         + "         \"eventName\":\"#RandomString(20)\",\n"
         + "         \"eventOrderNo\":\"#Increment\"}}}", JsonObject.class);
+    private static final JsonObject VALID_VARIABLES = GSON.fromJson("{\"dn\": \"TestDN-1\", \"measurement\":{\n"
+        + "              \"name\": \"AdditionalM\",\n"
+        + "              \"value\": \"1.5\"\n"
+        + "            }}", JsonObject.class);
     private static final String SOME_CUSTOM_SOURCE = "SomeCustomSource";
     private static final String CLOSED_LOOP_VNF = "ClosedLoopVNF";
     private static final String SAMPLE_ID = "sampleId";
@@ -112,7 +116,8 @@ class SimulatorServiceTest {
         simulatorConfigService = mock(SimulatorConfigService.class);
 
         simulatorService = new SimulatorService(templatePatcher, templateReader,
-            eventScheduler, eventDataService, simulatorConfigService, sslAuthenticationHelper);
+            eventScheduler, eventDataService, simulatorConfigService,
+            new TemplateVariablesReplacer(),new SslAuthenticationHelper());
     }
 
     @Test
@@ -120,13 +125,14 @@ class SimulatorServiceTest {
         String templateName = "validExampleMeasurementEvent.json";
         SimulatorParams simulatorParams = new SimulatorParams(VES_URL, 1, 1);
         SimulatorRequest simulatorRequest = new SimulatorRequest(simulatorParams,
-            templateName, VALID_PATCH);
+            templateName, VALID_PATCH, VALID_VARIABLES);
 
         doReturn(SAMPLE_EVENT).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
 
         simulatorService.triggerEvent(simulatorRequest);
 
         assertEventHasExpectedStructure(VES_URL, templateName, SOME_CUSTOM_SOURCE);
+        assertEventHasReplacedVariables();
     }
 
     @Test
@@ -134,7 +140,7 @@ class SimulatorServiceTest {
         String templateName = "validExampleMeasurementEvent.json";
         SimulatorRequest simulatorRequest = new SimulatorRequest(
             new SimulatorParams("", 1, 1),
-            templateName, VALID_PATCH);
+            templateName, VALID_PATCH, new JsonObject());
 
         doReturn(SAMPLE_EVENT).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
         when(simulatorConfigService.getConfiguration()).thenReturn(new SimulatorConfig(SAMPLE_ID, inDbVesUrl));
@@ -159,7 +165,7 @@ class SimulatorServiceTest {
 
         SimulatorParams simulatorParams = new SimulatorParams(VES_URL, 1, 1);
         SimulatorRequest simulatorRequest = new SimulatorRequest(simulatorParams,
-            "invalidJsonStructureEvent.json", patch);
+            "invalidJsonStructureEvent.json", patch, new JsonObject());
         doReturn(eventData).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
 
         //when
@@ -172,7 +178,7 @@ class SimulatorServiceTest {
         String templateName = "validExampleMeasurementEvent.json";
         SimulatorRequest simulatorRequest = new SimulatorRequest(
             new SimulatorParams("", 1, 1),
-            templateName, null);
+            templateName, null, new JsonObject());
 
         doReturn(SAMPLE_EVENT).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
         doReturn(new SimulatorConfig(SAMPLE_ID, inDbVesUrl)).when(simulatorConfigService).getConfiguration();
@@ -184,7 +190,11 @@ class SimulatorServiceTest {
 
     @Test
     void shouldSuccessfullySendOneTimeEventWithVesUrlWhenPassed() throws IOException, GeneralSecurityException {
-        SimulatorService spiedTestedService = spy(new SimulatorService(templatePatcher, templateReader, eventScheduler, eventDataService, simulatorConfigService, new SslAuthenticationHelper()));
+        SimulatorService spiedTestedService = spy(new SimulatorService(
+            templatePatcher, templateReader, eventScheduler,
+            eventDataService, simulatorConfigService,
+            new TemplateVariablesReplacer(),
+            new SslAuthenticationHelper()));
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
         doNothing().when(adapterMock).send(eventContentCaptor.capture());
@@ -200,7 +210,12 @@ class SimulatorServiceTest {
 
     @Test
     void shouldSubstituteKeywordsAndSuccessfullySendOneTimeEvent() throws IOException, GeneralSecurityException {
-        SimulatorService spiedTestedService = spy(new SimulatorService(templatePatcher, templateReader, eventScheduler, eventDataService, simulatorConfigService, new SslAuthenticationHelper()));
+        SimulatorService spiedTestedService = spy(new SimulatorService(
+            templatePatcher, templateReader, eventScheduler,
+            eventDataService, simulatorConfigService,
+            new TemplateVariablesReplacer(),
+            new SslAuthenticationHelper())
+        );
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
         doNothing().when(adapterMock).send(eventContentCaptor.capture());
@@ -267,4 +282,22 @@ class SimulatorServiceTest {
     private SimulatorConfig getSimulatorConfig() {
         return new SimulatorConfig(SAMPLE_ID, inDbVesUrl);
     }
+
+    private void assertEventHasReplacedVariables() {
+        String measurementName = GSON.fromJson(bodyCaptor.getValue(), JsonObject.class)
+            .get("event").getAsJsonObject()
+            .get("measurementsForVfScalingFields").getAsJsonObject()
+            .get("additionalMeasurements").getAsJsonArray().get(0).getAsJsonObject()
+            .get("arrayOfFields").getAsJsonArray().get(0).getAsJsonObject()
+            .get("name").getAsString();
+
+        String reportingEntityName = GSON.fromJson(bodyCaptor.getValue(), JsonObject.class)
+            .get("event").getAsJsonObject()
+            .get("commonEventHeader").getAsJsonObject()
+            .get("reportingEntityName").getAsString();
+
+        assertThat(measurementName).isEqualTo("AdditionalM");
+        assertThat(reportingEntityName).isEqualTo("TestDN-1");
+    }
+
 }

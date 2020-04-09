@@ -45,6 +45,7 @@ import java.util.Optional;
 public class SimulatorService {
 
     private final TemplatePatcher templatePatcher;
+    private final TemplateVariablesReplacer templateVariablesReplacer;
     private final TemplateReader templateReader;
     private final EventDataService eventDataService;
     private final EventScheduler eventScheduler;
@@ -53,14 +54,20 @@ public class SimulatorService {
     private static final JsonObject EMPTY_JSON_OBJECT = new JsonObject();
 
     @Autowired
-    public SimulatorService(TemplatePatcher templatePatcher, TemplateReader templateReader,
-                            EventScheduler eventScheduler, EventDataService eventDataService,
-                            SimulatorConfigService simulatorConfigService, SslAuthenticationHelper sslAuthenticationHelper) {
+    public SimulatorService(
+        TemplatePatcher templatePatcher,
+        TemplateReader templateReader,
+        EventScheduler eventScheduler,
+        EventDataService eventDataService,
+        SimulatorConfigService simulatorConfigService,
+        TemplateVariablesReplacer templateVariablesReplacer,
+        SslAuthenticationHelper sslAuthenticationHelper) {
         this.templatePatcher = templatePatcher;
         this.templateReader = templateReader;
         this.eventDataService = eventDataService;
         this.eventScheduler = eventScheduler;
         this.simulatorConfigService = simulatorConfigService;
+        this.templateVariablesReplacer = templateVariablesReplacer;
         this.sslAuthenticationHelper = sslAuthenticationHelper;
     }
 
@@ -71,16 +78,19 @@ public class SimulatorService {
         JsonObject input = Optional.ofNullable(simulatorRequest.getPatch()).orElse(new JsonObject());
         JsonObject patchedJson = templatePatcher
                 .mergeTemplateWithPatch(template, input);
+        JsonObject variables = Optional.ofNullable(simulatorRequest.getVariables()).orElse(new JsonObject());
+        JsonObject patchedJsonWithVariablesSubstituted = templateVariablesReplacer.substituteVariables(patchedJson, variables);
+
         JsonObject keywords = new JsonObject();
 
-        EventData eventData = eventDataService.persistEventData(template, patchedJson, input, keywords);
+        EventData eventData = eventDataService.persistEventData(template, patchedJsonWithVariablesSubstituted, input, keywords);
 
         String targetVesUrl = getDefaultUrlIfNotProvided(simulatorParams.getVesServerUrl());
         return eventScheduler
                 .scheduleEvent(targetVesUrl, Optional.ofNullable(simulatorParams.getRepeatInterval()).orElse(1),
                         Optional.ofNullable(simulatorParams.getRepeatCount()).orElse(1), simulatorRequest.getTemplateName(),
                         eventData.getId(),
-                patchedJson);
+                    patchedJsonWithVariablesSubstituted);
     }
 
     public void triggerOneTimeEvent(FullEvent event) throws IOException, GeneralSecurityException {

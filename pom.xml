@@ -103,6 +103,7 @@
         <docker-compose-rule-junit4.version>0.29.1</docker-compose-rule-junit4.version>
         <spring-test.version>5.0.4.RELEASE</spring-test.version>
         <junit-jupiter-migrationsupport.version>5.1.0</junit-jupiter-migrationsupport.version>
+        <jsonassert.version>1.5.0</jsonassert.version>
     </properties>
 
     <dependencyManagement>
@@ -261,6 +262,12 @@
 
             <!--  TEST DEPENDENCIES  -->
 
+            <dependency>
+                <groupId>org.skyscreamer</groupId>
+                <artifactId>jsonassert</artifactId>
+                <version>${jsonassert.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
