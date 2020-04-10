@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd4a0024_a9ab9931",
+        "filename": "netconfsimulator/netconf/netopeer_change_saver.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-10T06:54:49Z",
+      "side": 1,
+      "message": "I can see some Python code in this repo, do you want to add linter job in CI for that?",
+      "revId": "8beead873e20edbd8edb47b6841e92c8ea4d9190",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
