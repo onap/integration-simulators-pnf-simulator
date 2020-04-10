@@ -2,3 +2,4 @@
 **/*.iml
 **/.idea
 **/target
+deployment/pnf-pnp-simulators-resources.zip

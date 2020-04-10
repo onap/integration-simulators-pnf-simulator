@@ -25,13 +25,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.onap.simulator</groupId>
+        <groupId>org.onap.integration.simulators.pnf-simulator</groupId>
         <artifactId>simulator-parent</artifactId>
-        <version>5.0.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pnfsimulator</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>pnfsimulator</name>
 
@@ -389,7 +389,7 @@
                                     <build>
                                         <dockerFileDir>${project.basedir}</dockerFileDir>
                                         <tags>
-                                            <tag>${project.version}-${maven.build.timestamp}Z</tag>
+                                            <tag>${project.version}-STAGE-${maven.build.timestamp}Z</tag>
                                         </tags>
                                     </build>
                                 </image>

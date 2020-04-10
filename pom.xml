@@ -31,9 +31,9 @@
         <version>2.0.0</version>
     </parent>
 
-    <groupId>org.onap.simulator</groupId>
+    <groupId>org.onap.integration.simulators.pnf-simulator</groupId>
     <artifactId>simulator-parent</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>pnfsimulator</module>
 	    <module>netconfsimulator</module>
