@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1a808ba_0922af60",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-14T08:01:43Z",
+      "side": 1,
+      "message": "the 2 last remaining trailing spaces",
+      "revId": "8d80a029c8385a21f96938f7b93befb067734a24",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
