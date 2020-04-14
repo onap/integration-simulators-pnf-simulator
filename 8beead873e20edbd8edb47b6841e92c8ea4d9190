@@ -16,6 +16,24 @@
       "revId": "8beead873e20edbd8edb47b6841e92c8ea4d9190",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09c6e199_d74301ae",
+        "filename": "netconfsimulator/netconf/netopeer_change_saver.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-04-14T05:47:14Z",
+      "side": 1,
+      "message": "Linter for python will be added with this MR\nhttps://gerrit.onap.org/r/c/ci-management/+/105880",
+      "parentUuid": "dd4a0024_a9ab9931",
+      "revId": "8beead873e20edbd8edb47b6841e92c8ea4d9190",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
