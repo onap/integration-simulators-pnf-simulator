@@ -24,7 +24,7 @@
 
     <parent>
         <groupId>org.onap.integration.simulators.pnf-simulator</groupId>
-        <artifactId>simulator-parent</artifactId>
+        <artifactId>integration-pnf-simulator</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>onboarding-package</artifactId>
