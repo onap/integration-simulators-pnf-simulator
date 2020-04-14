@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67102d0f_2f9aa492",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-14T07:46:18Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "48fdead4d5398ad86e91751dd5ffea7aef27e208",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a80a74a2_f50e5f1d",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-14T07:46:18Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "48fdead4d5398ad86e91751dd5ffea7aef27e208",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9577e3e1_edaa6055",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-14T07:46:18Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "48fdead4d5398ad86e91751dd5ffea7aef27e208",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c8e553_22a7246c",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-14T07:46:18Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "48fdead4d5398ad86e91751dd5ffea7aef27e208",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "947a5f6e_377340f3",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-14T07:46:18Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "48fdead4d5398ad86e91751dd5ffea7aef27e208",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
