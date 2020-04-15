@@ -297,6 +297,9 @@
                                     <build>
                                         <contextDir>${project.basedir}</contextDir>
                                         <dockerFile>${project.basedir}/Dockerfile_netopeer</dockerFile>
+                                        <tags>
+                                            <tag>${project.version}-STAGE-${maven.build.timestamp}Z</tag>
+                                        </tags>
                                         <args>
                                             <PROXY>${proxy}</PROXY>
                                         </args>
