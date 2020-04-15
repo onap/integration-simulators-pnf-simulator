@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -152,9 +152,9 @@ public class NetconfFunctionsIT {
             Set<String> configChangeContent = kafkaMessages.stream().map(KafkaMessage::getConfiguration)
                 .collect(Collectors.toSet());
             assertThat(configChangeContent)
-                .anyMatch(el -> el.contains("new value: /pnf-simulator:config/itemValue1 = 100"));
+                    .anyMatch(el -> el.contains("\"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"100\"}"));
             assertThat(configChangeContent)
-                .anyMatch(el -> el.contains("new value: /pnf-simulator:config/itemValue2 = 200"));
+                    .anyMatch(el -> el.contains("\"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"200\"}"));
         }
     }
 
@@ -170,9 +170,9 @@ public class NetconfFunctionsIT {
 
             assertThat(kafkaMessages).hasSize(2);
             assertThat(kafkaMessages.get(0).getConfiguration())
-                .contains("new value: /pnf-simulator:config/itemValue1 = 100");
+                    .contains("\"new\": {\"path\": \"/pnf-simulator:config/itemValue1\", \"value\": \"100\"}");
             assertThat(kafkaMessages.get(1).getConfiguration())
-                .contains("new value: /pnf-simulator:config/itemValue2 = 200");
+                    .contains("\"new\": {\"path\": \"/pnf-simulator:config/itemValue2\", \"value\": \"200\"}");
         }
     }
 
