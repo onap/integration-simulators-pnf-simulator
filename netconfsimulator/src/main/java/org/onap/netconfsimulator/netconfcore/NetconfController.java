@@ -58,12 +58,12 @@ class NetconfController {
     }
 
     @GetMapping(value = "get", produces = "application/xml")
-    ResponseEntity<String> getNetconfConfiguration() throws IOException, JNCException {
+    public ResponseEntity<String> getNetconfConfiguration() throws IOException, JNCException {
         return ResponseEntity.ok(netconfService.getCurrentConfiguration());
     }
 
     @GetMapping(value = "get/{model}/{container}", produces = "application/xml")
-    ResponseEntity<String> getNetconfConfiguration(@PathVariable String model,
+    public ResponseEntity<String> getNetconfConfiguration(@PathVariable String model,
                                                    @PathVariable String container)
             throws IOException {
         ResponseEntity<String> entity;
@@ -79,7 +79,7 @@ class NetconfController {
 
     @PostMapping(value = "edit-config", produces = "application/xml")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    ResponseEntity<String> editConfig(@RequestPart("editConfigXml") MultipartFile editConfig)
+    public ResponseEntity<String> editConfig(@RequestPart("editConfigXml") MultipartFile editConfig)
             throws IOException, JNCException {
         log.info("Loading updated configuration");
         if (editConfig == null || editConfig.isEmpty()) {
@@ -91,7 +91,7 @@ class NetconfController {
     }
 
     @PostMapping("model/{moduleName}")
-    ResponseEntity<String> loadNewYangModel(@RequestBody MultipartFile yangModel,
+    public ResponseEntity<String> loadNewYangModel(@RequestBody MultipartFile yangModel,
                                             @RequestBody MultipartFile initialConfig, @PathVariable String moduleName)
             throws IOException {
         LoadModelResponse response = netconfModelLoaderService.loadYangModel(yangModel, initialConfig, moduleName);
@@ -101,7 +101,7 @@ class NetconfController {
     }
 
     @DeleteMapping("model/{modelName}")
-    ResponseEntity<String> deleteYangModel(@PathVariable String modelName)
+    public ResponseEntity<String> deleteYangModel(@PathVariable String modelName)
             throws IOException {
         LoadModelResponse response = netconfModelLoaderService.deleteYangModel(modelName);
         return ResponseEntity

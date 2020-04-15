@@ -42,17 +42,17 @@ public class StoreController {
     }
 
     @GetMapping("/ping")
-    String ping() {
+    public String ping() {
         return "pong";
     }
 
     @GetMapping("cm-history")
-    List<MessageDTO> getAllConfigurationChanges() {
+    public List<MessageDTO> getAllConfigurationChanges() {
         return service.getAllMessages();
     }
 
     @GetMapping("/less")
-    List<MessageDTO> less(@RequestParam(value = "offset", required = false, defaultValue = "${spring.kafka.default-offset}") long offset) {
+    public List<MessageDTO> less(@RequestParam(value = "offset", required = false, defaultValue = "${spring.kafka.default-offset}") long offset) {
         return service.getLastMessages(offset);
     }
 
