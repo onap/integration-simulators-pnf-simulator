@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19b4e0a3_7074bfcc",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "trailing spaces\nNote it is possible to add a md linters in verification jobs.. 😊\nWe just introduced 1 in integration for md and rst",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99f2b525_353828e0",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "blank line needed \n\n**** submodules:\n\n1.",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b23087_9efac44f",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59ea8fe9_bd368999",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "blank line after titles",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "218a2c52_9718f1f5",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "blank line after ```",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57770281_dfd90586",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d5ef95b_314a566b",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "blank line after titles in md",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68d2f9f5_45b24ea2",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "blank line needed after the semi colon",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7160d87_e0f69301",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-15T12:16:27Z",
+      "side": 1,
+      "message": "would it make not sense to give directly the request to pull them rather than the reseach url in the nexus?\nnexus3.onap.org:10001/onap/netconfsimulator:latest\nnexus3.onap.org:10001/onap/netopeer:latest\nnexus3.onap.org:10001/onap/pnfsimulator:latest\n\nmaybe we can plan frankfurt tags",
+      "revId": "bca08841de75e7bf850c5416708d8965e2697698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
