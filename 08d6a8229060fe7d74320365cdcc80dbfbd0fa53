@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b4feb1aa_2b537f37",
+        "filename": "netconfsimulator/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-04-16T11:33:49Z",
+      "side": 1,
+      "message": "https://jira.onap.org/browse/INT-1534\nDone",
+      "parentUuid": "f5b6fbef_b485ae2e",
+      "revId": "08d6a8229060fe7d74320365cdcc80dbfbd0fa53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59eb5c41_c1bf5adc",
         "filename": "netconfsimulator/src/it/java/integration/NetconfFunctionsIT.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "08d6a8229060fe7d74320365cdcc80dbfbd0fa53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ad4b5bc_cabfc1ec",
+        "filename": "netconfsimulator/src/it/java/integration/NetconfFunctionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-04-16T11:33:49Z",
+      "side": 1,
+      "message": "https://jira.onap.org/browse/INT-1535\nDone",
+      "parentUuid": "59eb5c41_c1bf5adc",
+      "revId": "08d6a8229060fe7d74320365cdcc80dbfbd0fa53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
