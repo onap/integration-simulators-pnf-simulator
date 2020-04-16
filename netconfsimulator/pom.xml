@@ -51,8 +51,10 @@
     <netopeer-saver-source-dir>${project.basedir}/netopeer-change-saver-native</netopeer-saver-source-dir>
     <netopeer-saver-build-dir>${project.build.directory}/cmake</netopeer-saver-build-dir>
     <netopeer-saver-executable-dir>${netopeer-saver-build-dir}/bin</netopeer-saver-executable-dir>
-    <skipITs>true</skipITs>
     <proxy>""</proxy>
+    <skip-integration-tests>true</skip-integration-tests>
+    <skip-unit-tests>false</skip-unit-tests>
+    <project.build.integrationTestSourceDirectory>${project.basedir}/src/it/java</project.build.integrationTestSourceDirectory>
   </properties>
 
   <dependencies>
@@ -210,15 +212,8 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>1.1.1</version>
-          </dependency>
-        </dependencies>
         <configuration>
+          <skipTests>${skip-unit-tests}</skipTests>
           <detail>true</detail>
           <printSummary>true</printSummary>
           <useSystemClassLoader>false</useSystemClassLoader>
@@ -227,19 +222,30 @@
       <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.19.1</version>
           <configuration>
-              <skipITs>${skipITs}</skipITs>
+              <testSourceDirectory>${project.build.integrationTestSourceDirectory}</testSourceDirectory>
+              <skipITs>${skip-integration-tests}</skipITs>
           </configuration>
-          <executions>
-              <execution>
-                  <goals>
-                      <goal>integration-test</goal>
-                      <goal>verify</goal>
-                  </goals>
-              </execution>
-          </executions>
       </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+                <execution>
+                    <id>add-integration-test-source-as-test-sources</id>
+                    <phase>generate-test-sources</phase>
+                    <goals>
+                        <goal>add-test-source</goal>
+                    </goals>
+                    <configuration>
+                        <sources>
+                            <source>${project.build.integrationTestSourceDirectory}</source>
+                        </sources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -265,6 +271,13 @@
     </plugins>
   </build>
     <profiles>
+        <profile>
+            <id>integration</id>
+            <properties>
+                <skip-integration-tests>false</skip-integration-tests>
+                <skip-unit-tests>true</skip-unit-tests>
+            </properties>
+        </profile>
         <profile>
             <id>docker</id>
             <activation>
