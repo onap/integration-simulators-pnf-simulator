@@ -188,7 +188,8 @@ public class NetconfFunctionsIT {
         }
     }
 
-    @Test
+    // ToDo: fix this integration test
+    // https://jiradc.ext.net.nokia.com/browse/ONAP-5735
     public void shouldGetLoadedModelByName() throws IOException {
         testShouldLoadNewYangModelAndReconfigure();
 

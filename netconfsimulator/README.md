@@ -316,8 +316,8 @@ response:
 
 ### Integration tests
 Integration tests use docker-compose for setting up cluster with all services.
-Those tests are not part of build pipeline, but can be run manually by invoking *mvn verify -DskipITs=false* from project command line.
-Tests can be found in netconfsimulator project in src/integration directory.
+Those tests are not part of build pipeline, but can be run manually by invoking *mvn clean verify -P integration* from project command line.
+Tests can be found in netconfsimulator project in src/it directory.
 
 ## Troubleshooting
 Q: Simulator throws errors after shutting down with *docker-compose down* or *docker-compose restart*
