@@ -1,1 +1,44 @@
 INFO:werkzeug: * Running on http://0.0.0.0:5002/ (Press CTRL+C to quit)
+INFO:yang-loader:Installing new model: /tmp/newYangModel.yang
+INFO:yang-loader:Attempts to invoke sysrepoctl --install --yang=/tmp/newYangModel.yang --owner=netconf:nogroup --permissions=777
+INFO:yang-loader:Output: Installing a new module from file '/tmp/newYangModel.yang'...
+Installing the YANG file to '/etc/sysrepo/yang/newyangmodel.yang'...
+Installing data files for module 'newyangmodel'...
+Notifying sysrepo about the change...
+Install operation completed successfully.
+
+INFO:yang-loader:Attempting to set default configuration /tmp/initialConfig.xml for module newyangmodel
+INFO:yang-loader:Attempts to invoke sysrepocfg --import=/tmp/initialConfig.xml --datastore=startup --format=xml --level=3 newyangmodel
+INFO:yang-loader:Output: [INF] (sr_connect:435) Connected to daemon Sysrepo Engine at socket=/tmp/sysrepod.sock
+The new configuration was successfully applied.
+
+INFO:yang-loader:Starting listener for model: newyangmodel
+INFO:werkzeug:172.29.0.7 - - [16/Apr/2020 09:02:35] "[37mPOST /model HTTP/1.1[0m" 200 -
+INFO:yang-loader:Installing new model: /tmp/newYangModel.yang
+INFO:yang-loader:Attempts to invoke sysrepoctl --install --yang=/tmp/newYangModel.yang --owner=netconf:nogroup --permissions=777
+INFO:yang-loader:Output: Installing a new module from file '/tmp/newYangModel.yang'...
+Installing the YANG file to '/etc/sysrepo/yang/newyangmodel.yang'...
+Installing data files for module 'newyangmodel'...
+Notifying sysrepo about the change...
+Install operation completed successfully.
+
+INFO:yang-loader:Attempting to set default configuration /tmp/initialConfig.xml for module newyangmodel
+INFO:yang-loader:Attempts to invoke sysrepocfg --import=/tmp/initialConfig.xml --datastore=startup --format=xml --level=3 newyangmodel
+INFO:yang-loader:Output: [INF] (sr_connect:435) Connected to daemon Sysrepo Engine at socket=/tmp/sysrepod.sock
+The new configuration was successfully applied.
+
+INFO:yang-loader:Starting listener for model: newyangmodel
+INFO:yang-loader:Change listener for newyangmodel already exist.
+INFO:werkzeug:172.29.0.7 - - [16/Apr/2020 09:02:38] "[37mPOST /model HTTP/1.1[0m" 200 -
+INFO:yang-loader:Stopping listener for model newyangmodel
+INFO:yang-loader:pid is 97
+INFO:yang-loader:Attempts to invoke kill -2 97
+INFO:yang-loader:Output: 
+INFO:yang-loader:Uninstalling a model: newyangmodel
+INFO:yang-loader:Attempts to invoke sysrepoctl --uninstall --module=newyangmodel
+INFO:yang-loader:Output: Uninstalling the module newyangmodel...
+Deleted the schema file '/etc/sysrepo/yang/newyangmodel.yang'.
+Deleted the data files for module 'newyangmodel'.
+Uninstall operation completed successfully.
+
+INFO:werkzeug:172.29.0.7 - - [16/Apr/2020 09:02:43] "[37mDELETE /model?yangModelName=newyangmodel HTTP/1.1[0m" 200 -
