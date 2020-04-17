@@ -21,10 +21,12 @@ package org.onap.pnfsimulator.simulator.keywords;
 
 import io.vavr.Function1;
 import io.vavr.Function2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+
 import lombok.Getter;
 
 @Getter
@@ -34,24 +36,24 @@ public class Keyword {
     protected static final String NONLETTERS_REGEX = "([^a-zA-Z]+)";
 
     protected static final Function1<String, String> OPTIONAL =
-            (regex) -> regex + "?";
+            regex -> regex + "?";
 
     private final String name;
     private final List<String> meaningfulParts;
 
     public static final Function2<Keyword, String, Boolean> IS_MATCHING_KEYWORD_NAME = (keyword, key) ->
-        keyword != null && keyword.getName() != null && keyword.getName().equals(key);
+            keyword != null && keyword.getName() != null && keyword.getName().equals(key);
 
     /**
      * Returns list of independent parts inside the keyword. Current implementation assumes that customer can join keywords with integer values, so
      * keyword is decomposed to parts then some parts of the keyword is skipped because of replacement process.
      *
-     * @param matcher - Matcher to check find independent groups inside the keyword
+     * @param matcher    - Matcher to check find independent groups inside the keyword
      * @param skipGroups Informs this method about which groups should be consider as part of the replacement process
      * @return list of independent parts inside the keywords
      */
-    static List<String> extractPartsFrom(Matcher matcher, List skipGroups) {
-        List<String> parts = new ArrayList<String>();
+    static List<String> extractPartsFrom(Matcher matcher, List<Integer> skipGroups) {
+        List<String> parts = new ArrayList<>();
         for (int i = 1; i <= matcher.groupCount(); i++) {
             if (matcher.group(i) != null && !skipGroups.contains(i)) {
                 parts.add(matcher.group(i));
@@ -67,8 +69,8 @@ public class Keyword {
 
     public String substituteKeyword(String substitution) {
         return meaningfulParts.stream()
-            .map(part -> part.equals(name) ? substitution : part)
-            .collect(Collectors.joining());
+                .map(part -> part.equals(name) ? substitution : part)
+                .collect(Collectors.joining());
     }
 
 }
