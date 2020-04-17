@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,8 @@ class ResponseBuilderTest {
         ResponseEntity responseEntity = ResponseBuilder.status(SAMPLE_STATUS).build();
 
         assertAll(
-            () -> assertEquals(responseEntity.getStatusCode(), SAMPLE_STATUS),
-            () -> assertNull(responseEntity.getBody())
+                () -> assertEquals(SAMPLE_STATUS, responseEntity.getStatusCode()),
+                () -> assertNull(responseEntity.getBody())
         );
     }
 
@@ -49,15 +50,15 @@ class ResponseBuilderTest {
         String key = "key";
         String value = "value";
         ResponseEntity response = ResponseBuilder
-            .status(SAMPLE_STATUS)
-            .put(key, value)
-            .build();
+                .status(SAMPLE_STATUS)
+                .put(key, value)
+                .build();
 
         Map<String, Object> body = (Map<String, Object>) response.getBody();
 
         assertAll(
-            () -> assertEquals(SAMPLE_STATUS, response.getStatusCode()),
-            () -> assertEquals(value, body.get(key))
+                () -> assertEquals(SAMPLE_STATUS, response.getStatusCode()),
+                () -> assertEquals(value, body.get(key))
         );
     }
 
