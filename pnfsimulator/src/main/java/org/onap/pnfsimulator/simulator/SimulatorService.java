@@ -22,10 +22,6 @@ package org.onap.pnfsimulator.simulator;
 
 import com.google.common.base.Strings;
 import com.google.gson.JsonObject;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.security.GeneralSecurityException;
-import java.util.Optional;
 import org.onap.pnfsimulator.event.EventData;
 import org.onap.pnfsimulator.event.EventDataService;
 import org.onap.pnfsimulator.rest.model.FullEvent;
@@ -40,6 +36,10 @@ import org.onap.pnfsimulator.simulatorconfig.SimulatorConfigService;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Optional;
 
 @Service
 public class SimulatorService {
