@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98b5282d_569226c7",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/scheduler/EventScheduler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-04-17T14:06:15Z",
+      "side": 1,
+      "message": "Please change * to explicit import",
+      "revId": "a4b8e3eb106006aba00d8df9fac69b693ef20a58",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13c3b13_efe1cffa",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/scheduler/EventScheduler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-04-17T14:06:15Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "a4b8e3eb106006aba00d8df9fac69b693ef20a58",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
