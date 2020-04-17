@@ -35,17 +35,17 @@ class SslSupportLevelTest {
     @Test
     void testShouldReturnAlwaysTrustSupportLevelForHttpsUrl() throws MalformedURLException {
         SslSupportLevel actualSupportLevel = SslSupportLevel.getSupportLevelBasedOnProtocol(HTTPS_URL);
-        assertEquals(actualSupportLevel, SslSupportLevel.ALWAYS_TRUST);
+        assertEquals(SslSupportLevel.ALWAYS_TRUST, actualSupportLevel);
     }
 
     @Test
     void testShouldReturnNoneSupportLevelForHttpUrl() throws MalformedURLException {
         SslSupportLevel actualSupportLevel = SslSupportLevel.getSupportLevelBasedOnProtocol(HTTP_URL);
-        assertEquals(actualSupportLevel, SslSupportLevel.NONE);
+        assertEquals(SslSupportLevel.NONE, actualSupportLevel);
     }
 
     @Test
-    void testShouldRaiseExceptionWhenInvalidUrlPassed(){
+    void testShouldRaiseExceptionWhenInvalidUrlPassed() {
         assertThrows(MalformedURLException.class, () -> SslSupportLevel.getSupportLevelBasedOnProtocol("http://bla:VES-PORT/"));
     }
 
