@@ -20,22 +20,7 @@
 package org.onap.pnfsimulator.simulator.scheduler;
 
 
-import static org.onap.pnfsimulator.simulator.scheduler.EventJob.BODY;
-import static org.onap.pnfsimulator.simulator.scheduler.EventJob.CLIENT_ADAPTER;
-import static org.onap.pnfsimulator.simulator.scheduler.EventJob.EVENT_ID;
-import static org.onap.pnfsimulator.simulator.scheduler.EventJob.KEYWORDS_HANDLER;
-import static org.onap.pnfsimulator.simulator.scheduler.EventJob.TEMPLATE_NAME;
-import static org.onap.pnfsimulator.simulator.scheduler.EventJob.VES_URL;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-
 import com.google.gson.JsonObject;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.security.GeneralSecurityException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.onap.pnfsimulator.simulator.KeywordsHandler;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
@@ -51,23 +36,37 @@ import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.onap.pnfsimulator.simulator.scheduler.EventJob.BODY;
+import static org.onap.pnfsimulator.simulator.scheduler.EventJob.CLIENT_ADAPTER;
+import static org.onap.pnfsimulator.simulator.scheduler.EventJob.EVENT_ID;
+import static org.onap.pnfsimulator.simulator.scheduler.EventJob.KEYWORDS_HANDLER;
+import static org.onap.pnfsimulator.simulator.scheduler.EventJob.TEMPLATE_NAME;
+import static org.onap.pnfsimulator.simulator.scheduler.EventJob.VES_URL;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+
 @Component
 public class EventScheduler {
 
 
     private final Scheduler scheduler;
     private final KeywordsHandler keywordsHandler;
-    private final SSLAuthenticationHelper SSLAuthenticationHelper;
+    private final SSLAuthenticationHelper sslAuthenticationHelper;
 
     @Autowired
-    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SSLAuthenticationHelper SSLAuthenticationHelper) {
+    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SSLAuthenticationHelper sslAuthenticationHelper) {
         this.scheduler = scheduler;
         this.keywordsHandler = keywordsHandler;
-        this.SSLAuthenticationHelper = SSLAuthenticationHelper;
+        this.sslAuthenticationHelper = sslAuthenticationHelper;
     }
 
     public String scheduleEvent(String vesUrl, Integer repeatInterval, Integer repeatCount,
-        String templateName, String eventId, JsonObject body)
+                                String templateName, String eventId, JsonObject body)
             throws SchedulerException, IOException, GeneralSecurityException {
 
         JobDetail jobDetail = createJobDetail(vesUrl, templateName, eventId, body);
@@ -89,10 +88,10 @@ public class EventScheduler {
 
     private SimpleTrigger createTrigger(int interval, int repeatCount) {
         return TriggerBuilder.newTrigger()
-            .withSchedule(simpleSchedule()
-                .withIntervalInSeconds(interval)
-                .withRepeatCount(repeatCount - 1))
-            .build();
+                .withSchedule(simpleSchedule()
+                        .withIntervalInSeconds(interval)
+                        .withRepeatCount(repeatCount - 1))
+                .build();
     }
 
     private JobDetail createJobDetail(String vesUrl, String templateName, String eventId, JsonObject body) throws IOException, GeneralSecurityException {
@@ -102,20 +101,20 @@ public class EventScheduler {
         jobDataMap.put(EVENT_ID, eventId);
         jobDataMap.put(KEYWORDS_HANDLER, keywordsHandler);
         jobDataMap.put(BODY, body);
-        jobDataMap.put(CLIENT_ADAPTER, new HttpClientAdapterImpl(vesUrl, SSLAuthenticationHelper));
+        jobDataMap.put(CLIENT_ADAPTER, new HttpClientAdapterImpl(vesUrl, sslAuthenticationHelper));
 
         return JobBuilder
-            .newJob(EventJob.class)
-            .withDescription(templateName)
-            .usingJobData(jobDataMap)
-            .build();
+                .newJob(EventJob.class)
+                .withDescription(templateName)
+                .usingJobData(jobDataMap)
+                .build();
     }
 
     private List<JobKey> getActiveJobsKeys() throws SchedulerException {
         return scheduler.getCurrentlyExecutingJobs()
-            .stream()
-            .map(JobExecutionContext::getJobDetail)
-            .map(JobDetail::getKey)
-            .collect(Collectors.toList());
+                .stream()
+                .map(JobExecutionContext::getJobDetail)
+                .map(JobDetail::getKey)
+                .collect(Collectors.toList());
     }
 }
