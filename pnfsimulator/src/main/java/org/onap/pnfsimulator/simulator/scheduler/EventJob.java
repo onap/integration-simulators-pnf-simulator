@@ -69,24 +69,25 @@ public class EventJob implements Job {
             LOGGER.error("Could not send event as client is not available");
         }
     }
+
     private Optional<HttpClientAdapter> getHttpClientAdapter(JobDataMap jobDataMap, String vesUrl) {
         HttpClientAdapter adapter = null;
         try {
             adapter = (HttpClientAdapter) (jobDataMap.containsKey(CLIENT_ADAPTER) ? jobDataMap.get(CLIENT_ADAPTER) :
-                     new HttpClientAdapterImpl(vesUrl, new SSLAuthenticationHelper()));
+                    new HttpClientAdapterImpl(vesUrl, new SSLAuthenticationHelper()));
         } catch (MalformedURLException e) {
             LOGGER.error("Invalid format of vesServerUr: {}", vesUrl);
-        } catch (IOException | GeneralSecurityException e){
+        } catch (IOException | GeneralSecurityException e) {
             LOGGER.error("Invalid configuration of client certificate");
         }
         return Optional.ofNullable(adapter);
     }
 
     private void logEventDetails(String templateName, String vesUrl, String body, String jobKey) {
-        LOGGER.info(String.format("Job %s:Sending event to %s from template %s",
-                jobKey, vesUrl, templateName));
+        LOGGER.info("Job {}:Sending event to {} from template {}",
+                jobKey, vesUrl, templateName);
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(String.format("Job %s: Request body %s", jobKey, body));
+            LOGGER.debug("Job {}: Request body {}", jobKey, body);
         }
     }
 
