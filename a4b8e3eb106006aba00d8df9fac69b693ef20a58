@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cfe791e9_72e197e1",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/scheduler/EventScheduler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6482
+      },
+      "writtenOn": "2020-04-17T14:16:49Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "98b5282d_569226c7",
+      "revId": "a4b8e3eb106006aba00d8df9fac69b693ef20a58",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e13c3b13_efe1cffa",
         "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/scheduler/EventScheduler.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-17T14:06:15Z",
       "side": 1,
       "message": "Same here",
+      "revId": "a4b8e3eb106006aba00d8df9fac69b693ef20a58",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f718c34_e2ecef3b",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/scheduler/EventScheduler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6482
+      },
+      "writtenOn": "2020-04-17T14:16:49Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e13c3b13_efe1cffa",
       "revId": "a4b8e3eb106006aba00d8df9fac69b693ef20a58",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
