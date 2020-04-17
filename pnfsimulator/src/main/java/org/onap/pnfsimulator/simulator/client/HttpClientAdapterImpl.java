@@ -20,15 +20,6 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
-import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.util.UUID;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -37,11 +28,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslSupportLevel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.slf4j.*;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.util.UUID;
+
+import static org.onap.pnfsimulator.logging.MDCVariables.*;
 
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
@@ -55,7 +49,7 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             .setSocketTimeout(CONNECTION_TIMEOUT)
             .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
-    private  SslSupportLevel sslSupportLevel;
+    private SslSupportLevel sslSupportLevel;
     private HttpClient client;
     private final String targetUrl;
 
@@ -82,11 +76,11 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             EntityUtils.consumeQuietly(response.getEntity());
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
         } catch (IOException e) {
-            LOGGER.warn("Error sending message to ves: " + e.getMessage(), e.getCause());
+            LOGGER.warn("Error sending message to ves: {}", e.getMessage(), e.getCause());
         }
     }
 
-    public SslSupportLevel getSslSupportLevel(){
+    public SslSupportLevel getSslSupportLevel() {
         return sslSupportLevel;
     }
 
