@@ -20,15 +20,6 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
-import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.util.UUID;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -43,6 +34,15 @@ import org.slf4j.MDC;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.util.UUID;
+
+import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
+
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
     private static final int CONNECTION_TIMEOUT = 1000;
@@ -55,7 +55,7 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             .setSocketTimeout(CONNECTION_TIMEOUT)
             .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
-    private  SslSupportLevel sslSupportLevel;
+    private SslSupportLevel sslSupportLevel;
     private HttpClient client;
     private final String targetUrl;
 
@@ -82,11 +82,11 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             EntityUtils.consumeQuietly(response.getEntity());
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
         } catch (IOException e) {
-            LOGGER.warn("Error sending message to ves: " + e.getMessage(), e.getCause());
+            LOGGER.warn("Error sending message to ves: {}", e.getMessage(), e.getCause());
         }
     }
 
-    public SslSupportLevel getSslSupportLevel(){
+    public SslSupportLevel getSslSupportLevel() {
         return sslSupportLevel;
     }
 
