@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.onap.pnfsimulator.simulator.KeywordsValueProvider.DEFAULT_STRING_LENGTH;
 
 import java.util.Random;
+
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
@@ -33,49 +34,49 @@ class KeywordsValueProviderTest {
     @RepeatedTest(10)
     void randomLimitedStringTest() {
         String supplierResult = KeywordsValueProvider.getRandomLimitedString().apply();
-        assertEquals(supplierResult.length(), DEFAULT_STRING_LENGTH);
+        assertEquals(DEFAULT_STRING_LENGTH, supplierResult.length());
     }
 
     @RepeatedTest(10)
     void randomStringTest() {
         int length = new Random().nextInt(15) + 1;
         String supplierResult = KeywordsValueProvider.getRandomString().apply(length);
-        assertEquals(supplierResult.length(), length);
+        assertEquals(length, supplierResult.length());
     }
 
     @RepeatedTest(10)
-    void  randomIntegerTest(){
+    void randomIntegerTest() {
         int min = new Random().nextInt(10) + 1;
         int max = new Random().nextInt(1000) + 20;
         String supplierResult = KeywordsValueProvider.getRandomInteger().apply(min, max);
-        assertTrue(Integer.parseInt(supplierResult)>=min);
-        assertTrue(Integer.parseInt(supplierResult)<=max);
+        assertTrue(Integer.parseInt(supplierResult) >= min);
+        assertTrue(Integer.parseInt(supplierResult) <= max);
     }
 
     @Test
-    void  randomIntegerContainsMaximalAndMinimalValuesTest(){
+    void randomIntegerContainsMaximalAndMinimalValuesTest() {
         int anyNumber = new Random().nextInt(10) + 1;
         String supplierResult = KeywordsValueProvider.getRandomInteger().apply(anyNumber, anyNumber);
         assertEquals(Integer.parseInt(supplierResult), anyNumber);
     }
 
     @Test
-    void  randomIntegerFromNegativeRangeTest(){
+    void randomIntegerFromNegativeRangeTest() {
         String supplierResult = KeywordsValueProvider.getRandomInteger().apply(-20, -20);
         assertEquals(Integer.parseInt(supplierResult), -20);
     }
 
     @RepeatedTest(10)
-    void  randomIntegerFromParametersWithDifferentOrdersTest(){
+    void randomIntegerFromParametersWithDifferentOrdersTest() {
         String supplierResult = KeywordsValueProvider.getRandomInteger().apply(-20, -10);
-        assertTrue(Integer.parseInt(supplierResult)>=-20);
-        assertTrue(Integer.parseInt(supplierResult)<=-10);
+        assertTrue(Integer.parseInt(supplierResult) >= -20);
+        assertTrue(Integer.parseInt(supplierResult) <= -10);
     }
 
     @RepeatedTest(10)
-    void  epochSecondGeneratedInCorrectFormatTest(){
+    void epochSecondGeneratedInCorrectFormatTest() {
         String supplierResult = KeywordsValueProvider.getEpochSecond().apply();
-        assertEquals(supplierResult.length(), 10);
+        assertEquals(10, supplierResult.length());
     }
 
 }
