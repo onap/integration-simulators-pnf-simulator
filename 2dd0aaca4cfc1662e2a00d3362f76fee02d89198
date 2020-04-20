@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0896bb02_a84da53b",
+        "filename": "netconfsimulator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-20T12:15:14Z",
+      "side": 1,
+      "message": "add section marker \u003c!-- COMPILE DEPENDENCIES --\u003e",
+      "revId": "2dd0aaca4cfc1662e2a00d3362f76fee02d89198",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff46cac_30438c0d",
+        "filename": "netconfsimulator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-20T12:15:14Z",
+      "side": 1,
+      "message": "wrong section",
+      "revId": "2dd0aaca4cfc1662e2a00d3362f76fee02d89198",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fa17f73_128b9eb7",
+        "filename": "netconfsimulator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-20T12:15:14Z",
+      "side": 1,
+      "message": "wrong section",
+      "revId": "2dd0aaca4cfc1662e2a00d3362f76fee02d89198",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a67d516_ee759aec",
+        "filename": "pnfsimulator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-20T12:15:14Z",
+      "side": 1,
+      "message": "no section marker as it is done in netconf\nand\nwrong formatting",
+      "revId": "2dd0aaca4cfc1662e2a00d3362f76fee02d89198",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
