@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Adam Wudzinski <adam.wudzinski@nokia.com>
+Code-Review+2: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-by: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-at: Mon, 20 Apr 2020 06:19:05 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/simulators/pnf-simulator/+/106189
+Project: integration/simulators/pnf-simulator
+Branch: refs/heads/master
