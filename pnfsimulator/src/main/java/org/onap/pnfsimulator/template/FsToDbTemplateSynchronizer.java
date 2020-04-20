@@ -66,7 +66,7 @@ public class FsToDbTemplateSynchronizer {
                     WatcherEventProcessor.MODIFIED.processEvent(path, storage);
                 } catch (IOException | JsonParseException e) {
                     LOGGER
-                            .error("Cannot synchronize template: " + path.getFileName().toString(), e);
+                            .error("Cannot synchronize template: {}", path.getFileName().toString(), e);
                 }
             });
         }
