@@ -55,9 +55,27 @@
     <skip-integration-tests>true</skip-integration-tests>
     <skip-unit-tests>false</skip-unit-tests>
     <project.build.integrationTestSourceDirectory>${project.basedir}/src/it/java</project.build.integrationTestSourceDirectory>
+    <lombok.version>1.18.2</lombok.version>
+    <jnc.version>1.0</jnc.version>
+    <javax.websocket-api.version>1.1</javax.websocket-api.version>
+    <assertj-core.version>3.9.1</assertj-core.version>
+    <mockito-core.version>2.18.3</mockito-core.version>
+    <junit-jupiter-engine.version>5.3.1</junit-jupiter-engine.version>
+    <junit-vintage-engine.version>5.3.1</junit-vintage-engine.version>
+    <junit.version>4.12</junit.version>
+    <before-after-spring-test-runner.version>0.1.0</before-after-spring-test-runner.version>
+    <docker-compose-rule-junit4.version>0.29.1</docker-compose-rule-junit4.version>
+    <httpclient.version>4.5.6</httpclient.version>
+    <httpmime.version>4.5.6</httpmime.version>
+    <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+    <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+    <build-helper-maven-plugin.version>3.1.0</build-helper-maven-plugin.version>
   </properties>
 
   <dependencies>
+
+    <!--  Compile DEPENDENCIES  -->
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
@@ -71,13 +89,13 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.2</version>
+      <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.onosproject</groupId>
       <artifactId>jnc</artifactId>
-      <version>1.0</version>
+      <version>${jnc.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -87,10 +105,30 @@
     <dependency>
       <groupId>javax.websocket</groupId>
       <artifactId>javax.websocket-api</artifactId>
-      <version>1.1</version>
+      <version>${javax.websocket-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${apache.httpclient.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>${apache.httpclient.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox-swagger2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${springfox-swagger-ui.version}</version>
     </dependency>
 
-    <!-- Kafka -->
+      <!-- Kafka -->
 
     <dependency>
       <groupId>org.springframework.kafka</groupId>
@@ -103,31 +141,31 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.9.1</version>
+      <version>${assertj-core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>2.18.3</version>
+      <version>${mockito-core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.3.1</version>
+      <version>${junit-jupiter-engine.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
-      <version>5.3.1</version>
+      <version>${junit-vintage-engine.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -145,49 +183,27 @@
     <dependency>
       <groupId>org.bitbucket.radistao.test</groupId>
       <artifactId>before-after-spring-test-runner</artifactId>
-      <version>0.1.0</version>
+      <version>${before-after-spring-test-runner.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.palantir.docker.compose</groupId>
       <artifactId>docker-compose-rule-junit4</artifactId>
-      <version>0.29.1</version>
+      <version>${docker-compose-rule-junit4.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.6</version>
+      <version>${httpclient.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
-      <version>4.5.6</version>
+      <version>${httpmime.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>${apache.httpclient.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>${apache.httpclient.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>2.9.2</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.9.2</version>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -230,7 +246,7 @@
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.1.0</version>
+            <version>${build-helper-maven-plugin.version}</version>
             <executions>
                 <execution>
                     <id>add-integration-test-source-as-test-sources</id>
