@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,7 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
+
 import org.bson.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -84,18 +85,18 @@ class WatcherEventProcessorTest {
     }
 
     private void verifyPersistedValue() {
-        Assertions.assertEquals(storage.getAll().size(), 1);
+        Assertions.assertEquals(1, storage.getAll().size());
         Optional<Template> templateFromStorage = storage.get("test1.json");
         if (templateFromStorage.isPresent()) {
             Template retrievedTemplate = templateFromStorage.get();
             Document templateContent = retrievedTemplate.getContent();
             Document flatContent = retrievedTemplate.getFlatContent();
-            Assertions.assertEquals(templateContent.getString("field1"), "value1");
-            Assertions.assertEquals(templateContent.getInteger("field2", 0), 2);
-            Assertions.assertEquals(flatContent.getInteger(":nested:key1[0]", 0), 1);
-            Assertions.assertEquals(flatContent.getInteger(":nested:key1[1]", 0), 2);
-            Assertions.assertEquals(flatContent.getInteger(":nested:key1[2]", 0), 3);
-            Assertions.assertEquals(flatContent.getString(":nested:key2"), "sampleValue2");
+            Assertions.assertEquals("value1", templateContent.getString("field1"));
+            Assertions.assertEquals(2, templateContent.getInteger("field2", 0));
+            Assertions.assertEquals(1, flatContent.getInteger(":nested:key1[0]", 0));
+            Assertions.assertEquals(2, flatContent.getInteger(":nested:key1[1]", 0));
+            Assertions.assertEquals(3, flatContent.getInteger(":nested:key1[2]", 0));
+            Assertions.assertEquals("sampleValue2", flatContent.getString(":nested:key2"));
         } else {
             fail();
         }
@@ -113,7 +114,7 @@ class WatcherEventProcessorTest {
         Mockito.when(watchEvent.kind()).thenReturn(StandardWatchEventKinds.ENTRY_DELETE);
         WatcherEventProcessor.process(watchEvent, storage, templatesDir);
         // then
-        Assertions.assertEquals(storage.getAll().size(), 0);
+        Assertions.assertEquals(0, storage.getAll().size());
     }
 
     private void initStubs() {
