@@ -40,10 +40,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 public enum SslSupportLevel {
@@ -71,7 +68,7 @@ public enum SslSupportLevel {
                         .build();
 
             } catch (GeneralSecurityException e) {
-                LOGGER.error("Could not initialize client due to SSL exception: {}. Default client without SSL support will be used instead.\nCause: {}", e.getMessage(), e.getCause());
+                LOGGER.error("Could not initialize client due to SSL exception: {}. Default client without SSL support will be used instead.\nCause: {}", e.getMessage(), e.getCause().toString());
                 client = NONE.getClient(requestConfig, sslAuthenticationHelper);
             }
             return client;
