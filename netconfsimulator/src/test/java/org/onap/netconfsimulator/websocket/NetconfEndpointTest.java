@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,7 +74,7 @@ class NetconfEndpointTest {
     @Test
     void shouldCreateKafkaListenerWhenClientInitializeConnection() {
         NetconfEndpoint netconfEndpoint = new NetconfEndpoint(kafkaListenerHandler);
-        AbstractMessageListenerContainer abstractMessageListenerContainer = getListenerContainer();
+        AbstractMessageListenerContainer<String, String> abstractMessageListenerContainer = getListenerContainer();
         when(session.getBasicRemote()).thenReturn(remoteEndpoint);
         KafkaListenerEntry kafkaListenerEntry = new KafkaListenerEntry("sampleGroupId",
             abstractMessageListenerContainer);
@@ -93,7 +93,7 @@ class NetconfEndpointTest {
     @Test
     void shouldCloseListenerWhenClientDisconnects() {
         NetconfEndpoint netconfEndpoint = new NetconfEndpoint(kafkaListenerHandler);
-        AbstractMessageListenerContainer abstractMessageListenerContainer = getListenerContainer();
+        AbstractMessageListenerContainer<String, String> abstractMessageListenerContainer = getListenerContainer();
         netconfEndpoint.setEntry( Optional.of(new KafkaListenerEntry("sampleGroupId", abstractMessageListenerContainer)) );
 
         netconfEndpoint.onClose(session, mock(CloseReason.class));
@@ -101,7 +101,7 @@ class NetconfEndpointTest {
         verify(abstractMessageListenerContainer).stop();
     }
 
-    class TestAbstractMessageListenerContainer extends AbstractMessageListenerContainer {
+    class TestAbstractMessageListenerContainer extends AbstractMessageListenerContainer<String,String> {
 
 
         TestAbstractMessageListenerContainer(ContainerProperties containerProperties) {
@@ -124,7 +124,7 @@ class NetconfEndpointTest {
         }
     }
 
-    private AbstractMessageListenerContainer getListenerContainer() {
+    private AbstractMessageListenerContainer<String, String> getListenerContainer() {
         ContainerProperties containerProperties = new ContainerProperties("config");
         containerProperties.setGroupId("sample");
         containerProperties.setMessageListener(mock(GenericMessageListener.class));
