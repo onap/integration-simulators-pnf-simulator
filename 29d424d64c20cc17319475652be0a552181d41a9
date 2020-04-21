@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66365c82_9d28761e",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/KeywordsHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-21T12:45:00Z",
+      "side": 1,
+      "message": "Pls pass whole exception, not message. We do not want to loose stacktrace.",
+      "revId": "29d424d64c20cc17319475652be0a552181d41a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
