@@ -30,8 +30,6 @@ import org.onap.pnfsimulator.rest.model.TemplateRequest;
 import org.onap.pnfsimulator.rest.model.SearchExp;
 import org.onap.pnfsimulator.template.Template;
 import org.onap.pnfsimulator.template.search.IllegalJsonValueException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -53,7 +51,6 @@ public class TemplateController {
     static final String TEMPLATE_NOT_FOUND_MSG = "A template with given name does not exist";
     static final String CANNOT_OVERRIDE_TEMPLATE_MSG = "Cannot overwrite existing template. Use override=true to override";
     private final Storage<Template> service;
-    private static final Logger LOG = LoggerFactory.getLogger(TemplateController.class);
 
     @Autowired
     public TemplateController(Storage<Template> service) {
@@ -61,7 +58,7 @@ public class TemplateController {
     }
 
     @GetMapping("list")
-    public ResponseEntity<?> list() {
+    public ResponseEntity<List<Template>> list() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
@@ -77,7 +74,7 @@ public class TemplateController {
     }
 
     @PostMapping("upload")
-    public ResponseEntity<?> upload(
+    public ResponseEntity<String> upload(
             @RequestBody @Valid TemplateRequest templateRequest,
             @RequestParam(required = false) boolean override) {
         String msg = "";
@@ -91,7 +88,7 @@ public class TemplateController {
     }
 
     @PostMapping("search")
-    public ResponseEntity<?> searchByCriteria(@RequestBody SearchExp queryJson) {
+    public ResponseEntity<List<String>> searchByCriteria(@RequestBody SearchExp queryJson) {
         try {
             List<String> templateNames = service.getIdsByContentCriteria(queryJson.getSearchExpr());
             return new ResponseEntity<>(templateNames, HttpStatus.OK);
