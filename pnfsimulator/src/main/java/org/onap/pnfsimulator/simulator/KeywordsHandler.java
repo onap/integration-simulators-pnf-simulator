@@ -24,9 +24,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -43,14 +45,14 @@ public class KeywordsHandler {
     public JsonElement substituteKeywords(JsonElement jsonBody, String jobId) {
         int counter = incrementProvider.getAndIncrement(jobId);
         try (
-            JsonReader reader = new JsonReader(new StringReader(jsonBody.toString()));
-            StringWriter stringWriter = new StringWriter();
-            JsonWriter jsonWriter = new JsonWriter(stringWriter);
+                JsonReader reader = new JsonReader(new StringReader(jsonBody.toString()));
+                StringWriter stringWriter = new StringWriter();
+                JsonWriter jsonWriter = new JsonWriter(stringWriter);
         ) {
             modify(reader, jsonWriter, counter);
             return new Gson().fromJson(stringWriter.getBuffer().toString(), JsonElement.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new KeywordsHandlerException(e);
         }
     }
 
