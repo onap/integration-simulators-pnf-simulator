@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +54,7 @@ public class StoreService {
         String clientId = Long.toString(Instant.now().getEpochSecond());
         try (Consumer<String, String> consumer = consumerFactory.createConsumer(clientId, clientId)) {
             consumer.subscribe(TOPICS_TO_SUBSCRIBE);
-            ConsumerRecords<String, String> consumerRecords = consumer.poll(CONSUMING_DURATION_IN_MS);
+            ConsumerRecords<String, String> consumerRecords = pollConsumerRecords(consumer);
             consumerRecords.forEach(
                 consumerRecord ->
                     messages.add(new Message(consumerRecord.timestamp(), consumerRecord.value())));
@@ -65,7 +66,7 @@ public class StoreService {
     List<Message> getLastMessages(long offset) {
         List<Message> messages = new ArrayList<>();
         try (Consumer<String, String> consumer = createConsumer(offset)) {
-            ConsumerRecords<String, String> consumerRecords = consumer.poll(CONSUMING_DURATION_IN_MS);
+            ConsumerRecords<String, String> consumerRecords = pollConsumerRecords(consumer);
             consumerRecords.forEach(consumerRecord ->
                 messages.add(new Message(consumerRecord.timestamp(), consumerRecord.value())));
         }
@@ -82,10 +83,14 @@ public class StoreService {
 
     private void seekConsumerTo(Consumer<String, String> consumer, long offsetFromLastIndex) {
         consumer.seekToEnd(consumer.assignment());
-        consumer.poll(CONSUMING_DURATION_IN_MS);
+        pollConsumerRecords(consumer);
         TopicPartition topicPartition = consumer.assignment().iterator().next();
         long topicCurrentSize = consumer.position(topicPartition);
         long indexToSeek = offsetFromLastIndex > topicCurrentSize ? 0 : topicCurrentSize - offsetFromLastIndex;
         consumer.seek(topicPartition, indexToSeek);
+    }
+
+    private ConsumerRecords<String, String> pollConsumerRecords(Consumer<String, String> consumer) {
+        return consumer.poll(Duration.ofMillis(CONSUMING_DURATION_IN_MS));
     }
 }
