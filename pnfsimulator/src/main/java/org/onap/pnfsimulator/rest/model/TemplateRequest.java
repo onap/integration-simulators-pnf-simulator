@@ -20,23 +20,19 @@
 
 package org.onap.pnfsimulator.rest.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.bson.Document;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class TemplateRequest {
     private String name;
     private Document template;
-
-    public TemplateRequest(String name, Document template) {
-        this.name = name;
-        this.template = template;
-    }
-
-    public TemplateRequest() {
-    }
 }
