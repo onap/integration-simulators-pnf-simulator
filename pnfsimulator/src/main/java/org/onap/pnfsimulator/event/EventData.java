@@ -24,12 +24,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Builder
 @Getter
 @Setter
+@ToString(exclude = "incrementValue")
 public class EventData {
     @Id
     private String id;
@@ -63,14 +65,4 @@ public class EventData {
         this.incrementValue = incrementValue;
     }
 
-    @Override
-    public String toString() {
-        return "EventData{"
-                + "id='" + id + '\''
-                + ", template='" + template + '\''
-                + ", patched='" + patched + '\''
-                + ", input='" + input + '\''
-                + ", keywords='" + keywords + '\''
-                + '}';
-    }
 }

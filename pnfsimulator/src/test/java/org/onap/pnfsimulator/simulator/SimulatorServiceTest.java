@@ -33,6 +33,7 @@ import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
+import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
@@ -40,12 +41,17 @@ import org.onap.pnfsimulator.simulatorconfig.SimulatorConfigService;
 import org.quartz.SchedulerException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -92,6 +98,7 @@ class SimulatorServiceTest {
     private EventDataService eventDataService;
     private EventScheduler eventScheduler;
     private SimulatorConfigService simulatorConfigService;
+    private SslAuthenticationHelper sslAuthenticationHelper = new SslAuthenticationHelper() ;
     private static TemplatePatcher templatePatcher = new TemplatePatcher();
     private static TemplateReader templateReader = new FilesystemTemplateReader(
         "src/test/resources/org/onap/pnfsimulator/simulator/", GSON);
@@ -103,7 +110,7 @@ class SimulatorServiceTest {
         simulatorConfigService = mock(SimulatorConfigService.class);
 
         simulatorService = new SimulatorService(templatePatcher, templateReader,
-            eventScheduler, eventDataService, simulatorConfigService, new SslAuthenticationHelper());
+            eventScheduler, eventDataService, simulatorConfigService, sslAuthenticationHelper);
     }
 
     @Test
@@ -207,6 +214,40 @@ class SimulatorServiceTest {
         assertThat(sentContent.getAsJsonObject("event").getAsJsonObject("commonEventHeader").get("eventName").getAsString()).hasSize(20);
     }
 
+    @Test
+    void shouldGetSimulatorConfiguration() throws MalformedURLException {
+        URL inDbVesUrl = new URL("http://0.0.0.0:8080/eventListener/v6");
+        SimulatorConfig simulatorConfig = new SimulatorConfig(SAMPLE_ID, inDbVesUrl);
+
+        when(simulatorConfigService.getConfiguration()).thenReturn(simulatorConfig);
+
+        assertEquals(simulatorService.getConfiguration(), simulatorConfig);
+    }
+
+    @Test
+    void shouldUpdateSimulatorConfiguration() throws MalformedURLException {
+        URL inDbVesUrl = new URL("http://0.0.0.0:8080/eventListener/v6");
+        SimulatorConfig simulatorConfig = new SimulatorConfig(SAMPLE_ID, inDbVesUrl);
+
+        when(simulatorConfigService.updateConfiguration(simulatorConfig)).thenReturn(simulatorConfig);
+
+        assertEquals(simulatorService.updateConfiguration(simulatorConfig), simulatorConfig);
+    }
+
+    @Test
+    void shouldCancelAllEvents() throws SchedulerException {
+        when(eventScheduler.cancelAllEvents()).thenReturn(true);
+
+        assertTrue(simulatorService.cancelAllEvents());
+    }
+
+    @Test
+    void shouldCancelSingleEvent() throws SchedulerException {
+        final String jobName = "testJobName";
+        when(eventScheduler.cancelEvent(jobName)).thenReturn(true);
+
+        assertTrue(simulatorService.cancelEvent(jobName));
+    }
 
     private void assertEventHasExpectedStructure(String expectedVesUrl, String templateName, String sourceNameString) throws SchedulerException, IOException, GeneralSecurityException {
         verify(eventScheduler, times(1)).scheduleEvent(vesUrlCaptor.capture(), intervalCaptor.capture(),
