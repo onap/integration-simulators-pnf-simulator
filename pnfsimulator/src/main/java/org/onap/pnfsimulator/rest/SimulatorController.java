@@ -52,7 +52,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -60,13 +59,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.onap.pnfsimulator.logging.MDCVariables.INSTANCE_UUID;
-import static org.onap.pnfsimulator.logging.MDCVariables.INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.RESPONSE_CODE;
-import static org.onap.pnfsimulator.logging.MDCVariables.SERVICE_NAME;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.INSTANCE_UUID;
+import static org.onap.pnfsimulator.logging.MdcVariables.INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.RESPONSE_CODE;
+import static org.onap.pnfsimulator.logging.MdcVariables.SERVICE_NAME;
+import static org.onap.pnfsimulator.logging.MdcVariables.X_INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.X_ONAP_REQUEST_ID;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.MESSAGE;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.TIMESTAMP;
 import static org.springframework.http.HttpStatus.ACCEPTED;
@@ -118,13 +117,12 @@ public class SimulatorController {
             return buildResponse(BAD_REQUEST, ImmutableMap.of(MESSAGE, String
                     .format(INCORRECT_TEMPLATE_MESSAGE, triggerEventRequest.getTemplateName(),
                             e.getMessage())));
-        } catch (GeneralSecurityException e ){
-            MDC.put(RESPONSE_CODE, INTERNAL_SERVER_ERROR.toString() );
+        } catch (GeneralSecurityException e) {
+            MDC.put(RESPONSE_CODE, INTERNAL_SERVER_ERROR.toString());
             LOGGER.error("Client certificate validation failed: {}", e.getMessage());
             return buildResponse(INTERNAL_SERVER_ERROR,
                     ImmutableMap.of(MESSAGE, "Invalid or misconfigured client certificate"));
-        }
-         catch (IOException e) {
+        } catch (IOException e) {
             MDC.put(RESPONSE_CODE, BAD_REQUEST.toString());
             LOGGER.warn("Json validation failed: {}", e.getMessage());
             return buildResponse(BAD_REQUEST,
@@ -179,7 +177,7 @@ public class SimulatorController {
 
     @PostMapping("event")
     public ResponseEntity sendEventDirectly(@RequestHeader HttpHeaders headers, @Valid @RequestBody FullEvent event)
-            throws IOException, GeneralSecurityException{
+            throws IOException, GeneralSecurityException {
         logContextHeaders(headers, "/simulator/event");
         LOGGER.info(ENTRY, "Trying to send one-time event directly to VES Collector");
         simulatorService.triggerOneTimeEvent(event);

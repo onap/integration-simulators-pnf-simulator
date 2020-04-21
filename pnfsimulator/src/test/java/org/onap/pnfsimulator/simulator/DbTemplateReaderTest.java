@@ -35,19 +35,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DBTemplateReaderTest {
+public class DbTemplateReaderTest {
 
     public static final String SOME_TEMPLATE = "someTemplate";
     public static final String KEY = "key";
     public static final String VALUE = "value";
     public static final long LMOD = 10L;
     private TemplateService service;
-    private DBTemplateReader dbTemplateReader;
+    private DbTemplateReader dbTemplateReader;
 
     @BeforeEach
     void setUp() {
         this.service = mock(TemplateService.class);
-        this.dbTemplateReader = new DBTemplateReader(this.service, new Gson());
+        this.dbTemplateReader = new DbTemplateReader(this.service, new Gson());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class DBTemplateReaderTest {
 
         // when/then
         assertThrows(IOException.class,
-                () -> this.dbTemplateReader.readTemplate(SOME_TEMPLATE)
+            () -> this.dbTemplateReader.readTemplate(SOME_TEMPLATE)
         );
     }
 

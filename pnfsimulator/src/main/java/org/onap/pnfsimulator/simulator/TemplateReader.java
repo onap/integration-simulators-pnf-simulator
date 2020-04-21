@@ -21,8 +21,9 @@
 package org.onap.pnfsimulator.simulator;
 
 import com.google.gson.JsonObject;
+
 import java.io.IOException;
 
 public interface TemplateReader {
-  JsonObject readTemplate(String templateName) throws IOException;
+    JsonObject readTemplate(String templateName) throws IOException;
 }

@@ -44,14 +44,14 @@ public class Template extends Row {
     private long lmod;
 
     public Template(String name, Document content, long lmod) {
-        this.id = name;
+        this.setId(name);
         this.content = content;
         this.lmod = lmod;
         this.flatContent = new JsonUtils().flatten(content);
     }
 
     public Template(String name, String template, long lmod) {
-        this.id = name;
+        this.setId(name);
         this.content = Document.parse(template);
         this.lmod = lmod;
         this.flatContent = new JsonUtils().flatten(this.content);
@@ -72,21 +72,21 @@ public class Template extends Row {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Template template = (Template) o;
+        Template template = (Template) object;
         return Objects.equals(content, template.content)
-                && Objects.equals(id, template.id)
+                && Objects.equals(getId(), template.getId())
                 && Objects.equals(lmod, template.lmod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(content, id);
+        return Objects.hash(content, getId());
     }
 }

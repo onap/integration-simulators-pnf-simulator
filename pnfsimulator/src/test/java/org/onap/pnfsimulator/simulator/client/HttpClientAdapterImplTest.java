@@ -26,7 +26,7 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -59,17 +59,18 @@ class HttpClientAdapterImplTest {
     }
 
     @Test
-    void sendShouldSuccessfullySendRequestGivenValidUrlUsingHTTPS() throws IOException {
+    void sendShouldSuccessfullySendRequestGivenValidUrlUsingHttps() throws IOException {
         assertAdapterSentRequest("https://valid-url:8443");
     }
 
     @Test
-    void shouldThrowExceptionWhenMalformedVesUrlPassed(){
-        assertThrows(MalformedURLException.class, () -> new HttpClientAdapterImpl("http://blablabla:VES-PORT", new SSLAuthenticationHelper()));
+    void shouldThrowExceptionWhenMalformedVesUrlPassed() {
+        assertThrows(MalformedURLException.class, () -> new HttpClientAdapterImpl("http://blablabla:VES-PORT", new SslAuthenticationHelper()));
     }
+
     @Test
-    void shouldCreateAdapterWithClientNotSupportingSSLConnection() throws IOException, GeneralSecurityException {
-        HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTPS_URL, new SSLAuthenticationHelper());
+    void shouldCreateAdapterWithClientNotSupportingSslConnection() throws IOException, GeneralSecurityException {
+        HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTPS_URL, new SslAuthenticationHelper());
         try {
             adapterWithHttps.send("sample");
         } catch (Exception actualException) {
@@ -79,7 +80,7 @@ class HttpClientAdapterImplTest {
 
     @Test
     void shouldCreateAdapterWithClientSupportingPlainConnectionOnly() throws IOException, GeneralSecurityException {
-        HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTP_URL, new SSLAuthenticationHelper());
+        HttpClientAdapter adapterWithHttps = new HttpClientAdapterImpl(HTTP_URL, new SslAuthenticationHelper());
         try {
             adapterWithHttps.send("sample");
         } catch (Exception actualException) {

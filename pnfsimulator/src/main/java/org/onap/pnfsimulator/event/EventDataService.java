@@ -21,43 +21,45 @@
 package org.onap.pnfsimulator.event;
 
 import com.google.gson.JsonObject;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EventDataService {
-  private final EventDataRepository repository;
+    private final EventDataRepository repository;
 
-  @Autowired
-  public EventDataService(EventDataRepository repository) {
-    this.repository = repository;
-  }
+    @Autowired
+    public EventDataService(EventDataRepository repository) {
+        this.repository = repository;
+    }
 
-  private EventData persistEventData(String templateString, String patchedString, String inputString, String keywordsString) {
-    EventData eventData = EventData.builder()
-        .template(templateString)
-        .patched(patchedString)
-        .input(inputString)
-        .keywords(keywordsString)
-        .build();
-    return repository.save(eventData);
-  }
+    private EventData persistEventData(String templateString, String patchedString, String inputString, String keywordsString) {
+        EventData eventData = EventData.builder()
+                .template(templateString)
+                .patched(patchedString)
+                .input(inputString)
+                .keywords(keywordsString)
+                .build();
+        return repository.save(eventData);
+    }
 
-  public EventData persistEventData(JsonObject templateJson, JsonObject patchedJson, JsonObject inputJson,
-      JsonObject keywordsJson) {
-    return persistEventData(templateJson.toString(),
-        patchedJson.toString(),
-        inputJson.toString(),
-        keywordsJson.toString());
-  }
+    public EventData persistEventData(JsonObject templateJson, JsonObject patchedJson, JsonObject inputJson,
+                                      JsonObject keywordsJson) {
+        return persistEventData(templateJson.toString(),
+                patchedJson.toString(),
+                inputJson.toString(),
+                keywordsJson.toString());
+    }
 
-  public List<EventData> getAllEvents() {
-    return repository.findAll();
-  }
+    public List<EventData> getAllEvents() {
+        return repository.findAll();
+    }
 
-  public Optional<EventData> getById(String id) {
-    return repository.findById(id);
-  }
+    public Optional<EventData> getById(String id) {
+        return repository.findById(id);
+    }
 }

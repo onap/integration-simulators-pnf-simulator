@@ -21,8 +21,9 @@
 package org.onap.pnfsimulator.simulator;
 
 public class EventNotFoundException extends RuntimeException {
-  private static final String NOT_FOUND = "Not found an event with id: ";
-  public EventNotFoundException(String eventId) {
-    super(NOT_FOUND + eventId);
-  }
+    private static final String NOT_FOUND = "Not found an event with id: ";
+
+    public EventNotFoundException(String eventId) {
+        super(NOT_FOUND + eventId);
+    }
 }

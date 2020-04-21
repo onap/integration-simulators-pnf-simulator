@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +38,10 @@ public class KeywordsExtractorValidTimestampTest {
     private KeywordsExtractor keywordsExtractor;
 
     private static final Collection VALID_TIMESTAMP_KEYWORDS = Arrays.asList(new Object[][]{
-        {"#Timestamp", 10},
-        {"#Timestamp12", 10 + 2},
-        {"1#Timestamp", 1 + 10},
-        {"1#Timestamp2", 1 + 10 +1}
+            {"#Timestamp", 10},
+            {"#Timestamp12", 10 + 2},
+            {"1#Timestamp", 1 + 10},
+            {"1#Timestamp2", 1 + 10 + 1}
     });
 
     public KeywordsExtractorValidTimestampTest(String keyword, Integer length) {

@@ -66,7 +66,8 @@ class SimulatorControllerTest {
     private static final String JSON_MSG_EXPRESSION = "$.message";
 
     private static final String NEW_URL = "http://0.0.0.0:8090/eventListener/v7";
-    private static final String UPDATE_SIM_CONFIG_VALID_JSON = "{\"vesServerUrl\": \"" + NEW_URL + "\"}";
+    private static final String UPDATE_SIM_CONFIG_VALID_JSON = "{\"vesServerUrl\": \""
+            + NEW_URL + "\"}";
     private static final String SAMPLE_ID = "sampleId";
     private static final Gson GSON_OBJ = new Gson();
     private static String simulatorRequestBody;
@@ -144,7 +145,8 @@ class SimulatorControllerTest {
         mockMvc
                 .perform(put(CONFIG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"vesUrl\": \"" + NEW_URL + "\"}"))
+                        .content("{\"vesUrl\": \""
+                                + NEW_URL + "\"}"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -162,18 +164,18 @@ class SimulatorControllerTest {
         String contentAsString = mockMvc
                 .perform(post(EVENT_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .content("{\"vesServerUrl\":\"http://0.0.0.0:8080/simulator/v7\",\n" +
-                                "      \"event\":{  \n" +
-                                "         \"commonEventHeader\":{  \n" +
-                                "            \"domain\":\"notification\",\n" +
-                                "            \"eventName\":\"vFirewallBroadcastPackets\"\n" +
-                                "         },\n" +
-                                "         \"notificationFields\":{  \n" +
-                                "            \"arrayOfNamedHashMap\":[  \n" +
-                                "               {  \n" +
-                                "                  \"name\":\"A20161221.1031-1041.bin.gz\",\n" +
-                                "                  \"hashMap\":{  \n" +
-                                "                     \"fileformatType\":\"org.3GPP.32.435#measCollec\"}}]}}}"))
+                        .content("{\"vesServerUrl\":\"http://0.0.0.0:8080/simulator/v7\",\n"
+                                + "      \"event\":{  \n"
+                                + "         \"commonEventHeader\":{  \n"
+                                + "            \"domain\":\"notification\",\n"
+                                + "            \"eventName\":\"vFirewallBroadcastPackets\"\n"
+                                + "         },\n"
+                                + "         \"notificationFields\":{  \n"
+                                + "            \"arrayOfNamedHashMap\":[  \n"
+                                + "               {  \n"
+                                + "                  \"name\":\"A20161221.1031-1041.bin.gz\",\n"
+                                + "                  \"hashMap\":{  \n"
+                                + "                     \"fileformatType\":\"org.3GPP.32.435#measCollec\"}}]}}}"))
                 .andExpect(status().isAccepted()).andReturn().getResponse().getContentAsString();
         assertThat(contentAsString).contains("One-time direct event sent successfully");
     }
@@ -183,12 +185,12 @@ class SimulatorControllerTest {
         String contentAsString = mockMvc
                 .perform(post(EVENT_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .content("{\"vesServerUrl\": \"http://localhost:9999/eventListener\",\n" +
-                                "    \"event\": {\n" +
-                                "        \"commonEventHeader\": {\n" +
-                                "            \"eventId\": \"#RandomString(20)\",\n" +
-                                "            \"sourceName\": \"PATCHED_sourceName\",\n" +
-                                "            \"version\": 3.0\n}}}"))
+                        .content("{\"vesServerUrl\": \"http://localhost:9999/eventListener\",\n"
+                                + "    \"event\": {\n"
+                                + "        \"commonEventHeader\": {\n"
+                                + "            \"eventId\": \"#RandomString(20)\",\n"
+                                + "            \"sourceName\": \"PATCHED_sourceName\",\n"
+                                + "            \"version\": 3.0\n}}}"))
                 .andExpect(status().isAccepted()).andReturn().getResponse().getContentAsString();
         assertThat(contentAsString).contains("One-time direct event sent successfully");
 

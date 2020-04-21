@@ -28,7 +28,6 @@ import static org.mockito.Mockito.when;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +38,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -57,7 +56,7 @@ class EventSchedulerTest {
     Scheduler quartzScheduler;
     
     @Mock
-    SSLAuthenticationHelper sslAuthenticationHelper;
+    SslAuthenticationHelper sslAuthenticationHelper;
 
     @BeforeEach
     void setUp() {

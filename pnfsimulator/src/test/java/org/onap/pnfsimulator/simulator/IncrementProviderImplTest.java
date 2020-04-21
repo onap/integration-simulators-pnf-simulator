@@ -27,6 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -35,44 +36,44 @@ import org.onap.pnfsimulator.event.EventData;
 import org.onap.pnfsimulator.event.EventDataRepository;
 
 public class IncrementProviderImplTest {
-  private IncrementProvider incrementProvider;
+    private IncrementProvider incrementProvider;
 
-  @Mock
-  private EventDataRepository eventDataRepositoryMock;
+    @Mock
+    private EventDataRepository eventDataRepositoryMock;
 
-  @BeforeEach
-  void setUp() {
-    eventDataRepositoryMock = mock(EventDataRepository.class);
-    incrementProvider = new IncrementProviderImpl(eventDataRepositoryMock);
-  }
+    @BeforeEach
+    void setUp() {
+        eventDataRepositoryMock = mock(EventDataRepository.class);
+        incrementProvider = new IncrementProviderImpl(eventDataRepositoryMock);
+    }
 
-  @Test
-  public void getAndIncrementTest() {
-    ArgumentCaptor<EventData> eventDataArgumentCaptor = ArgumentCaptor.forClass(EventData.class);
-    String eventId = "1";
-    int initialIncrementValue = 0;
-    int expectedValue = initialIncrementValue + 1;
-    EventData eventData = EventData.builder().id(eventId).incrementValue(initialIncrementValue).build();
-    Optional<EventData> optional = Optional.of(eventData);
+    @Test
+    public void getAndIncrementTest() {
+        ArgumentCaptor<EventData> eventDataArgumentCaptor = ArgumentCaptor.forClass(EventData.class);
+        String eventId = "1";
+        int initialIncrementValue = 0;
+        int expectedValue = initialIncrementValue + 1;
+        EventData eventData = EventData.builder().id(eventId).incrementValue(initialIncrementValue).build();
+        Optional<EventData> optional = Optional.of(eventData);
 
-    when(eventDataRepositoryMock.findById(eventId)).thenReturn(optional);
+        when(eventDataRepositoryMock.findById(eventId)).thenReturn(optional);
 
-    int value = incrementProvider.getAndIncrement(eventId);
+        int value = incrementProvider.getAndIncrement(eventId);
 
-    verify(eventDataRepositoryMock).save(eventDataArgumentCaptor.capture());
+        verify(eventDataRepositoryMock).save(eventDataArgumentCaptor.capture());
 
-    assertThat(value).isEqualTo(expectedValue);
-    assertThat(eventDataArgumentCaptor.getValue().getIncrementValue()).isEqualTo(expectedValue);
+        assertThat(value).isEqualTo(expectedValue);
+        assertThat(eventDataArgumentCaptor.getValue().getIncrementValue()).isEqualTo(expectedValue);
 
-  }
+    }
 
-  @Test
+    @Test
     public void shouldThrowOnNonExistingEvent() {
-    Optional<EventData> emptyOptional = Optional.empty();
-    String nonExistingEventId = "THIS_DOES_NOT_EXIST";
-    when(eventDataRepositoryMock.findById(nonExistingEventId)).thenReturn(emptyOptional);
+        Optional<EventData> emptyOptional = Optional.empty();
+        String nonExistingEventId = "THIS_DOES_NOT_EXIST";
+        when(eventDataRepositoryMock.findById(nonExistingEventId)).thenReturn(emptyOptional);
 
-    assertThrows(EventNotFoundException.class,
-        () -> incrementProvider.getAndIncrement(nonExistingEventId));
-  }
+        assertThrows(EventNotFoundException.class,
+            () -> incrementProvider.getAndIncrement(nonExistingEventId));
+    }
 }

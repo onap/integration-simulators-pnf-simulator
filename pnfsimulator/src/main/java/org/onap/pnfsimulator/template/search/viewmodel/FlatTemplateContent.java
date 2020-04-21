@@ -37,7 +37,7 @@ public class FlatTemplateContent extends Row {
 
 
     public FlatTemplateContent(String name, List<KeyValuePair> keyValues) {
-        this.id = name;
+        this.setId(name);
         this.keyValues = keyValues;
     }
 }

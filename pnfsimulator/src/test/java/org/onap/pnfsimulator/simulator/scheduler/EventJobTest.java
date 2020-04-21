@@ -69,14 +69,14 @@ class EventJobTest {
         assertThat(bodyCaptor.getValue()).isEqualTo(body.toString());
     }
 
-    private JobExecutionContext createMockJobExecutionContext(String templateName, String eventId, String vesURL,
+    private JobExecutionContext createMockJobExecutionContext(String templateName, String eventId, String vesUrl,
         JsonObject body, HttpClientAdapter clientAdapter) {
 
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put(TEMPLATE_NAME, templateName);
         jobDataMap.put(KEYWORDS_HANDLER, new KeywordsHandler(new KeywordsExtractor(), (id) -> 1));
         jobDataMap.put(EVENT_ID, eventId);
-        jobDataMap.put(VES_URL, vesURL);
+        jobDataMap.put(VES_URL, vesUrl);
         jobDataMap.put(BODY, body);
         jobDataMap.put(CLIENT_ADAPTER, clientAdapter);
 
