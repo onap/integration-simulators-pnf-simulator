@@ -41,9 +41,6 @@
     <docker.registry>nexus3.onap.org:10003</docker.registry>
     <docker.image.tag>latest</docker.image.tag>
     <docker.image.name>onap/${project.artifactId}</docker.image.name>
-    <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
-    <spring.kafka.version>2.2.7.RELEASE</spring.kafka.version>
-    <apache.httpclient.version>4.5.6</apache.httpclient.version>
     <dependency.directory.name>libs</dependency.directory.name>
     <dependency.directory.location>${project.build.directory}/${dependency.directory.name}
     </dependency.directory.location>
@@ -55,20 +52,6 @@
     <skip-integration-tests>true</skip-integration-tests>
     <skip-unit-tests>false</skip-unit-tests>
     <project.build.integrationTestSourceDirectory>${project.basedir}/src/it/java</project.build.integrationTestSourceDirectory>
-    <lombok.version>1.18.2</lombok.version>
-    <jnc.version>1.0</jnc.version>
-    <javax.websocket-api.version>1.1</javax.websocket-api.version>
-    <assertj-core.version>3.9.1</assertj-core.version>
-    <mockito-core.version>2.18.3</mockito-core.version>
-    <junit-jupiter-engine.version>5.3.1</junit-jupiter-engine.version>
-    <junit-vintage-engine.version>5.3.1</junit-vintage-engine.version>
-    <junit.version>4.12</junit.version>
-    <before-after-spring-test-runner.version>0.1.0</before-after-spring-test-runner.version>
-    <docker-compose-rule-junit4.version>0.29.1</docker-compose-rule-junit4.version>
-    <httpclient.version>4.5.6</httpclient.version>
-    <httpmime.version>4.5.6</httpmime.version>
-    <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
-    <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
     <build-helper-maven-plugin.version>3.1.0</build-helper-maven-plugin.version>
   </properties>
 
@@ -79,53 +62,43 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
-      <version>${spring.boot.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <version>${spring.boot.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.onosproject</groupId>
-      <artifactId>jnc</artifactId>
-      <version>${jnc.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
-      <version>${spring.boot.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.onosproject</groupId>
+      <artifactId>jnc</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.websocket</groupId>
       <artifactId>javax.websocket-api</artifactId>
-      <version>${javax.websocket-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>${apache.httpclient.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
-      <version>${apache.httpclient.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
-      <version>${springfox-swagger2.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
-      <version>${springfox-swagger-ui.version}</version>
     </dependency>
 
       <!-- Kafka -->
@@ -133,7 +106,6 @@
     <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka</artifactId>
-      <version>${spring.kafka.version}</version>
     </dependency>
 
     <!--  TEST DEPENDENCIES  -->
@@ -141,56 +113,47 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>${mockito-core.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit-jupiter-engine.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
-      <version>${junit-vintage-engine.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <version>${spring.boot.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka-test</artifactId>
-      <version>${spring.kafka.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.bitbucket.radistao.test</groupId>
       <artifactId>before-after-spring-test-runner</artifactId>
-      <version>${before-after-spring-test-runner.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.palantir.docker.compose</groupId>
       <artifactId>docker-compose-rule-junit4</artifactId>
-      <version>${docker-compose-rule-junit4.version}</version>
-      <scope>test</scope>
+        <scope>test</scope>
     </dependency>
   </dependencies>
 
