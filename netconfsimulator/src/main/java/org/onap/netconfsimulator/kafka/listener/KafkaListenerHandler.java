@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,12 +22,9 @@ package org.onap.netconfsimulator.kafka.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.ConsumerFactory;
-
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
-
-
 import org.springframework.kafka.support.TopicPartitionInitialOffset;
 
 import java.time.Instant;
@@ -46,12 +43,12 @@ public class KafkaListenerHandler {
     }
 
 
-    public KafkaListenerEntry createKafkaListener(MessageListener messageListener, String topicName) {
+    public KafkaListenerEntry createKafkaListener(MessageListener<String, String> messageListener, String topicName) {
         String clientId = Long.toString(Instant.now().getEpochSecond());
         ContainerProperties containerProperties = new ContainerProperties(topicName);
         containerProperties.setGroupId(clientId);
         KafkaMessageListenerContainer<String, String> listenerContainer = createListenerContainer(containerProperties,
-            topicName);
+                topicName);
 
         listenerContainer.setupMessageListener(messageListener);
         return new KafkaListenerEntry(clientId, listenerContainer);
@@ -59,9 +56,9 @@ public class KafkaListenerHandler {
 
 
     KafkaMessageListenerContainer<String, String> createListenerContainer(ContainerProperties containerProperties,
-        String topicName) {
+                                                                          String topicName) {
         TopicPartitionInitialOffset config = new TopicPartitionInitialOffset(topicName, PARTITION,
-            NUMBER_OF_HISTORICAL_MESSAGES_TO_SHOW, RELATIVE_TO_CURRENT);
+                NUMBER_OF_HISTORICAL_MESSAGES_TO_SHOW, RELATIVE_TO_CURRENT);
         return new KafkaMessageListenerContainer<>(consumerFactory, containerProperties, config);
     }
 }
