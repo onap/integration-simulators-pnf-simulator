@@ -25,7 +25,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Main {
 
-    public static void main(String[] args) {
+    // We are excluding this line in Sonar due to fact that
+    // Spring is handling arguments
+    public static void main(String[] args) { // NOSONAR
         SpringApplication.run(Main.class, args);
     }
 }
