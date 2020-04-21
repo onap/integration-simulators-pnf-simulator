@@ -64,8 +64,8 @@ public class NetconfConfigurationService {
     public String editCurrentConfiguration(MultipartFile newConfiguration) throws IOException, JNCException {
         Element configurationElement = convertMultipartToXmlElement(newConfiguration);
         configurationEditor.editConfig(configurationElement);
-
-        LOGGER.debug("Loading new configuration: \n{}", configurationElement.toXMLString());
+        String configurationXmlString = configurationElement.toXMLString();
+        LOGGER.debug("Loading new configuration: \n{}", configurationXmlString);
         return CONFIGURATION_HAS_BEEN_ACTIVATED;
     }
 
