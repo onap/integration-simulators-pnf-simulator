@@ -84,11 +84,11 @@ class NetconfEndpoint extends Endpoint {
 
 
     private void addKafkaListener(RemoteEndpoint.Basic remoteEndpoint) {
-        MessageListener messageListener = new NetconfMessageListener(remoteEndpoint);
+        MessageListener<String, String> messageListener = new NetconfMessageListener(remoteEndpoint);
 
         KafkaListenerEntry kafkaListener = kafkaListenerHandler.createKafkaListener(messageListener, TOPIC_NAME);
 
-        AbstractMessageListenerContainer listenerContainer = kafkaListener.getListenerContainer();
+        AbstractMessageListenerContainer<String,String> listenerContainer = kafkaListener.getListenerContainer();
         listenerContainer.start();
         entry = Optional.of(kafkaListener);
     }
