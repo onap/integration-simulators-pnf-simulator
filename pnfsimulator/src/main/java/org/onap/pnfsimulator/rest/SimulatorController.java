@@ -94,11 +94,15 @@ public class SimulatorController {
         this.eventDataService = eventDataService;
     }
 
+    /**
+     * @deprecated
+     */
     @PostMapping("test")
     @Deprecated
     public ResponseEntity test(@Valid @RequestBody SimulatorRequest simulatorRequest) {
         MDC.put("test", "test");
-        LOGGER.info(ENTRY, simulatorRequest.toString());
+        String simulatorRequestString = simulatorRequest.toString();
+        LOGGER.info(ENTRY, simulatorRequestString);
         return buildResponse(OK, ImmutableMap.of(MESSAGE, "message1234"));
     }
 
@@ -138,6 +142,9 @@ public class SimulatorController {
         }
     }
 
+    /**
+     * @deprecated
+     */
     @GetMapping("all-events")
     @Deprecated
     public ResponseEntity allEvents() {
@@ -164,7 +171,8 @@ public class SimulatorController {
 
     @PostMapping("cancel/{jobName}")
     public ResponseEntity cancelEvent(@PathVariable String jobName) throws SchedulerException {
-        LOGGER.info(ENTRY, "Cancel called on {}.", replaceBreakingCharacters(jobName));
+        String jobNameNoBreakingCharacters = replaceBreakingCharacters(jobName);
+        LOGGER.info(ENTRY, "Cancel called on {}.", jobNameNoBreakingCharacters);
         boolean isCancelled = simulatorService.cancelEvent(jobName);
         return createCancelEventResponse(isCancelled);
     }
