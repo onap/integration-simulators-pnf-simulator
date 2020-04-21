@@ -50,7 +50,7 @@ public class KeywordsHandler {
             modify(reader, jsonWriter, counter);
             return new Gson().fromJson(stringWriter.getBuffer().toString(), JsonElement.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new KeywordsHandlerException(e.getMessage());
         }
     }
 
