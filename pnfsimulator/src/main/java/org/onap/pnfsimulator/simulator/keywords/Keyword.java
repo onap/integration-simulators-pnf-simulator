@@ -36,13 +36,13 @@ public class Keyword {
     protected static final String NONLETTERS_REGEX = "([^a-zA-Z]+)";
 
     protected static final Function1<String, String> OPTIONAL =
-            regex -> regex + "?";
+        regex -> regex + "?";
 
     private final String name;
     private final List<String> meaningfulParts;
 
     public static final Function2<Keyword, String, Boolean> IS_MATCHING_KEYWORD_NAME = (keyword, key) ->
-            keyword != null && keyword.getName() != null && keyword.getName().equals(key);
+        keyword != null && keyword.getName() != null && keyword.getName().equals(key);
 
     /**
      * Returns list of independent parts inside the keyword. Current implementation assumes that customer can join keywords with integer values, so
@@ -69,8 +69,8 @@ public class Keyword {
 
     public String substituteKeyword(String substitution) {
         return meaningfulParts.stream()
-                .map(part -> part.equals(name) ? substitution : part)
-                .collect(Collectors.joining());
+            .map(part -> part.equals(name) ? substitution : part)
+            .collect(Collectors.joining());
     }
 
 }

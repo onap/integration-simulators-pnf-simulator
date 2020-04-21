@@ -46,7 +46,7 @@ import java.util.Optional;
 public enum SslSupportLevel {
 
     NONE {
-        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper) {
+        public HttpClient getClient(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper) {
             LOGGER.info("<!-----IN SslSupportLevel.NONE, Creating BasicHttpClient for http protocol----!>");
             return HttpClientBuilder
                     .create()
@@ -55,7 +55,7 @@ public enum SslSupportLevel {
         }
     },
     ALWAYS_TRUST {
-        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)
+        public HttpClient getClient(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper)
                 throws GeneralSecurityException, IOException {
             LoggerFactory.getLogger(SslSupportLevel.class).info("<!-----IN SslSupportLevel.ALWAYS_TRUST, Creating client with SSL support for https protocol----!>");
             HttpClient client;
@@ -76,7 +76,7 @@ public enum SslSupportLevel {
     },
     CLIENT_CERT_AUTH {
         @Override
-        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)
+        public HttpClient getClient(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper)
                 throws GeneralSecurityException, IOException {
 
             SSLContext sslContext = SSLContexts.custom()
@@ -111,7 +111,7 @@ public enum SslSupportLevel {
         return "https".equals(new URL(url).getProtocol()) ? SslSupportLevel.ALWAYS_TRUST : SslSupportLevel.NONE;
     }
 
-    public abstract HttpClient getClient(RequestConfig config, SSLAuthenticationHelper sslAuthenticationHelper)
+    public abstract HttpClient getClient(RequestConfig config, SslAuthenticationHelper sslAuthenticationHelper)
             throws GeneralSecurityException, IOException;
 
 }

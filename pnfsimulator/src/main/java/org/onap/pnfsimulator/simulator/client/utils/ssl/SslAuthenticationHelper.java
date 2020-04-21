@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "ssl")
 @RefreshScope
 @Primary
-public class SSLAuthenticationHelper implements Serializable {
+public class SslAuthenticationHelper implements Serializable {
 
     private boolean clientCertificateEnabled;
     private String clientCertificateDir;

@@ -23,7 +23,7 @@ package org.onap.pnfsimulator.simulator.scheduler;
 import com.google.gson.JsonObject;
 import org.onap.pnfsimulator.simulator.KeywordsHandler;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -56,10 +56,10 @@ public class EventScheduler {
 
     private final Scheduler scheduler;
     private final KeywordsHandler keywordsHandler;
-    private final SSLAuthenticationHelper sslAuthenticationHelper;
+    private final SslAuthenticationHelper sslAuthenticationHelper;
 
     @Autowired
-    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SSLAuthenticationHelper sslAuthenticationHelper) {
+    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SslAuthenticationHelper sslAuthenticationHelper) {
         this.scheduler = scheduler;
         this.keywordsHandler = keywordsHandler;
         this.sslAuthenticationHelper = sslAuthenticationHelper;

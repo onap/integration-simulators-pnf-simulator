@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,7 +72,7 @@ class TemplateSearchHelperTest {
     }
 
     @Test
-    void shouldReturnNamesForGivenComposedSearchCriteria(){
+    void shouldReturnNamesForGivenComposedSearchCriteria() {
         String expectedComposedQueryString = "{\"$and\":[{\"keyValues\":{\"$elemMatch\":{\"k\":{\"$regex\":\":eventName(?:(\\\\[[\\\\d]+\\\\]))?$\",\"$options\":\"iu\"},\"v\":{\"$regex\":\"^\\\\QpnfRegistration_Nokia_5gDu\\\\E$\",\"$options\":\"iu\"}}}},{\"keyValues\":{\"$elemMatch\":{\"k\":{\"$regex\":\":sequence(?:(\\\\[[\\\\d]+\\\\]))?$\",\"$options\":\"iu\"},\"v\":1.0}}}]}";
         Query expectedQuery = new BasicQuery(expectedComposedQueryString);
 
@@ -105,7 +105,7 @@ class TemplateSearchHelperTest {
     }
 
     @Test
-    void shouldGetQueryForEmptyJson(){
+    void shouldGetQueryForEmptyJson() {
         JsonObject jsonObject = GSON.fromJson("{}", JsonObject.class);
 
         String expectedComposedQueryString = "{}";
@@ -123,7 +123,7 @@ class TemplateSearchHelperTest {
 
 
     @Test
-    void shouldGetQueryWithAllTypeValues(){
+    void shouldGetQueryWithAllTypeValues() {
         JsonObject jsonObject = GSON.fromJson("{\"stringKey\": \"stringValue\", \"numberKey\": 16.00, \"boolKey\": false}", JsonObject.class);
 
         helper.getIdsOfDocumentMatchingCriteria(jsonObject);
@@ -147,13 +147,13 @@ class TemplateSearchHelperTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNullIsPresentAsCriteriaValue(){
+    void shouldThrowExceptionWhenNullIsPresentAsCriteriaValue() {
         JsonObject jsonObject = GSON.fromJson("{\"stringKey\": \"stringValue\", \"nullKey\": null}", JsonObject.class);
 
         assertThrows(IllegalJsonValueException.class, () -> helper.getIdsOfDocumentMatchingCriteria(jsonObject));
     }
 
-    private void assertJsonPreparedKeyHasCorrectStructure(Document actual, String expectedPattern){
+    private void assertJsonPreparedKeyHasCorrectStructure(Document actual, String expectedPattern) {
         assertThat(actual.get("k").toString()).isEqualTo(Pattern.compile(String.format(":%s(?:(\\[[\\d]+\\]))?$", expectedPattern)).toString());
 
     }

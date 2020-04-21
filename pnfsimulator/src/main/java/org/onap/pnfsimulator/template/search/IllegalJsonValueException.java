@@ -22,7 +22,7 @@ package org.onap.pnfsimulator.template.search;
 
 public class IllegalJsonValueException extends IllegalArgumentException {
 
-    IllegalJsonValueException(String s) {
-        super(s);
+    IllegalJsonValueException(String message) {
+        super(message);
     }
 }

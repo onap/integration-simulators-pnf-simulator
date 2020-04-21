@@ -26,7 +26,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslSupportLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +39,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.UUID;
 
-import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.X_INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MdcVariables.X_ONAP_REQUEST_ID;
 
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
@@ -59,10 +59,11 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
     private HttpClient client;
     private final String targetUrl;
 
-    public HttpClientAdapterImpl(String targetUrl, SSLAuthenticationHelper sslAuthenticationHelper)
+    public HttpClientAdapterImpl(String targetUrl, SslAuthenticationHelper sslAuthenticationHelper)
             throws IOException, GeneralSecurityException {
-        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled() ?
-                SslSupportLevel.CLIENT_CERT_AUTH : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
+        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled()
+                ? SslSupportLevel.CLIENT_CERT_AUTH
+                : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
         this.client = sslSupportLevel.getClient(CONFIG, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }

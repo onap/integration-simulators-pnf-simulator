@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,41 +38,41 @@ class JsonUtilsTest {
         utils = new JsonUtils();
     }
 
-    private static final String NOTIFICATION_JSON = "{\n\"event\": {\n" +
-            "    \"commonEventHeader\": {\n" +
-            "      \"domain\": \"notification\",\n" +
-            "      \"eventName\": \"vFirewallBroadcastPackets\"\n" +
-            "    },\n" +
-            "    \"notificationFields\": {\n" +
-            "      \"changeIdentifier\": \"PM_MEAS_FILES\",\n" +
-            "      \"arrayOfNamedHashMap\": [{\n" +
-            "        \"name\": \"A20161221.1031-1041.bin.gz\",\n" +
-            "        \"hashMap\": {\n" +
-            "          \"fileformatType\": \"org.3GPP.32.435#measCollec\",\n" +
-            "          \"fileFormatVersion\": \"V10\"\n"+
-            "        }\n" +
-            "      }, {\n" +
-            "        \"name\": \"A20161222.1042-1102.bin.gz\",\n" +
-            "        \"hashMap\": {\n" +
-            "          \"fileFormatType\": \"org.3GPP.32.435#measCollec\",\n" +
-            "          \"fileFormatVersion\": \"1.0.0\"\n" +
-            "        }\n" +
-            "      }],\n" +
-            "      \"notificationFieldsVersion\": \"2.0\"\n}\n\n}}";
-    private static final String EXPECTED_FLATTENED_NOTIFICATION = "{" +
-            " \":event:commonEventHeader:domain\" : \"notification\"," +
-            " \":event:commonEventHeader:eventName\" : \"vFirewallBroadcastPackets\"," +
-            " \":event:notificationFields:changeIdentifier\" : \"PM_MEAS_FILES\"," +
-            " \":event:notificationFields:arrayOfNamedHashMap[0]:name\" : \"A20161221.1031-1041.bin.gz\"," +
-            " \":event:notificationFields:arrayOfNamedHashMap[0]:hashMap:fileformatType\" : \"org.3GPP.32.435#measCollec\"," +
-            " \":event:notificationFields:arrayOfNamedHashMap[0]:hashMap:fileFormatVersion\" : \"V10\"," +
-            " \":event:notificationFields:arrayOfNamedHashMap[1]:name\" : \"A20161222.1042-1102.bin.gz\"," +
-            " \":event:notificationFields:arrayOfNamedHashMap[1]:hashMap:fileFormatType\" : \"org.3GPP.32.435#measCollec\"," +
-            " \":event:notificationFields:arrayOfNamedHashMap[1]:hashMap:fileFormatVersion\" : \"1.0.0\"," +
-            " \":event:notificationFields:notificationFieldsVersion\" : \"2.0\" }";
+    private static final String NOTIFICATION_JSON = "{\n\"event\": {\n"
+            + "    \"commonEventHeader\": {\n"
+            + "      \"domain\": \"notification\",\n"
+            + "      \"eventName\": \"vFirewallBroadcastPackets\"\n"
+            + "    },\n"
+            + "    \"notificationFields\": {\n"
+            + "      \"changeIdentifier\": \"PM_MEAS_FILES\",\n"
+            + "      \"arrayOfNamedHashMap\": [{\n"
+            + "        \"name\": \"A20161221.1031-1041.bin.gz\",\n"
+            + "        \"hashMap\": {\n"
+            + "          \"fileformatType\": \"org.3GPP.32.435#measCollec\",\n"
+            + "          \"fileFormatVersion\": \"V10\"\n"
+            + "        }\n"
+            + "      }, {\n"
+            + "        \"name\": \"A20161222.1042-1102.bin.gz\",\n"
+            + "        \"hashMap\": {\n"
+            + "          \"fileFormatType\": \"org.3GPP.32.435#measCollec\",\n"
+            + "          \"fileFormatVersion\": \"1.0.0\"\n"
+            + "        }\n"
+            + "      }],\n"
+            + "      \"notificationFieldsVersion\": \"2.0\"\n}\n\n}}";
+    private static final String EXPECTED_FLATTENED_NOTIFICATION = "{"
+            + " \":event:commonEventHeader:domain\" : \"notification\","
+            + " \":event:commonEventHeader:eventName\" : \"vFirewallBroadcastPackets\","
+            + " \":event:notificationFields:changeIdentifier\" : \"PM_MEAS_FILES\","
+            + " \":event:notificationFields:arrayOfNamedHashMap[0]:name\" : \"A20161221.1031-1041.bin.gz\","
+            + " \":event:notificationFields:arrayOfNamedHashMap[0]:hashMap:fileformatType\" : \"org.3GPP.32.435#measCollec\","
+            + " \":event:notificationFields:arrayOfNamedHashMap[0]:hashMap:fileFormatVersion\" : \"V10\","
+            + " \":event:notificationFields:arrayOfNamedHashMap[1]:name\" : \"A20161222.1042-1102.bin.gz\","
+            + " \":event:notificationFields:arrayOfNamedHashMap[1]:hashMap:fileFormatType\" : \"org.3GPP.32.435#measCollec\","
+            + " \":event:notificationFields:arrayOfNamedHashMap[1]:hashMap:fileFormatVersion\" : \"1.0.0\","
+            + " \":event:notificationFields:notificationFieldsVersion\" : \"2.0\" }";
 
     @Test
-    void shouldFlattenNestedJsonAndSeparateKeysWithDoubleHash(){
+    void shouldFlattenNestedJsonAndSeparateKeysWithDoubleHash() {
         JsonObject templateJson = GSON_HELPER.fromJson(NOTIFICATION_JSON, JsonObject.class);
 
         JsonObject result = utils.flatten(templateJson);
@@ -81,18 +81,18 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldWorkOnEmptyJsonObject(){
+    void shouldWorkOnEmptyJsonObject() {
         JsonObject result = utils.flatten(new JsonObject());
 
         assertThat(result.toString()).isEqualTo("{}");
     }
 
     @Test
-    void shouldFlattenObjectWithArrayValue(){
-        String expectedFlattenedObjectWithArray = "{" +
-                " \":sample[0]\": 1," +
-                " \":sample[1]\": 2," +
-                " \":sample[2]\": 3}";
+    void shouldFlattenObjectWithArrayValue() {
+        String expectedFlattenedObjectWithArray = "{"
+                + " \":sample[0]\": 1,"
+                + " \":sample[1]\": 2,"
+                + " \":sample[2]\": 3}";
         JsonObject jsonWithPrimitivesArray = GSON_HELPER.fromJson("{\"sample\": [1, 2, 3]}", JsonObject.class);
 
         JsonObject result = utils.flatten(jsonWithPrimitivesArray);
@@ -101,7 +101,7 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldFlattenObjectWithEmptyArrayValue(){
+    void shouldFlattenObjectWithEmptyArrayValue() {
         String expectedFlattenedObjectWithEmptyArray = "{\":sample\": []}";
         JsonObject jsonWithEmptyArrayValue = GSON_HELPER.fromJson("{\"sample\": []}", JsonObject.class);
 
@@ -111,7 +111,7 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldFlattenNestedObjectWithEmptyObjectValue(){
+    void shouldFlattenNestedObjectWithEmptyObjectValue() {
         String expectedFlattenedNestedObjectWithEmptyObject = "{\":sample:key\": {}}";
         JsonObject nestedJsonWithEmptyObject = GSON_HELPER.fromJson("{\"sample\": {\"key\":{}}}", JsonObject.class);
 
@@ -121,12 +121,12 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldFlattenObjectWithDifferentDataTypes(){
+    void shouldFlattenObjectWithDifferentDataTypes() {
         String jsonWithDifferentDataTypes = "{ \"topLevelKey\": {\"sampleInt\": 1, \"sampleBool\": false, \"sampleDouble\": 10.0, \"sampleString\": \"str\"}}";
-        String expectedResult = "{\":topLevelKey:sampleInt\": 1," +
-                " \":topLevelKey:sampleBool\": \"false\"," +
-                " \":topLevelKey:sampleDouble\": 10.0," +
-                " \":topLevelKey:sampleString\": \"str\"}";
+        String expectedResult = "{\":topLevelKey:sampleInt\": 1,"
+                + " \":topLevelKey:sampleBool\": \"false\","
+                + " \":topLevelKey:sampleDouble\": 10.0,"
+                + " \":topLevelKey:sampleString\": \"str\"}";
         JsonObject templateJson = GSON_HELPER.fromJson(jsonWithDifferentDataTypes, JsonObject.class);
 
         JsonObject result = utils.flatten(templateJson);
@@ -135,10 +135,10 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldHandleNullValues(){
+    void shouldHandleNullValues() {
         String jsonWithNullValue = "{ \"topLevelKey\": {\"sampleNull\": null, \"sampleString\": \"str\"}}";
-        String expectedResult = "{\":topLevelKey:sampleNull\": null," +
-                " \":topLevelKey:sampleString\": \"str\"}";
+        String expectedResult = "{\":topLevelKey:sampleNull\": null,"
+                + " \":topLevelKey:sampleString\": \"str\"}";
         JsonObject templateJson = GSON_HELPER.fromJson(jsonWithNullValue, JsonObject.class);
 
         JsonObject result = utils.flatten(templateJson);
@@ -147,7 +147,7 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldFlattenBsonDocument(){
+    void shouldFlattenBsonDocument() {
         Document documentInput = Document.parse(NOTIFICATION_JSON);
 
         Document result = utils.flatten(documentInput);
@@ -156,7 +156,7 @@ class JsonUtilsTest {
     }
 
     @Test
-    void shouldNotChangeEmptyBsonDocument(){
+    void shouldNotChangeEmptyBsonDocument() {
         Document input = Document.parse("{}");
 
         Document result = utils.flatten(input);

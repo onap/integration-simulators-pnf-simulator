@@ -27,21 +27,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IncrementProviderImpl implements IncrementProvider {
-  private final EventDataRepository repository;
+    private final EventDataRepository repository;
 
-  @Autowired
-  public IncrementProviderImpl(EventDataRepository repository) {
-    this.repository = repository;
-  }
+    @Autowired
+    public IncrementProviderImpl(EventDataRepository repository) {
+        this.repository = repository;
+    }
 
-  @Override
-  public int getAndIncrement(String id) {
-    EventData eventData = repository.findById(id)
-        .orElseThrow(() -> new EventNotFoundException(id));
-    int value = eventData.getIncrementValue() + 1;
-    eventData.setIncrementValue(value);
-    repository.save(eventData);
-    return value;
-  }
+    @Override
+    public int getAndIncrement(String id) {
+        EventData eventData = repository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException(id));
+        int value = eventData.getIncrementValue() + 1;
+        eventData.setIncrementValue(value);
+        repository.save(eventData);
+        return value;
+    }
 
 }

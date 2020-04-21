@@ -25,7 +25,7 @@ import com.google.gson.JsonObject;
 import org.onap.pnfsimulator.simulator.KeywordsHandler;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -73,8 +73,11 @@ public class EventJob implements Job {
     private Optional<HttpClientAdapter> getHttpClientAdapter(JobDataMap jobDataMap, String vesUrl) {
         HttpClientAdapter adapter = null;
         try {
-            adapter = (HttpClientAdapter) (jobDataMap.containsKey(CLIENT_ADAPTER) ? jobDataMap.get(CLIENT_ADAPTER) :
-                    new HttpClientAdapterImpl(vesUrl, new SSLAuthenticationHelper()));
+            adapter = (HttpClientAdapter) (
+                    jobDataMap.containsKey(CLIENT_ADAPTER)
+                            ? jobDataMap.get(CLIENT_ADAPTER)
+                            : new HttpClientAdapterImpl(vesUrl, new SslAuthenticationHelper())
+                );
         } catch (MalformedURLException e) {
             LOGGER.error("Invalid format of vesServerUr: {}", vesUrl);
         } catch (IOException | GeneralSecurityException e) {

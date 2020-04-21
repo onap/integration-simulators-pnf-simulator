@@ -26,119 +26,121 @@ import static org.onap.pnfsimulator.simulator.KeywordsValueProvider.DEFAULT_STRI
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+
 import org.junit.jupiter.api.Test;
 
 class KeywordsHandlerTest {
 
-    private static final String TEMPLATE_JSON = "{\n" +
-        "  \"event\": {\n" +
-        "    \"commonEventHeader\": {\n" +
-        "      \"domain\": \"#RandomString\"\n" +
-        "    },\n" +
-        "    \"measurementsForVfScalingFields\": {\n" +
-        "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n" +
-        "      \"additionalMeasurements\": {\n" +
-        "        \"name\": \"licenseUsage\",\n" +
-        "        \"extraFields\": {\n" +
-        "          \"name\": \"#RandomString(4)\",\n" +
-        "          \"value\": \"1\"\n" +
-        "        }\n" +
-        "      }\n" +
-        "    }\n" +
-        "  }\n" +
-        "}";
+    private static final String TEMPLATE_JSON = "{\n"
+            + "  \"event\": {\n"
+            + "    \"commonEventHeader\": {\n"
+            + "      \"domain\": \"#RandomString\"\n"
+            + "    },\n"
+            + "    \"measurementsForVfScalingFields\": {\n"
+            + "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n"
+            + "      \"additionalMeasurements\": {\n"
+            + "        \"name\": \"licenseUsage\",\n"
+            + "        \"extraFields\": {\n"
+            + "          \"name\": \"#RandomString(4)\",\n"
+            + "          \"value\": \"1\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
 
-    private static final String TEMPLATE_JSON_WITH_MANY_KEYWORDS_INSIDE_SINGLE_VALUE = "{\n" +
-        "  \"event\": {\n" +
-        "    \"commonEventHeader\": {\n" +
-        "      \"domain1\": \"#RandomString(1) #RandomString(2) #RandomString(3)\",\n" +
-        "      \"domain2\": \"1 #RandomString(1) 2\"\n" +
-        "    },\n" +
-        "    \"measurementsForVfScalingFields\": {\n" +
-        "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n" +
-        "      \"additionalMeasurements\": {\n" +
-        "        \"name\": \"licenseUsage\",\n" +
-        "        \"extraFields\": {\n" +
-        "          \"value\": \"1\"\n" +
-        "        }\n" +
-        "      }\n" +
-        "    }\n" +
-        "  }\n" +
-        "}";
+    private static final String TEMPLATE_JSON_WITH_MANY_KEYWORDS_INSIDE_SINGLE_VALUE = "{\n"
+            + "  \"event\": {\n"
+            + "    \"commonEventHeader\": {\n"
+            + "      \"domain1\": \"#RandomString(1) #RandomString(2) #RandomString(3)\",\n"
+            + "      \"domain2\": \"1 #RandomString(1) 2\"\n"
+            + "    },\n"
+            + "    \"measurementsForVfScalingFields\": {\n"
+            + "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n"
+            + "      \"additionalMeasurements\": {\n"
+            + "        \"name\": \"licenseUsage\",\n"
+            + "        \"extraFields\": {\n"
+            + "          \"value\": \"1\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
 
     private static final String TEMPLATE_JSON_WITH_ARRAY = "{\n"
-        + "    \"event\": {\n"
-        + "        \"commonEventHeader\": {\n"
-        + "            \"domain\": \"#RandomString(1)\",\n"
-        + "            \"version\": 2.0\n"
-        + "        },\n"
-        + "        \"measurementsForVfScalingFields\": {\n"
-        + "            \"additionalMeasurements\": [\n"
-        + "                {\n"
-        + "                    \"name\": \"licenseUsage\",\n"
-        + "                    \"arrayOfFields\": [\n"
-        + "                        {\n"
-        + "                            \"name\": \"G711AudioPort\",\n"
-        + "                            \"value\": \"1\"\n"
-        + "                        },\n"
-        + "                        {\n"
-        + "                            \"name\": [\"1\",\"2\"],\n"
-        + "                            \"value\": \"#RandomString(2)\"\n"
-        + "                        },\n"
-        + "                        {\n"
-        + "                            \"name\": \"G722AudioPort\",\n"
-        + "                            \"value\": \"1\"\n"
-        + "                        }\n"
-        + "                    ]\n"
-        + "                }\n"
-        + "            ]\n"
-        + "        }\n"
-        + "    }\n"
-        + "}";
+            + "    \"event\": {\n"
+            + "        \"commonEventHeader\": {\n"
+            + "            \"domain\": \"#RandomString(1)\",\n"
+            + "            \"version\": 2.0\n"
+            + "        },\n"
+            + "        \"measurementsForVfScalingFields\": {\n"
+            + "            \"additionalMeasurements\": [\n"
+            + "                {\n"
+            + "                    \"name\": \"licenseUsage\",\n"
+            + "                    \"arrayOfFields\": [\n"
+            + "                        {\n"
+            + "                            \"name\": \"G711AudioPort\",\n"
+            + "                            \"value\": \"1\"\n"
+            + "                        },\n"
+            + "                        {\n"
+            + "                            \"name\": [\"1\",\"2\"],\n"
+            + "                            \"value\": \"#RandomString(2)\"\n"
+            + "                        },\n"
+            + "                        {\n"
+            + "                            \"name\": \"G722AudioPort\",\n"
+            + "                            \"value\": \"1\"\n"
+            + "                        }\n"
+            + "                    ]\n"
+            + "                }\n"
+            + "            ]\n"
+            + "        }\n"
+            + "    }\n"
+            + "}";
 
-    private static final String TEMPLATE_ONE_INCREMENT_JSON = "{\n" +
-        "  \"event\": {\n" +
-        "    \"commonEventHeader\": {\n" +
-        "      \"domain\": \"#RandomString\"\n" +
-        "    },\n" +
-        "    \"measurementsForVfScalingFields\": {\n" +
-        "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n" +
-        "      \"additionalMeasurements\": {\n" +
-        "        \"name\": \"licenseUsage\",\n" +
-        "        \"extraFields\": {\n" +
-        "          \"name\": \"#RandomString(4)\",\n" +
-        "          \"value\": \"#Increment\"\n" +
-        "        }\n" +
-        "      }\n" +
-        "    }\n" +
-        "  }\n" +
-        "}";
+    private static final String TEMPLATE_ONE_INCREMENT_JSON = "{\n"
+            + "  \"event\": {\n"
+            + "    \"commonEventHeader\": {\n"
+            + "      \"domain\": \"#RandomString\"\n"
+            + "    },\n"
+            + "    \"measurementsForVfScalingFields\": {\n"
+            + "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n"
+            + "      \"additionalMeasurements\": {\n"
+            + "        \"name\": \"licenseUsage\",\n"
+            + "        \"extraFields\": {\n"
+            + "          \"name\": \"#RandomString(4)\",\n"
+            + "          \"value\": \"#Increment\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
 
-    private static final String TEMPLATE_WITH_SIMPLE_VALUE= "\"#RandomString(4)\"";
+    private static final String TEMPLATE_WITH_SIMPLE_VALUE = "\"#RandomString(4)\"";
 
     private static final String TEMPLATE_WITH_ARRAY_OF_PRIMITIVES = "[ 1, \"#RandomString(5)\", 3]";
 
-    private static final String TEMPLATE_TWO_INCREMENT_JSON = "{\n" +
-        "  \"event\": {\n" +
-        "    \"commonEventHeader\": {\n" +
-        "      \"domain\": \"#RandomString\"\n" +
-        "    },\n" +
-        "    \"measurementsForVfScalingFields\": {\n" +
-        "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n" +
-        "      \"additionalMeasurements\": {\n" +
-        "        \"name\": \"licenseUsage\",\n" +
-        "        \"extraFields\": {\n" +
-        "          \"name\": \"#RandomString(4)\",\n" +
-        "          \"value\": \"#Increment\",\n" +
-        "          \"otherValue\": \"#Increment\"\n" +
-        "        }\n" +
-        "      }\n" +
-        "    }\n" +
-        "  }\n" +
-        "}";
+    private static final String TEMPLATE_TWO_INCREMENT_JSON = "{\n"
+            + "  \"event\": {\n"
+            + "    \"commonEventHeader\": {\n"
+            + "      \"domain\": \"#RandomString\"\n"
+            + "    },\n"
+            + "    \"measurementsForVfScalingFields\": {\n"
+            + "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n"
+            + "      \"additionalMeasurements\": {\n"
+            + "        \"name\": \"licenseUsage\",\n"
+            + "        \"extraFields\": {\n"
+            + "          \"name\": \"#RandomString(4)\",\n"
+            + "          \"value\": \"#Increment\",\n"
+            + "          \"otherValue\": \"#Increment\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
 
     private Gson gson = new Gson();
 
@@ -153,15 +155,15 @@ class KeywordsHandlerTest {
 
         // then
         String extraFields = resultJson
-            .get("event").getAsJsonObject()
-            .get("measurementsForVfScalingFields").getAsJsonObject()
-            .get("additionalMeasurements").getAsJsonObject()
-            .get("extraFields").getAsJsonObject()
-            .get("name").getAsString();
+                .get("event").getAsJsonObject()
+                .get("measurementsForVfScalingFields").getAsJsonObject()
+                .get("additionalMeasurements").getAsJsonObject()
+                .get("extraFields").getAsJsonObject()
+                .get("name").getAsString();
         String newDomain = resultJson
-            .get("event").getAsJsonObject()
-            .get("commonEventHeader").getAsJsonObject()
-            .get("domain").getAsString();
+                .get("event").getAsJsonObject()
+                .get("commonEventHeader").getAsJsonObject()
+                .get("domain").getAsString();
 
         assertThat(extraFields.length()).isEqualTo(4);
         assertThat(newDomain.length()).isEqualTo(DEFAULT_STRING_LENGTH);
@@ -178,16 +180,16 @@ class KeywordsHandlerTest {
 
         // then
         String newDomain1 = resultJson
-            .get("event").getAsJsonObject()
-            .get("commonEventHeader").getAsJsonObject()
-            .get("domain1").getAsString();
+                .get("event").getAsJsonObject()
+                .get("commonEventHeader").getAsJsonObject()
+                .get("domain1").getAsString();
         String newDomain2 = resultJson
-            .get("event").getAsJsonObject()
-            .get("commonEventHeader").getAsJsonObject()
-            .get("domain2").getAsString();
+                .get("event").getAsJsonObject()
+                .get("commonEventHeader").getAsJsonObject()
+                .get("domain2").getAsString();
 
-        assertThat(newDomain1.length()).isEqualTo(1+1+2+1+3);
-        assertThat(newDomain2.length()).isEqualTo(1+1+1+1+1);
+        assertThat(newDomain1.length()).isEqualTo(1 + 1 + 2 + 1 + 3);
+        assertThat(newDomain2.length()).isEqualTo(1 + 1 + 1 + 1 + 1);
     }
 
     @Test
@@ -225,17 +227,17 @@ class KeywordsHandlerTest {
 
         // then
         String actualValue = resultJson
-            .get("event").getAsJsonObject()
-            .get("measurementsForVfScalingFields").getAsJsonObject()
-            .get("additionalMeasurements").getAsJsonArray()
-            .get(0).getAsJsonObject()
-            .get("arrayOfFields").getAsJsonArray()
-            .get(1).getAsJsonObject()
-            .get("value").getAsString();
+                .get("event").getAsJsonObject()
+                .get("measurementsForVfScalingFields").getAsJsonObject()
+                .get("additionalMeasurements").getAsJsonArray()
+                .get(0).getAsJsonObject()
+                .get("arrayOfFields").getAsJsonArray()
+                .get(1).getAsJsonObject()
+                .get("value").getAsString();
         String otherActualValue = resultJson
-            .get("event").getAsJsonObject()
-            .get("commonEventHeader").getAsJsonObject()
-            .get("domain").getAsString();
+                .get("event").getAsJsonObject()
+                .get("commonEventHeader").getAsJsonObject()
+                .get("domain").getAsString();
 
         assertThat(otherActualValue.length()).isEqualTo(1);
         assertThat(actualValue.length()).isEqualTo(2);
@@ -253,11 +255,11 @@ class KeywordsHandlerTest {
 
         // then
         String actualValue = resultJson
-            .get("event").getAsJsonObject()
-            .get("measurementsForVfScalingFields").getAsJsonObject()
-            .get("additionalMeasurements").getAsJsonObject()
-            .get("extraFields").getAsJsonObject()
-            .get("value").getAsString();
+                .get("event").getAsJsonObject()
+                .get("measurementsForVfScalingFields").getAsJsonObject()
+                .get("additionalMeasurements").getAsJsonObject()
+                .get("extraFields").getAsJsonObject()
+                .get("value").getAsString();
 
         assertThat(actualValue).isEqualTo(newIncrementedValue.toString());
     }
@@ -270,7 +272,7 @@ class KeywordsHandlerTest {
         JsonObject templateJson = gson.fromJson(TEMPLATE_TWO_INCREMENT_JSON, JsonObject.class);
         KeywordsHandler keywordsHandler = new KeywordsHandler(new KeywordsExtractor(), new IncrementProvider() {
             Queue<Integer> sequenceOfValues = new LinkedList<>(
-                Arrays.asList(firstIncrementValue, secondIncrementValue));
+                    Arrays.asList(firstIncrementValue, secondIncrementValue));
 
             @Override
             public int getAndIncrement(String id) {
@@ -284,18 +286,18 @@ class KeywordsHandlerTest {
 
         // then
         String actualValue = resultJson
-            .get("event").getAsJsonObject()
-            .get("measurementsForVfScalingFields").getAsJsonObject()
-            .get("additionalMeasurements").getAsJsonObject()
-            .get("extraFields").getAsJsonObject()
-            .get("value").getAsString();
+                .get("event").getAsJsonObject()
+                .get("measurementsForVfScalingFields").getAsJsonObject()
+                .get("additionalMeasurements").getAsJsonObject()
+                .get("extraFields").getAsJsonObject()
+                .get("value").getAsString();
 
         String actualOtherValue = resultJson
-            .get("event").getAsJsonObject()
-            .get("measurementsForVfScalingFields").getAsJsonObject()
-            .get("additionalMeasurements").getAsJsonObject()
-            .get("extraFields").getAsJsonObject()
-            .get("otherValue").getAsString();
+                .get("event").getAsJsonObject()
+                .get("measurementsForVfScalingFields").getAsJsonObject()
+                .get("additionalMeasurements").getAsJsonObject()
+                .get("extraFields").getAsJsonObject()
+                .get("otherValue").getAsString();
 
         assertThat(actualValue).isEqualTo(secondIncrementValue.toString());
         assertThat(actualOtherValue).isEqualTo(secondIncrementValue.toString());

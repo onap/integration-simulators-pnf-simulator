@@ -23,27 +23,29 @@ package org.onap.pnfsimulator.simulator;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import java.io.IOException;
+
 import org.onap.pnfsimulator.template.Template;
 import org.onap.pnfsimulator.template.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DBTemplateReader implements TemplateReader {
-  private final TemplateService service;
-  private final Gson gson;
+public class DbTemplateReader implements TemplateReader {
+    private final TemplateService service;
+    private final Gson gson;
 
-  @Autowired
-  public DBTemplateReader(TemplateService service, Gson gson) {
-    this.service = service;
-    this.gson = gson;
-  }
+    @Autowired
+    public DbTemplateReader(TemplateService service, Gson gson) {
+        this.service = service;
+        this.gson = gson;
+    }
 
-  @Override
-  public JsonObject readTemplate(String templateName) throws IOException {
-    Template template = service.get(templateName).orElseThrow(() -> new IOException("Template does not exist"));
-    JsonElement jsonElement = gson.toJsonTree(template.getContent());
-    return jsonElement.getAsJsonObject();
-  }
+    @Override
+    public JsonObject readTemplate(String templateName) throws IOException {
+        Template template = service.get(templateName).orElseThrow(() -> new IOException("Template does not exist"));
+        JsonElement jsonElement = gson.toJsonTree(template.getContent());
+        return jsonElement.getAsJsonObject();
+    }
 }

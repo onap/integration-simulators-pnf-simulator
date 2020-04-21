@@ -22,5 +22,5 @@ package org.onap.pnfsimulator.simulator;
 
 @FunctionalInterface
 public interface IncrementProvider {
-  int getAndIncrement(String id);
+    int getAndIncrement(String id);
 }

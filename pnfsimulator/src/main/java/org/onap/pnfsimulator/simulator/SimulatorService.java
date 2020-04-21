@@ -29,7 +29,7 @@ import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfigService;
@@ -48,14 +48,14 @@ public class SimulatorService {
     private final TemplateReader templateReader;
     private final EventDataService eventDataService;
     private final EventScheduler eventScheduler;
-    private final SSLAuthenticationHelper sslAuthenticationHelper;
+    private final SslAuthenticationHelper sslAuthenticationHelper;
     private SimulatorConfigService simulatorConfigService;
     private static final JsonObject EMPTY_JSON_OBJECT = new JsonObject();
 
     @Autowired
     public SimulatorService(TemplatePatcher templatePatcher, TemplateReader templateReader,
                             EventScheduler eventScheduler, EventDataService eventDataService,
-                            SimulatorConfigService simulatorConfigService, SSLAuthenticationHelper sslAuthenticationHelper) {
+                            SimulatorConfigService simulatorConfigService, SslAuthenticationHelper sslAuthenticationHelper) {
         this.templatePatcher = templatePatcher;
         this.templateReader = templateReader;
         this.eventDataService = eventDataService;

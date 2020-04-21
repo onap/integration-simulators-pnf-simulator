@@ -34,7 +34,7 @@ import lombok.ToString;
  */
 public class KeyValuePair {
 
-    private String k;
-    private String v;
+    private String key;
+    private String value;
 
 }

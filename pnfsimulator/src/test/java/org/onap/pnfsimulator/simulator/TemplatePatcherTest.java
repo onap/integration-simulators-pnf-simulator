@@ -31,23 +31,23 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class TemplatePatcherTest {
 
-    private static final String TEMPLATE_JSON = "{\n" +
-            "  \"event\": {\n" +
-            "    \"commonEventHeader\": {\n" +
-            "      \"domain\": \"measurementsForVfScaling\"\n" +
-            "    },\n" +
-            "    \"measurementsForVfScalingFields\": {\n" +
-            "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n" +
-            "      \"additionalMeasurements\": {\n" +
-            "        \"name\": \"licenseUsage\",\n" +
-            "        \"extraFields\": {\n" +
-            "          \"name\": \"G711AudioPort\",\n" +
-            "          \"value\": \"1\"\n" +
-            "        }\n" +
-            "      }\n" +
-            "    }\n" +
-            "  }\n" +
-            "}";
+    private static final String TEMPLATE_JSON = "{\n"
+            + "  \"event\": {\n"
+            + "    \"commonEventHeader\": {\n"
+            + "      \"domain\": \"measurementsForVfScaling\"\n"
+            + "    },\n"
+            + "    \"measurementsForVfScalingFields\": {\n"
+            + "      \"measurementsForVfSclaingFieldsVersion\": 2.0,\n"
+            + "      \"additionalMeasurements\": {\n"
+            + "        \"name\": \"licenseUsage\",\n"
+            + "        \"extraFields\": {\n"
+            + "          \"name\": \"G711AudioPort\",\n"
+            + "          \"value\": \"1\"\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
 
     private TemplatePatcher templatePatcher;
     private Gson gson = new Gson();
@@ -109,9 +109,9 @@ class TemplatePatcherTest {
                 .get("commonEventHeader").getAsJsonObject()
                 .get("domain");
         assertThat(newDomain.isJsonObject()).isTrue();
-        JsonObject newDomainJO = newDomain.getAsJsonObject();
-        AssertionsForInterfaceTypes.assertThat(newDomainJO.keySet()).containsExactly("extraFields");
-        JsonObject newDomainExtraFields = newDomainJO.get("extraFields").getAsJsonObject();
+        JsonObject newDomainJsonObject = newDomain.getAsJsonObject();
+        AssertionsForInterfaceTypes.assertThat(newDomainJsonObject.keySet()).containsExactly("extraFields");
+        JsonObject newDomainExtraFields = newDomainJsonObject.get("extraFields").getAsJsonObject();
         AssertionsForInterfaceTypes.assertThat(newDomainExtraFields.keySet()).containsExactly("name", "value");
     }
 

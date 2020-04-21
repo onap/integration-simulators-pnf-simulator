@@ -32,6 +32,7 @@ import static org.onap.pnfsimulator.simulator.KeywordsValueProvider.getTimestamp
 import static org.onap.pnfsimulator.simulator.keywords.NonParameterKeywordPatterns.$nonParameterKeyword;
 import static org.onap.pnfsimulator.simulator.keywords.SingleParameterKeywordPatterns.$singleParameterKeyword;
 import static org.onap.pnfsimulator.simulator.keywords.TwoParameterKeywordPatterns.$twoParameterKeyword;
+
 import io.vavr.API.Match.Pattern1;
 import org.onap.pnfsimulator.simulator.keywords.Keyword;
 import org.onap.pnfsimulator.simulator.keywords.NonParameterKeyword;
@@ -44,43 +45,53 @@ public class KeywordsExtractor {
 
     String substituteStringKeyword(String text, int increment) {
         return Match(text).of(
-                Case(isRandomStringParamKeyword(),
-                        spk -> spk.substituteKeyword(getRandomString().apply(spk.getAdditionalParameter()))),
-                Case(isRandomStringNonParamKeyword(),
-                        npk -> npk.substituteKeyword(getRandomLimitedString().apply())),
-                Case(isRandomIntegerParamKeyword(),
-                        tpk -> tpk.substituteKeyword(getRandomInteger().apply(tpk.getAdditionalParameter1(), tpk.getAdditionalParameter2()))),
-                Case(isRandomIntegerNonParamKeyword(),
-                        npk -> npk.substituteKeyword(getRandomLimitedInteger().apply())),
-                Case(isIncrementKeyword(),
-                        ik -> ik.substituteKeyword(String.valueOf(increment))),
-                Case(isTimestampNonParamKeyword(),
-                        npk -> npk.substituteKeyword(getEpochSecond().apply())),
-                Case(
-                        $(),
-                        () -> text
-                ));
+            Case(isRandomStringParamKeyword(),
+                spk -> spk.substituteKeyword(getRandomString().apply(spk.getAdditionalParameter()))
+            ),
+            Case(isRandomStringNonParamKeyword(),
+                npk -> npk.substituteKeyword(getRandomLimitedString().apply())
+            ),
+            Case(isRandomIntegerParamKeyword(),
+                tpk -> tpk.substituteKeyword(getRandomInteger().apply(
+                    tpk.getAdditionalParameter1(),
+                    tpk.getAdditionalParameter2()
+                    )
+                )
+            ),
+            Case(isRandomIntegerNonParamKeyword(),
+                npk -> npk.substituteKeyword(getRandomLimitedInteger().apply())
+            ),
+            Case(isIncrementKeyword(),
+                ik -> ik.substituteKeyword(String.valueOf(increment))
+            ),
+            Case(isTimestampNonParamKeyword(),
+                npk -> npk.substituteKeyword(getEpochSecond().apply())
+            ),
+            Case(
+                $(),
+                () -> text
+            ));
     }
 
     Long substitutePrimitiveKeyword(String text) {
         return Match(text).of(
-                Case(isRandomPrimitiveIntegerParamKeyword(),
-                        tpk ->
-                                getRandomPrimitiveInteger().apply(tpk.getAdditionalParameter1(), tpk.getAdditionalParameter2())),
-                Case(isTimestampPrimitiveNonParamKeyword(),
-                        tpk ->
-                                getTimestampPrimitive().apply()),
-                Case(
-                        $(),
-                        () -> 0L
-                ));
+            Case(isRandomPrimitiveIntegerParamKeyword(),
+                tpk ->
+                    getRandomPrimitiveInteger().apply(tpk.getAdditionalParameter1(), tpk.getAdditionalParameter2())),
+            Case(isTimestampPrimitiveNonParamKeyword(),
+                tpk ->
+                    getTimestampPrimitive().apply()),
+            Case(
+                $(),
+                () -> 0L
+            ));
     }
 
     boolean isPrimitive(String text) {
         return Match(text).of(
-                Case(isRandomPrimitiveIntegerParamKeyword(), () -> true),
-                Case(isTimestampPrimitiveNonParamKeyword(), () -> true),
-                Case($(), () -> false));
+            Case(isRandomPrimitiveIntegerParamKeyword(), () -> true),
+            Case(isTimestampPrimitiveNonParamKeyword(), () -> true),
+            Case($(), () -> false));
     }
 
     private Pattern1<String, SingleParameterKeyword> isRandomStringParamKeyword() {
