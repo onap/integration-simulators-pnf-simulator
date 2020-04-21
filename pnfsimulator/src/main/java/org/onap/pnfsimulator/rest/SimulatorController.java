@@ -96,14 +96,14 @@ public class SimulatorController {
 
     @PostMapping("test")
     @Deprecated
-    public ResponseEntity test(@Valid @RequestBody SimulatorRequest simulatorRequest) {
+    public ResponseEntity<Map<String,Object>> test(@Valid @RequestBody SimulatorRequest simulatorRequest) {
         MDC.put("test", "test");
         LOGGER.info(ENTRY, simulatorRequest.toString());
         return buildResponse(OK, ImmutableMap.of(MESSAGE, "message1234"));
     }
 
     @PostMapping(value = "start")
-    public ResponseEntity start(@RequestHeader HttpHeaders headers,
+    public ResponseEntity<Map<String,Object>> start(@RequestHeader HttpHeaders headers,
                                 @Valid @RequestBody SimulatorRequest triggerEventRequest) {
         logContextHeaders(headers, "/simulator/start");
         LOGGER.info(ENTRY, "Simulator started");
@@ -140,7 +140,7 @@ public class SimulatorController {
 
     @GetMapping("all-events")
     @Deprecated
-    public ResponseEntity allEvents() {
+    public ResponseEntity<Map<String,Object>> allEvents() {
         List<EventData> eventDataList = eventDataService.getAllEvents();
         StringBuilder sb = new StringBuilder();
         eventDataList.forEach(e -> sb.append(e).append(System.lineSeparator()));
@@ -151,33 +151,33 @@ public class SimulatorController {
     }
 
     @GetMapping("config")
-    public ResponseEntity getConfig() {
+    public ResponseEntity<Map<String,Object>> getConfig() {
         SimulatorConfig configToGet = simulatorService.getConfiguration();
         return buildResponse(OK, ImmutableMap.of("simulatorConfig", configToGet));
     }
 
     @PutMapping("config")
-    public ResponseEntity updateConfig(@Valid @RequestBody SimulatorConfig newConfig) {
+    public ResponseEntity<Map<String,Object>> updateConfig(@Valid @RequestBody SimulatorConfig newConfig) {
         SimulatorConfig updatedConfig = simulatorService.updateConfiguration(newConfig);
         return buildResponse(OK, ImmutableMap.of("simulatorConfig", updatedConfig));
     }
 
     @PostMapping("cancel/{jobName}")
-    public ResponseEntity cancelEvent(@PathVariable String jobName) throws SchedulerException {
+    public ResponseEntity<Map<String,Object>> cancelEvent(@PathVariable String jobName) throws SchedulerException {
         LOGGER.info(ENTRY, "Cancel called on {}.", replaceBreakingCharacters(jobName));
         boolean isCancelled = simulatorService.cancelEvent(jobName);
         return createCancelEventResponse(isCancelled);
     }
 
     @PostMapping("cancel")
-    public ResponseEntity cancelAllEvent() throws SchedulerException {
+    public ResponseEntity<Map<String,Object>> cancelAllEvent() throws SchedulerException {
         LOGGER.info(ENTRY, "Cancel called on all jobs");
         boolean isCancelled = simulatorService.cancelAllEvents();
         return createCancelEventResponse(isCancelled);
     }
 
     @PostMapping("event")
-    public ResponseEntity sendEventDirectly(@RequestHeader HttpHeaders headers, @Valid @RequestBody FullEvent event)
+    public ResponseEntity<Map<String,Object>> sendEventDirectly(@RequestHeader HttpHeaders headers, @Valid @RequestBody FullEvent event)
             throws IOException, GeneralSecurityException {
         logContextHeaders(headers, "/simulator/event");
         LOGGER.info(ENTRY, "Trying to send one-time event directly to VES Collector");
@@ -189,7 +189,7 @@ public class SimulatorController {
         return jobName.replaceAll(BREAKING_CHARACTER_REGEX, "_");
     }
 
-    private ResponseEntity processRequest(SimulatorRequest triggerEventRequest)
+    private ResponseEntity<Map<String,Object>> processRequest(SimulatorRequest triggerEventRequest)
             throws IOException, SchedulerException, GeneralSecurityException {
 
         String jobName = simulatorService.triggerEvent(triggerEventRequest);
@@ -197,7 +197,7 @@ public class SimulatorController {
         return buildResponse(OK, ImmutableMap.of(MESSAGE, "Request started", "jobName", jobName));
     }
 
-    private ResponseEntity buildResponse(HttpStatus endStatus, Map<String, Object> parameters) {
+    private ResponseEntity<Map<String,Object>> buildResponse(HttpStatus endStatus, Map<String, Object> parameters) {
         ResponseBuilder builder = ResponseBuilder
                 .status(endStatus)
                 .put(TIMESTAMP, DateUtil.getTimestamp(responseDateFormat));
@@ -212,7 +212,7 @@ public class SimulatorController {
         MDC.put(SERVICE_NAME, serviceName);
     }
 
-    private ResponseEntity createCancelEventResponse(boolean isCancelled) {
+    private ResponseEntity<Map<String,Object>> createCancelEventResponse(boolean isCancelled) {
         if (isCancelled) {
             return buildResponse(OK, ImmutableMap.of(MESSAGE, "Event(s) was cancelled"));
         } else {
