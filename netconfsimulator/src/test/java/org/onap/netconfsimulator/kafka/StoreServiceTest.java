@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,38 +59,38 @@ public class StoreServiceTest {
     }
 
     @Test
-    public void testShouldReturnAllAvailableMessages(){
+    public void testShouldReturnAllAvailableMessages() {
 
-        List<MessageDTO> actualMessages = service.getAllMessages();
+        List<Message> actualMessages = service.getAllMessages();
 
         assertResponseContainsExpectedMessages(actualMessages, 3, MESSAGE_1, MESSAGE_2, MESSAGE_3);
     }
 
     @Test
-    public void testShouldGetLastMessagesRespectingOffset(){
+    public void testShouldGetLastMessagesRespectingOffset() {
 
-        List<MessageDTO> wantedLastMsg = service.getLastMessages(1L);
+        List<Message> wantedLastMsg = service.getLastMessages(1L);
 
         assertResponseContainsExpectedMessages(wantedLastMsg, 1, MESSAGE_3);
     }
 
     @Test
-    public void testShouldGetAll3Messages()  {
-        List<MessageDTO> wantedLastMsgs = service.getLastMessages(3L);
+    public void testShouldGetAll3Messages() {
+        List<Message> wantedLastMsgs = service.getLastMessages(3L);
 
         assertResponseContainsExpectedMessages(wantedLastMsgs, 3, MESSAGE_1, MESSAGE_2, MESSAGE_3);
     }
 
-    private void prepareProducer(){
+    private void prepareProducer() {
         kafkaTemplate.send("config", "message1");
         kafkaTemplate.send("config", "message2");
         kafkaTemplate.send("config", "message3");
     }
 
-    private void assertResponseContainsExpectedMessages(List<MessageDTO> actualMessages, int expectedMessageCount, String... expectedMessages){
-        assertThat(actualMessages.stream().map(MessageDTO::getConfiguration))
-                .hasSize(expectedMessageCount)
-                .containsExactly(expectedMessages);
+    private void assertResponseContainsExpectedMessages(List<Message> actualMessages, int expectedMessageCount, String... expectedMessages) {
+        assertThat(actualMessages.stream().map(Message::getConfiguration))
+            .hasSize(expectedMessageCount)
+            .containsExactly(expectedMessages);
     }
 
 }

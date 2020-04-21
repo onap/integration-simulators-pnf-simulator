@@ -61,7 +61,6 @@ class NetconfModelLoaderServiceTest {
     @Test
     void shouldSendMultipartToServer() throws IOException {
         //given
-        String loadModelAddress = modelLoaderService.getBackendAddress();
         makeMockClientReturnStatusOk(httpClient, HttpPost.class);
         ArgumentCaptor<HttpPost> postArgumentCaptor = ArgumentCaptor.forClass(HttpPost.class);
         MultipartFile yangMmodel = mock(MultipartFile.class);
@@ -69,6 +68,7 @@ class NetconfModelLoaderServiceTest {
         String moduleName = "moduleName";
         when(yangMmodel.getInputStream()).thenReturn(getEmptyImputStream());
         when(initialConfig.getInputStream()).thenReturn(getEmptyImputStream());
+        String loadModelAddress = modelLoaderService.getBackendAddress();
 
         //when
         LoadModelResponse response = modelLoaderService.loadYangModel(yangMmodel, initialConfig, moduleName);
@@ -86,9 +86,9 @@ class NetconfModelLoaderServiceTest {
     void shouldSendDeleteRequestToServer() throws IOException {
         //given
         String yangModelName = "sampleModel";
-        String deleteModelAddress = modelLoaderService.getDeleteAddress(yangModelName);
         makeMockClientReturnStatusOk(httpClient, HttpDelete.class);
         ArgumentCaptor<HttpDelete> deleteArgumentCaptor = ArgumentCaptor.forClass(HttpDelete.class);
+        String deleteModelAddress = modelLoaderService.getDeleteAddress(yangModelName);
 
         //when
         LoadModelResponse response = modelLoaderService.deleteYangModel(yangModelName);
