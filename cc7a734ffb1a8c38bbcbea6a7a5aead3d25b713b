@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a46dbc49_a527782a",
+        "filename": "netconfsimulator/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-21T05:25:28Z",
+      "side": 1,
+      "message": "move common part of properties and dependencies for pnf simulator and netconf to master pom.",
+      "revId": "cc7a734ffb1a8c38bbcbea6a7a5aead3d25b713b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e522edbb_99795885",
+        "filename": "pnfsimulator/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-21T05:25:28Z",
+      "side": 1,
+      "message": "part of properties and dependencies are duplicated with pom.xml from netconf simulator",
+      "revId": "cc7a734ffb1a8c38bbcbea6a7a5aead3d25b713b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
