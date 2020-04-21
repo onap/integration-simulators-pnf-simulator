@@ -28,6 +28,7 @@ import javax.websocket.EndpointConfig;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 
+import org.apache.kafka.common.protocol.types.Field;
 import org.onap.netconfsimulator.kafka.listener.KafkaListenerEntry;
 import org.onap.netconfsimulator.kafka.listener.KafkaListenerHandler;
 import org.onap.netconfsimulator.websocket.message.NetconfMessageListener;
@@ -84,11 +85,11 @@ class NetconfEndpoint extends Endpoint {
 
 
     private void addKafkaListener(RemoteEndpoint.Basic remoteEndpoint) {
-        MessageListener messageListener = new NetconfMessageListener(remoteEndpoint);
+        MessageListener<String, String> messageListener = new NetconfMessageListener(remoteEndpoint);
 
         KafkaListenerEntry kafkaListener = kafkaListenerHandler.createKafkaListener(messageListener, TOPIC_NAME);
 
-        AbstractMessageListenerContainer listenerContainer = kafkaListener.getListenerContainer();
+        AbstractMessageListenerContainer<String,String> listenerContainer = kafkaListener.getListenerContainer();
         listenerContainer.start();
         entry = Optional.of(kafkaListener);
     }
