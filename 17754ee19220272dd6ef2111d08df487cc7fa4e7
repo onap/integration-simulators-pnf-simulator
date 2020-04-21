@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b7b26700_2fbd298b",
+        "filename": "netconfsimulator/src/main/java/org/onap/netconfsimulator/kafka/MessageDto.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-04-21T11:50:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f20d778_e60458f8",
+      "revId": "17754ee19220272dd6ef2111d08df487cc7fa4e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00fdacdc_293ad2b2",
         "filename": "netconfsimulator/src/main/java/org/onap/netconfsimulator/netconfcore/configuration/NetconfConfigurationTo.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "17754ee19220272dd6ef2111d08df487cc7fa4e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ece3b74a_014b9a10",
+        "filename": "netconfsimulator/src/main/java/org/onap/netconfsimulator/netconfcore/configuration/NetconfConfigurationTo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-04-21T11:50:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00fdacdc_293ad2b2",
+      "revId": "17754ee19220272dd6ef2111d08df487cc7fa4e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
