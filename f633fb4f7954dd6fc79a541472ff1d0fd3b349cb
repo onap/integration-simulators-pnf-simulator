@@ -16,6 +16,24 @@
       "revId": "f633fb4f7954dd6fc79a541472ff1d0fd3b349cb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfdd5bdf_133bf952",
+        "filename": "netconfsimulator/src/main/java/org/onap/netconfsimulator/netconfcore/configuration/NetconfConfigurationService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6100
+      },
+      "writtenOn": "2020-04-21T11:17:52Z",
+      "side": 1,
+      "message": "\"Preconditions\" and logging arguments should not require evaluation\n\nPassing message arguments that require further evaluation into a Guava com.google.common.base.Preconditions check can result in a performance penalty. That\u0027s because whether or not they\u0027re needed, each argument must be resolved before the method is actually called.\n\nSimilarly, passing concatenated strings into a logging method can also incur a needless performance hit because the concatenation will be performed every time the method is called, whether or not the log level is low enough to show the message.\n\nInstead, you should structure your code to pass static or pre-computed values into Preconditions conditions check and logging calls.\n\nSpecifically, the built-in string formatting should be used instead of string concatenation, and if the message is the result of a method call, then Preconditions should be skipped altoghether, and the relevant exception should be conditionally thrown instead.",
+      "parentUuid": "98624114_0873d996",
+      "revId": "f633fb4f7954dd6fc79a541472ff1d0fd3b349cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
