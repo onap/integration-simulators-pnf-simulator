@@ -25,7 +25,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NetconfConfigurationTO {
+public class NetconfConfigurationTo {
 
     private String configuration;
 

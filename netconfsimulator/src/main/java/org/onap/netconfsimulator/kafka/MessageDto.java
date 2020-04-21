@@ -25,7 +25,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-class MessageDTO {
+class MessageDto {
     private long timestamp;
     private String configuration;
 }
