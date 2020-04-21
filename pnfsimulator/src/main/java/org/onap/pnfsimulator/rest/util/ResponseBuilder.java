@@ -50,7 +50,7 @@ public class ResponseBuilder {
         return this;
     }
 
-    public ResponseEntity build() {
+    public ResponseEntity<Map<String,Object>> build() {
 
         if (body.isEmpty()) {
             return ResponseEntity.status(httpStatus).build();
