@@ -65,7 +65,7 @@ class NetconfConfigurationReaderTest {
     }
 
     @Test
-    void properlyReadXML() throws IOException, JNCException {
+    void properlyReadXml() throws IOException, JNCException {
         when(netconfSession.getConfig()).thenReturn(nodeSet);
         when(nodeSet.toXMLString()).thenReturn(EXPECTED_STRING_XML);
 

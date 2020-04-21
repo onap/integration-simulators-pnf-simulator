@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
- * Simulator
+ * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2019 Nokia. All rights reserved.
+ * Copyright (C) 2018 Nokia. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.netconfsimulator.kafka;
+package org.onap.netconfsimulator.netconfcore.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-class MessageDTO {
-    private long timestamp;
+public class NetconfConfiguration {
+
     private String configuration;
+
 }
