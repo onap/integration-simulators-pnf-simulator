@@ -20,12 +20,6 @@
 
 package org.onap.pnfsimulator.template;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
-
 import org.bson.json.JsonParseException;
 import org.onap.pnfsimulator.db.Storage;
 import org.onap.pnfsimulator.filesystem.WatcherEventProcessor;
@@ -34,6 +28,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 @Service
 public class FsToDbTemplateSynchronizer {
@@ -66,7 +66,7 @@ public class FsToDbTemplateSynchronizer {
                     WatcherEventProcessor.MODIFIED.processEvent(path, storage);
                 } catch (IOException | JsonParseException e) {
                     LOGGER
-                            .error("Cannot synchronize template: {}", path.getFileName().toString(), e);
+                            .error("Cannot synchronize template: {}", path.getFileName(), e);
                 }
             });
         }
