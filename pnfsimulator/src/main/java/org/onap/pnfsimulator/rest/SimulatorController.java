@@ -82,6 +82,7 @@ public class SimulatorController {
     private static final Marker ENTRY = MarkerFactory.getMarker("ENTRY");
     private static final String INCORRECT_TEMPLATE_MESSAGE = "Cannot start simulator, template %s is not in valid format: %s";
     private static final String NOT_EXISTING_TEMPLATE = "Cannot start simulator - template %s not found.";
+    private static final String BREAKING_CHARACTER_REGEX = "[\n|\r|\t]";
     private final DateFormat responseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss,SSS");
     private final SimulatorService simulatorService;
     private EventDataService eventDataService;
@@ -163,7 +164,7 @@ public class SimulatorController {
 
     @PostMapping("cancel/{jobName}")
     public ResponseEntity cancelEvent(@PathVariable String jobName) throws SchedulerException {
-        LOGGER.info(ENTRY, "Cancel called on {}.", jobName);
+        LOGGER.info(ENTRY, "Cancel called on {}.", replaceBreakingCharacters(jobName));
         boolean isCancelled = simulatorService.cancelEvent(jobName);
         return createCancelEventResponse(isCancelled);
     }
@@ -182,6 +183,10 @@ public class SimulatorController {
         LOGGER.info(ENTRY, "Trying to send one-time event directly to VES Collector");
         simulatorService.triggerOneTimeEvent(event);
         return buildResponse(ACCEPTED, ImmutableMap.of(MESSAGE, "One-time direct event sent successfully"));
+    }
+
+    private String replaceBreakingCharacters(String jobName) {
+        return jobName.replaceAll(BREAKING_CHARACTER_REGEX, "_");
     }
 
     private ResponseEntity processRequest(SimulatorRequest triggerEventRequest)
