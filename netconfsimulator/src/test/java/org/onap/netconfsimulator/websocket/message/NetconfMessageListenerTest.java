@@ -69,5 +69,7 @@ class NetconfMessageListenerTest {
         doThrow(new EncodeException("","")).when(remoteEndpoint).sendObject(any(KafkaMessage.class));
 
         netconfMessageListener.onMessage(KAFKA_RECORD);
+        
+        verify(remoteEndpoint).sendObject(any(KafkaMessage.class));
     }
 }
