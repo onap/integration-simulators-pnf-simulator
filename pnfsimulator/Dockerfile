@@ -1,4 +1,4 @@
-FROM docker.io/openjdk:8-jre-alpine
+FROM docker.io/openjdk:11-jre-slim
 
 ARG VERSION=${version}
 
