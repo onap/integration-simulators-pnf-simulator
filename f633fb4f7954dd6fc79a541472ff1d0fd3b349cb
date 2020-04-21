@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98624114_0873d996",
+        "filename": "netconfsimulator/src/main/java/org/onap/netconfsimulator/netconfcore/configuration/NetconfConfigurationService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-21T11:10:28Z",
+      "side": 1,
+      "message": "what was the reason of this change?\nProbably the problem is with XML. So your modification will not resolve the problem.\nif it is possible you should rename toXMLString method to toXmlString",
+      "revId": "f633fb4f7954dd6fc79a541472ff1d0fd3b349cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
