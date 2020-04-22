@@ -45,6 +45,8 @@
         <snapshotNexusPath>/content/repositories/snapshots/</snapshotNexusPath>
         <releaseNexusPath>/content/repositories/releases/</releaseNexusPath>
         <stagingNexusPath>/content/repositories/staging/</stagingNexusPath>
+        <docker-image.namespace>onap</docker-image.namespace>
+        <docker-image.name.prefix>org.onap.integration.simulators</docker-image.name.prefix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
