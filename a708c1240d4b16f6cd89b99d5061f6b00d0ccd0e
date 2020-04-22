@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ad7c392_f1aad88d",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/event/EventDataTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6482
+      },
+      "writtenOn": "2020-04-22T06:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c18b80_daed186e",
+      "revId": "a708c1240d4b16f6cd89b99d5061f6b00d0ccd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4198e6ac_751b8222",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/event/EventDataTest.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "a708c1240d4b16f6cd89b99d5061f6b00d0ccd0e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b16c6d8_81cef119",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/event/EventDataTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6482
+      },
+      "writtenOn": "2020-04-22T06:58:10Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "4198e6ac_751b8222",
+      "revId": "a708c1240d4b16f6cd89b99d5061f6b00d0ccd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
