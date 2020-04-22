@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89caee4e_27c4385f",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-22T05:27:44Z",
+      "side": 1,
+      "message": "remove code duplication.\ncreate method createSimulatorConfig(){ \nurl\nreturn new Sim...\n}\n\nextract url to const",
+      "revId": "4efca02d02162ed312eb13fc0485cd8c3d8938c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
