@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a230046f_46bd8b9b",
+        "filename": "README_SONAR.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6100
+      },
+      "writtenOn": "2020-04-22T07:59:07Z",
+      "side": 1,
+      "message": "Should be make start-sonarqube",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "0b7b3d3fb75d11e97bc477da2206d4490d5e05c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60093c25_0a52c089",
+        "filename": "README_SONAR.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6100
+      },
+      "writtenOn": "2020-04-22T07:59:07Z",
+      "side": 1,
+      "message": "Should be stop-sonarqube",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 24
+      },
+      "revId": "0b7b3d3fb75d11e97bc477da2206d4490d5e05c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
