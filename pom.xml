@@ -86,6 +86,7 @@
         <quartz-jobs.version>2.2.1</quartz-jobs.version>
         <guava.version>21.0</guava.version>
         <logback-classic.version>1.2.3</logback-classic.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
 
         <!--  TEST DEPENDENCIES VERSION  -->
 
@@ -104,9 +105,12 @@
 
     <dependencyManagement>
         <dependencies>
-
             <!--  Compile DEPENDENCIES  -->
-
+            <dependency>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
@@ -326,6 +330,17 @@
     </profiles>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- To run SonarQube locally -->
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
