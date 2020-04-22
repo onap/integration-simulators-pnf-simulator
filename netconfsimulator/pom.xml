@@ -8,9 +8,9 @@
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,6 @@
     <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
     <docker.registry>nexus3.onap.org:10003</docker.registry>
     <docker.image.tag>latest</docker.image.tag>
-    <docker.image.name>onap/${project.artifactId}</docker.image.name>
     <dependency.directory.name>libs</dependency.directory.name>
     <dependency.directory.location>${project.build.directory}/${dependency.directory.name}
     </dependency.directory.location>
@@ -284,7 +283,7 @@
                             <images>
                                 <image>
                                     <alias>${project.artifactId}</alias>
-                                    <name>${onap.nexus.dockerregistry.daily}/${docker.image.name}</name>
+                                    <name>${docker-image.namespace}/${docker-image.name.prefix}.${artifactId}</name>
                                     <registry>${onap.nexus.dockerregistry.daily}</registry>
                                     <build>
                                         <contextDir>${project.basedir}</contextDir>
@@ -295,7 +294,7 @@
                                     </build>
                                 </image>
                                 <image>
-                                    <name>${onap.nexus.dockerregistry.daily}/netopeer</name>
+                                    <name>${docker-image.namespace}/${docker-image.name.prefix}.netopeer</name>
                                     <build>
                                         <contextDir>${project.basedir}</contextDir>
                                         <dockerFile>${project.basedir}/Dockerfile_netopeer</dockerFile>
