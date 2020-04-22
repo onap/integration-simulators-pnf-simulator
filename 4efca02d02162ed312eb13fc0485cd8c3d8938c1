@@ -39,6 +39,48 @@
       "revId": "4efca02d02162ed312eb13fc0485cd8c3d8938c1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11158ecd_8b205b1a",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-04-22T06:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d5a6143_161187ba",
+      "range": {
+        "startLine": 219,
+        "startChar": 8,
+        "endLine": 219,
+        "endChar": 73
+      },
+      "revId": "4efca02d02162ed312eb13fc0485cd8c3d8938c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcd9b5dc_382faa65",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-04-22T06:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89caee4e_27c4385f",
+      "revId": "4efca02d02162ed312eb13fc0485cd8c3d8938c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
