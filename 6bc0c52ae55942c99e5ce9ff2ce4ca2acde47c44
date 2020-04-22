@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1788bed0_b10aaa72",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/utils/ssl/SslAuthenticationHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-04-22T11:47:48Z",
+      "side": 1,
+      "message": "use annotations Getter and Setter above class to apply them to every field of class",
+      "revId": "6bc0c52ae55942c99e5ce9ff2ce4ca2acde47c44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
