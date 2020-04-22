@@ -30,22 +30,26 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.onap.pnfsimulator.event.EventData;
+import org.onap.pnfsimulator.event.EventDataService;
 import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
-import org.onap.pnfsimulator.rest.util.JsonObjectDeserializer;
 import org.onap.pnfsimulator.simulator.SimulatorService;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
 import org.quartz.SchedulerException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -63,17 +67,26 @@ class SimulatorControllerTest {
     private static final String START_ENDPOINT = "/simulator/start";
     private static final String CONFIG_ENDPOINT = "/simulator/config";
     private static final String EVENT_ENDPOINT = "/simulator/event";
+    private static final String CANCEL_JOB_ENDPOINT = "/simulator/cancel/";
+    private static final String ALL_EVENTS_ENDPOINT = "/simulator/all-events";
+    private static final String TEST_ENDPOINT = "/simulator/test";
+
     private static final String JSON_MSG_EXPRESSION = "$.message";
+    private static final String EVENT_WAS_CANCELLED = "Event(s) was cancelled";
+    private static final String EVENT_WAS_NOT_CANCELLED = "Simulator was not able to cancel event(s)";
 
     private static final String NEW_URL = "http://0.0.0.0:8090/eventListener/v7";
     private static final String UPDATE_SIM_CONFIG_VALID_JSON = "{\"vesServerUrl\": \""
             + NEW_URL + "\"}";
     private static final String SAMPLE_ID = "sampleId";
     private static final Gson GSON_OBJ = new Gson();
+    private static final String JOB_NAME = "testJobName";
     private static String simulatorRequestBody;
     private MockMvc mockMvc;
     @InjectMocks
     private SimulatorController controller;
+    @Mock
+    private EventDataService eventDataService;
     @Mock
     private SimulatorService simulatorService;
 
@@ -197,6 +210,105 @@ class SimulatorControllerTest {
         verify(simulatorService, Mockito.times(1)).triggerOneTimeEvent(any(FullEvent.class));
     }
 
+    @Test
+    void shouldUseTestEndpointThenReceiveProperMessage() throws Exception {
+        String contentAsString = mockMvc
+                .perform(post(TEST_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content("{\"simulatorParams\": {\n" +
+                                "        \"vesServerUrl\": \"http://localhost:9999/eventListener\"\n" +
+                                "    },\n" +
+                                "    \"templateName\": \"testTemplateName\"\n" +
+                                "}"))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        assertThat(contentAsString).contains("message1234");
+    }
+
+    @Test
+    void shouldSuccessfullyCancelJobThenReturnProperMessage() throws Exception {
+        when(simulatorService.cancelEvent(JOB_NAME)).thenReturn(true);
+
+        String contentAsString = mockMvc
+                .perform(post(CANCEL_JOB_ENDPOINT + JOB_NAME)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(""))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        assertThat(contentAsString).contains(EVENT_WAS_CANCELLED);
+    }
+
+    @Test
+    void shouldFailWhileCancelingJobThenReturnProperMessage() throws Exception {
+        when(simulatorService.cancelEvent(JOB_NAME)).thenReturn(false);
+
+        String contentAsString = mockMvc
+                .perform(post(CANCEL_JOB_ENDPOINT + JOB_NAME)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(""))
+                .andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+
+        assertThat(contentAsString).contains(EVENT_WAS_NOT_CANCELLED);
+    }
+
+    @Test
+    void shouldSuccessfullyCancelAllJobsThenReturnsProperMessage() throws Exception {
+        when(simulatorService.cancelAllEvents()).thenReturn(true);
+
+        String contentAsString = mockMvc
+                .perform(post(CANCEL_JOB_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(""))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        assertThat(contentAsString).contains(EVENT_WAS_CANCELLED);
+    }
+
+    @Test
+    void shouldSuccessfullyCancelJobWhenSendingJobNameWithBreakingCharactersThenReturnProperMessage() throws SchedulerException {
+        final String lineBreakingJobName = "test\tJob\nName\r";
+        when(simulatorService.cancelEvent(lineBreakingJobName)).thenReturn(true);
+
+        Object actualResponseBody = Objects.requireNonNull(controller.cancelEvent(lineBreakingJobName).getBody());
+
+        assertThat(actualResponseBody.toString()).contains(EVENT_WAS_CANCELLED);
+    }
+
+    @Test
+    void shouldReturnAllEvents() throws Exception {
+        List<EventData> events = getEventDatas();
+        String expectedMessage = events.stream()
+                .map(EventData::toString)
+                .collect(Collectors.joining("\\n"));
+
+        when(eventDataService.getAllEvents()).thenReturn(events);
+
+        String contentAsString = mockMvc
+                .perform(get(ALL_EVENTS_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        assertThat(contentAsString).contains(expectedMessage);
+    }
+
+
+    private List<EventData> getEventDatas() {
+        return Arrays.asList(
+                getEventData("id1", "keywords1", "input1", "patched1", "template1", 0),
+                getEventData("id2", "keywords2", "input2", "patched2", "template2", 1)
+        );
+    }
+
+    private EventData getEventData(String id, String keywords, String input, String patched, String template, int incrementValue) {
+        return EventData.builder()
+                .id(id)
+                .keywords(keywords)
+                .input(input)
+                .patched(patched)
+                .template(template)
+                .incrementValue(incrementValue)
+                .build();
+    }
 
     private void startSimulator() throws Exception {
         mockMvc

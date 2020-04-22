@@ -40,12 +40,17 @@ import org.onap.pnfsimulator.simulatorconfig.SimulatorConfigService;
 import org.quartz.SchedulerException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -57,6 +62,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 class SimulatorServiceTest {
 
     private static final String VES_URL = "http://0.0.0.0:8080";
+    private static final String IN_DB_VES_URL = "http://0.0.0.0:8080/eventListener/v6";
     private static final Gson GSON = new Gson();
     private static final JsonObject VALID_PATCH = GSON.fromJson("{\"event\": {\n"
         + "    \"commonEventHeader\": {\n"
@@ -80,6 +86,7 @@ class SimulatorServiceTest {
     private static final String CLOSED_LOOP_VNF = "ClosedLoopVNF";
     private static final String SAMPLE_ID = "sampleId";
     private static final EventData SAMPLE_EVENT = EventData.builder().id("1").build();
+    private static URL inDbVesUrl;
     private final ArgumentCaptor<JsonObject> bodyCaptor = ArgumentCaptor.forClass(JsonObject.class);
     private final ArgumentCaptor<Integer> intervalCaptor = ArgumentCaptor.forClass(Integer.class);
     private final ArgumentCaptor<Integer> repeatCountCaptor = ArgumentCaptor
@@ -92,18 +99,20 @@ class SimulatorServiceTest {
     private EventDataService eventDataService;
     private EventScheduler eventScheduler;
     private SimulatorConfigService simulatorConfigService;
+    private SslAuthenticationHelper sslAuthenticationHelper = new SslAuthenticationHelper() ;
     private static TemplatePatcher templatePatcher = new TemplatePatcher();
     private static TemplateReader templateReader = new FilesystemTemplateReader(
         "src/test/resources/org/onap/pnfsimulator/simulator/", GSON);
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws MalformedURLException {
+        inDbVesUrl = new URL(IN_DB_VES_URL);
         eventDataService = mock(EventDataService.class);
         eventScheduler = mock(EventScheduler.class);
         simulatorConfigService = mock(SimulatorConfigService.class);
 
         simulatorService = new SimulatorService(templatePatcher, templateReader,
-            eventScheduler, eventDataService, simulatorConfigService, new SslAuthenticationHelper());
+            eventScheduler, eventDataService, simulatorConfigService, sslAuthenticationHelper);
     }
 
     @Test
@@ -127,7 +136,6 @@ class SimulatorServiceTest {
             new SimulatorParams("", 1, 1),
             templateName, VALID_PATCH);
 
-        URL inDbVesUrl = new URL("http://0.0.0.0:8080/eventListener/v6");
         doReturn(SAMPLE_EVENT).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
         when(simulatorConfigService.getConfiguration()).thenReturn(new SimulatorConfig(SAMPLE_ID, inDbVesUrl));
 
@@ -166,7 +174,6 @@ class SimulatorServiceTest {
             new SimulatorParams("", 1, 1),
             templateName, null);
 
-        URL inDbVesUrl = new URL("http://0.0.0.0:8080/eventListener/v6");
         doReturn(SAMPLE_EVENT).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
         doReturn(new SimulatorConfig(SAMPLE_ID, inDbVesUrl)).when(simulatorConfigService).getConfiguration();
 
@@ -207,6 +214,38 @@ class SimulatorServiceTest {
         assertThat(sentContent.getAsJsonObject("event").getAsJsonObject("commonEventHeader").get("eventName").getAsString()).hasSize(20);
     }
 
+    @Test
+    void shouldGetSimulatorConfiguration() {
+        SimulatorConfig simulatorConfig = getSimulatorConfig();
+
+        when(simulatorConfigService.getConfiguration()).thenReturn(simulatorConfig);
+
+        assertEquals(simulatorService.getConfiguration(), simulatorConfig);
+    }
+
+    @Test
+    void shouldUpdateSimulatorConfiguration() {
+        SimulatorConfig simulatorConfig = getSimulatorConfig();
+
+        when(simulatorConfigService.updateConfiguration(simulatorConfig)).thenReturn(simulatorConfig);
+
+        assertEquals(simulatorService.updateConfiguration(simulatorConfig), simulatorConfig);
+    }
+
+    @Test
+    void shouldCancelAllEvents() throws SchedulerException {
+        when(eventScheduler.cancelAllEvents()).thenReturn(true);
+
+        assertTrue(simulatorService.cancelAllEvents());
+    }
+
+    @Test
+    void shouldCancelSingleEvent() throws SchedulerException {
+        final String jobName = "testJobName";
+        when(eventScheduler.cancelEvent(jobName)).thenReturn(true);
+
+        assertTrue(simulatorService.cancelEvent(jobName));
+    }
 
     private void assertEventHasExpectedStructure(String expectedVesUrl, String templateName, String sourceNameString) throws SchedulerException, IOException, GeneralSecurityException {
         verify(eventScheduler, times(1)).scheduleEvent(vesUrlCaptor.capture(), intervalCaptor.capture(),
@@ -223,5 +262,9 @@ class SimulatorServiceTest {
         verify(eventDataService)
             .persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class),
                 any(JsonObject.class));
+    }
+
+    private SimulatorConfig getSimulatorConfig() {
+        return new SimulatorConfig(SAMPLE_ID, inDbVesUrl);
     }
 }
