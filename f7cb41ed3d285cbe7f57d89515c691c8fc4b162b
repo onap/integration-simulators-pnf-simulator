@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0cd53a9a_6a322d32",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/KeywordsHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6482
+      },
+      "writtenOn": "2020-04-22T07:59:08Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "a75addd4_c15c631a",
+      "revId": "f7cb41ed3d285cbe7f57d89515c691c8fc4b162b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f917115_04e6676f",
         "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/KeywordsHandlerException.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "f7cb41ed3d285cbe7f57d89515c691c8fc4b162b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e60aa62e_e845a36a",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/KeywordsHandlerException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6482
+      },
+      "writtenOn": "2020-04-22T07:59:08Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "2f917115_04e6676f",
+      "revId": "f7cb41ed3d285cbe7f57d89515c691c8fc4b162b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
