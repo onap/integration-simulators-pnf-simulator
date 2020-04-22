@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e0caa99_0c074aa1",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-04-22T07:25:24Z",
+      "side": 1,
+      "message": "I suggest extract URL (just string) to constant",
+      "range": {
+        "startLine": 109,
+        "startChar": 29,
+        "endLine": 109,
+        "endChar": 67
+      },
+      "revId": "2434b377b30afb938d59ebc3059e4ffffe5b0ddd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
