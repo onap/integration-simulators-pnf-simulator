@@ -20,6 +20,9 @@
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
 import java.io.Serializable;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Primary;
@@ -29,6 +32,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "ssl")
 @RefreshScope
 @Primary
+@Getter
+@Setter
 public class SslAuthenticationHelper implements Serializable {
 
     private boolean clientCertificateEnabled;
@@ -36,44 +41,4 @@ public class SslAuthenticationHelper implements Serializable {
     private String clientCertificatePassword;
     private String trustStoreDir;
     private String trustStorePassword;
-
-    public boolean isClientCertificateEnabled() {
-        return clientCertificateEnabled;
-    }
-
-    public void setClientCertificateEnabled(boolean clientCertificateEnabled) {
-        this.clientCertificateEnabled = clientCertificateEnabled;
-    }
-
-    public String getClientCertificateDir() {
-        return clientCertificateDir;
-    }
-
-    public void setClientCertificateDir(String clientCertificateDir) {
-        this.clientCertificateDir = clientCertificateDir;
-    }
-
-    public String getClientCertificatePassword() {
-        return clientCertificatePassword;
-    }
-
-    public void setClientCertificatePassword(String clientCertificatePassword) {
-        this.clientCertificatePassword = clientCertificatePassword;
-    }
-
-    public String getTrustStoreDir() {
-        return trustStoreDir;
-    }
-
-    public void setTrustStoreDir(String trustStoreDir) {
-        this.trustStoreDir = trustStoreDir;
-    }
-
-    public String getTrustStorePassword() {
-        return trustStorePassword;
-    }
-
-    public void setTrustStorePassword(String trustStorePassword) {
-        this.trustStorePassword = trustStorePassword;
-    }
 }
