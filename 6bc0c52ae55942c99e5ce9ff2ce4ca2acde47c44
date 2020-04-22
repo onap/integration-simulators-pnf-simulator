@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66e7a8ca_6718dd9c",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/utils/ssl/SslAuthenticationHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6100
+      },
+      "writtenOn": "2020-04-22T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1788bed0_b10aaa72",
+      "revId": "6bc0c52ae55942c99e5ce9ff2ce4ca2acde47c44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dc29aaf_fc517032",
         "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/utils/ssl/SslAuthenticationHelper.java",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "6bc0c52ae55942c99e5ce9ff2ce4ca2acde47c44",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93fc7161_a3040bf9",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/utils/ssl/SslAuthenticationHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6100
+      },
+      "writtenOn": "2020-04-22T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dc29aaf_fc517032",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 54
+      },
+      "revId": "6bc0c52ae55942c99e5ce9ff2ce4ca2acde47c44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
