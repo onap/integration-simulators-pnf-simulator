@@ -68,7 +68,7 @@ public enum SslSupportLevel {
                         .build();
 
             } catch (GeneralSecurityException e) {
-                LOGGER.error("Could not initialize client due to SSL exception: {}. Default client without SSL support will be used instead.\nCause: {}", e.getMessage(), e.getCause().toString());
+                LOGGER.error("Could not initialize client due to SSL exception: {}. Default client without SSL support will be used instead.\nCause: {}", e.getMessage(), e.getCause());
                 client = NONE.getClient(requestConfig, sslAuthenticationHelper);
             }
             return client;
