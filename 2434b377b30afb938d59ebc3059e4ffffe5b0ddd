@@ -22,6 +22,30 @@
       "revId": "2434b377b30afb938d59ebc3059e4ffffe5b0ddd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a96cec_08bee95a",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-04-22T08:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e0caa99_0c074aa1",
+      "range": {
+        "startLine": 109,
+        "startChar": 29,
+        "endLine": 109,
+        "endChar": 67
+      },
+      "revId": "2434b377b30afb938d59ebc3059e4ffffe5b0ddd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
