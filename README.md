@@ -21,6 +21,10 @@ mvn clean package
 mvn clean package -P docker -DskipTests=true
 ```
 
+##Sanity check
+
+See README.md in sanitycheck directory
+
 ## Sonar
 
 https://sonarcloud.io/dashboard?id=onap_integration-pnf-simulator
