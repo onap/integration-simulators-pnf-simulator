@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 
+import com.google.gson.Gson;
 import org.onap.pnfsimulator.db.Storage;
 import org.onap.pnfsimulator.rest.model.TemplateRequest;
 import org.onap.pnfsimulator.rest.model.SearchExp;
@@ -63,14 +64,23 @@ public class TemplateController {
     }
 
     @GetMapping("get/{templateName}")
-    public ResponseEntity<?> get(@PathVariable String templateName) {
+    public ResponseEntity<String> get(@PathVariable String templateName) {
         Optional<Template> template = service.get(templateName);
-        if (!template.isPresent()) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.TEXT_PLAIN);
-            return new ResponseEntity<>(TEMPLATE_NOT_FOUND_MSG, headers, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(template, HttpStatus.OK);
+        return template
+            .map(this::createTemplateResponse)
+            .orElse(this.createTemplateNotFoundResponse());
+    }
+
+    private ResponseEntity<String> createTemplateResponse(Template template) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        return new ResponseEntity<>(new Gson().toJson(template),headers,  HttpStatus.OK);
+    }
+
+    private ResponseEntity<String> createTemplateNotFoundResponse() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        return new ResponseEntity<>(TEMPLATE_NOT_FOUND_MSG, headers, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("upload")
