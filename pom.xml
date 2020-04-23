@@ -33,7 +33,7 @@
 
     <groupId>org.onap.integration.simulators.pnf-simulator</groupId>
     <artifactId>integration-pnf-simulator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <modules>
         <module>pnfsimulator</module>
         <module>netconfsimulator</module>

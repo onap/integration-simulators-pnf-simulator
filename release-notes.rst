@@ -48,3 +48,47 @@ The Frankfurt Release is the first official release of the PNF Simulator, Netcon
 ===========
 
 End of Release Notes
+
+
+Version: 1.0.1
+--------------
+
+:Release Date: 2020-xx-xx
+
+**New Features**
+
+ TBD
+
+**Bug Fixes**
+
+        - No new fixes were implemented for this release
+
+**Known Issues**
+
+        N/A
+
+**Security Notes**
+
+        N/A
+
+*Fixed Security Issues*
+
+        N/A
+
+*Known Security Issues*
+
+        N/A
+
+*Known Vulnerabilities in Used Modules*
+
+        N/A
+
+**Upgrade Notes**
+
+**Deprecation Notes**
+
+**Other**
+
+===========
+
+End of Release Notes
