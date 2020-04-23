@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83c0c58_3cc9cc2b",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/template/FsToDbTemplateSynchronizerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-23T05:31:31Z",
+      "side": 1,
+      "message": "convention should...when...\n\nso what is the when?",
+      "revId": "7bdbc0dfa95ac025fbaa58c425713d1d86380698",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
