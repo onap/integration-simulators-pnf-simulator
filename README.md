@@ -44,3 +44,6 @@ Images are available at Nexus:
     https://nexus3.onap.org/#browse/search=keyword%3Dnetopeer
 2. pnfsimulator
     https://nexus3.onap.org/#browse/search=keyword%3Dpnfsimulator
+    
+## Release notes
+Attention: Always update a release-notes.rst when you add a new functionality or fix a bug. Thanks!
