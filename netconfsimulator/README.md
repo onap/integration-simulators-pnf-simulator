@@ -3,7 +3,7 @@ A simulator that is able to receive and print history of CM configurations.
 
 ## Required software
 To run the simulator, the following software should be installed:
-- JDK 1.8
+- JDK 11
 - Maven
 - docker
 - docker-compose
