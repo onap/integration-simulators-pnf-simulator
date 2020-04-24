@@ -289,7 +289,7 @@ Simulator works with VES that uses both self-signed certificate (already present
 
 ### Integration tests
 Integration tests are located in folder 'integration'. Tests are using docker-compose from root folder. 
-This docker-compose has pnfsimulator image set on nexus3.onap.org:10003/onap/pnf-simulator:5.0.0-SNAPSHOT. 
+This docker-compose has pnfsimulator image set on nexus3.onap.org:10003/onap/pnf-simulator:1.0.1-SNAPSHOT. 
 To test your local changes before running integration tests please build project using:
 
     'mvn clean package docker:build'
