@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7d64da0_4eac1cb3",
+        "filename": "pnfsimulator/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-04-28T06:06:51Z",
+      "side": 1,
+      "message": "pls update https://wiki.onap.org/display/DW/PNF+Simulator",
+      "revId": "85bedddf8340cbbe57f941a919a980540aeeef59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
