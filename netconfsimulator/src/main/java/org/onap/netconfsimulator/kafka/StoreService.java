@@ -40,6 +40,7 @@ public class StoreService {
 
     private static final String CONFIG_TOPIC = "config";
     private static final long CONSUMING_DURATION_IN_MS = 1000;
+    private static final int MAX_RETRY_COUNT = 4;
 
     private ConsumerFactory<String, String> consumerFactory;
     static final List<String> TOPICS_TO_SUBSCRIBE = Collections.singletonList(CONFIG_TOPIC);
@@ -83,7 +84,11 @@ public class StoreService {
 
     private void seekConsumerTo(Consumer<String, String> consumer, long offsetFromLastIndex) {
         consumer.seekToEnd(consumer.assignment());
-        pollConsumerRecords(consumer);
+        int retryCount = 0;
+        do {
+            pollConsumerRecords(consumer);
+            retryCount++;
+        } while (!consumer.assignment().iterator().hasNext() && retryCount < MAX_RETRY_COUNT);
         TopicPartition topicPartition = consumer.assignment().iterator().next();
         long topicCurrentSize = consumer.position(topicPartition);
         long indexToSeek = offsetFromLastIndex > topicCurrentSize ? 0 : topicCurrentSize - offsetFromLastIndex;
