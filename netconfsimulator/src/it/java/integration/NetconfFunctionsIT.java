@@ -53,6 +53,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(BeforeAfterSpringTestRunner.class)
 public class NetconfFunctionsIT {
 
+    private static final String NEW_YANG_MODEL_NAME = "newyangmodel";
+    private static final String NEW_YANG_MODEL_FILE = "newYangModel.yang";
+    private static final String INITIAL_CONFIG_XML_FILE = "initialConfig.xml";
+    private static final String CONFIG_NAME = "config2";
     private static NetconfSimulatorClient client;
     private static ObjectMapper objectMapper;
 
@@ -104,7 +108,7 @@ public class NetconfFunctionsIT {
     public void testShouldLoadModelEditConfigurationAndDeleteModule() throws IOException {
         // do load
         try (CloseableHttpResponse response = client
-            .loadModel("newyangmodel", "newYangModel.yang", "initialConfig.xml")) {
+            .loadModel(NEW_YANG_MODEL_NAME, NEW_YANG_MODEL_FILE, INITIAL_CONFIG_XML_FILE)) {
             assertResponseStatusCode(response, HttpStatus.OK);
             String original = client.getResponseContentAsString(response);
             assertThat(original).isEqualTo("\"Successfully started\"\n");
@@ -116,7 +120,7 @@ public class NetconfFunctionsIT {
             assertThat(afterUpdateConfigContent).isEqualTo("New configuration has been activated");
         }
         // do delete
-        try (CloseableHttpResponse deleteResponse = client.deleteModel("newyangmodel")) {
+        try (CloseableHttpResponse deleteResponse = client.deleteModel(NEW_YANG_MODEL_NAME)) {
             assertResponseStatusCode(deleteResponse, HttpStatus.OK);
             String original = client.getResponseContentAsString(deleteResponse);
             assertThat(original).isEqualTo("\"Successfully deleted\"\n");
@@ -179,7 +183,7 @@ public class NetconfFunctionsIT {
     @Test
     public void testShouldLoadNewYangModelAndReconfigure() throws IOException {
         try (CloseableHttpResponse response = client
-            .loadModel("newyangmodel", "newYangModel.yang", "initialConfig.xml")) {
+            .loadModel(NEW_YANG_MODEL_NAME, NEW_YANG_MODEL_FILE, INITIAL_CONFIG_XML_FILE)) {
             assertResponseStatusCode(response, HttpStatus.OK);
 
             String original = client.getResponseContentAsString(response);
@@ -188,21 +192,42 @@ public class NetconfFunctionsIT {
         }
     }
 
-    // ToDo: fix this integration test
-    // https://jira.onap.org/browse/INT-1535
-    public void shouldGetLoadedModelByName() throws IOException {
+    @Test
+    public void shouldGetLoadedModelByName() throws IOException, InterruptedException {
         testShouldLoadNewYangModelAndReconfigure();
 
-        try (CloseableHttpResponse response = client.getConfigByModelAndContainerNames("newyangmodel", "config2")) {
-            assertResponseStatusCode(response, HttpStatus.OK);
-            String config = client.getResponseContentAsString(response);
+        if(checkIfModelIsPresentWithRetry(NEW_YANG_MODEL_NAME, CONFIG_NAME,4,500)) {
+            try (CloseableHttpResponse response = client.getConfigByModelAndContainerNames(NEW_YANG_MODEL_NAME, CONFIG_NAME)) {
+                assertResponseStatusCode(response, HttpStatus.OK);
+                String config = client.getResponseContentAsString(response);
 
-            assertThat(config).isEqualTo(
-                "<config2 xmlns=\"http://onap.org/newyangmodel\" xmlns:nc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n"
-                    + "  <item1>100</item1>\n"
-                    + "</config2>\n");
+                assertThat(config).isEqualTo(
+                    "<config2 xmlns=\"http://onap.org/newyangmodel\" xmlns:nc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n"
+                        + "  <item1>100</item1>\n"
+                        + "</config2>\n");
+            }
+        } else {
+            fail("Could not find new YANG model by name");
         }
 
+    }
+
+    private boolean checkIfModelIsPresentWithRetry(String model, String container,int retryCount,int interval) throws IOException, InterruptedException {
+        boolean isModelPresent = false;
+
+        for(int i=0 ; i<retryCount ; i++ ) {
+            try (CloseableHttpResponse response =
+                     client.getConfigByModelAndContainerNames(model, container)) {
+                if( response.getStatusLine().getStatusCode() == HttpStatus.BAD_REQUEST.value() ) {
+                    System.out.println("New yang model not present on kafka, retrying in " + interval + " ms.");
+                    Thread.sleep(interval);
+                } else {
+                    isModelPresent = true;
+                    break;
+                }
+            }
+        }
+        return isModelPresent;
     }
 
     private void assertResponseStatusCode(HttpResponse response, HttpStatus expectedStatus) {

@@ -83,7 +83,9 @@ public class StoreService {
 
     private void seekConsumerTo(Consumer<String, String> consumer, long offsetFromLastIndex) {
         consumer.seekToEnd(consumer.assignment());
-        pollConsumerRecords(consumer);
+        do {
+            pollConsumerRecords(consumer);
+        } while (!consumer.assignment().iterator().hasNext());
         TopicPartition topicPartition = consumer.assignment().iterator().next();
         long topicCurrentSize = consumer.position(topicPartition);
         long indexToSeek = offsetFromLastIndex > topicCurrentSize ? 0 : topicCurrentSize - offsetFromLastIndex;
