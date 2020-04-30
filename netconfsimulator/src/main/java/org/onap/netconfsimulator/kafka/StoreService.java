@@ -33,13 +33,14 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
 public class StoreService {
 
     private static final String CONFIG_TOPIC = "config";
-    private static final long CONSUMING_DURATION_IN_MS = 1000;
+    private static final long CONSUMING_DURATION_IN_MS = 5000;
 
     private ConsumerFactory<String, String> consumerFactory;
     static final List<String> TOPICS_TO_SUBSCRIBE = Collections.singletonList(CONFIG_TOPIC);
@@ -69,6 +70,9 @@ public class StoreService {
             ConsumerRecords<String, String> consumerRecords = pollConsumerRecords(consumer);
             consumerRecords.forEach(consumerRecord ->
                 messages.add(new Message(consumerRecord.timestamp(), consumerRecord.value())));
+        } catch (NoSuchElementException e) {
+            log.warn("not able to create consumer and to poll messages");
+            return Collections.emptyList();
         }
         return messages;
     }
