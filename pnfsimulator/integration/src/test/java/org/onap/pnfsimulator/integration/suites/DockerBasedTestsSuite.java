@@ -22,6 +22,7 @@ package org.onap.pnfsimulator.integration.suites;
 
 import com.palantir.docker.compose.DockerComposeRule;
 import com.palantir.docker.compose.connection.waiting.HealthChecks;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -31,11 +32,18 @@ import org.onap.pnfsimulator.integration.OptionalTemplatesTest;
 import org.onap.pnfsimulator.integration.SearchInTemplatesTest;
 import org.onap.pnfsimulator.integration.TemplatesManagementTest;
 import org.onap.pnfsimulator.integration.VariablesReplacement;
+import org.springframework.http.HttpStatus;
+
+import static io.restassured.RestAssured.given;
 
 @RunWith(Suite.class)
 @SuiteClasses({BasicAvailabilityTest.class, TemplatesManagementTest.class, OptionalTemplatesTest.class,
     SearchInTemplatesTest.class, VariablesReplacement.class})
 public class DockerBasedTestsSuite {
+
+    private static final String HEALTH_CHECK_ADDRESS = "http://0.0.0.0:5000/health";
+    private static final int RETRY_COUNT = 10;
+    private static final int RETRY_INTERVAL = 1000;
 
     @ClassRule
     public static DockerComposeRule docker = DockerComposeRule.builder()
@@ -43,5 +51,35 @@ public class DockerBasedTestsSuite {
         .waitingForService("pnf-simulator", HealthChecks.toHaveAllPortsOpen())
         .waitingForService("mongo", HealthChecks.toHaveAllPortsOpen())
         .build();
+
+    @BeforeClass
+    public static void waitForPnfSimulatorToBeHealthy() throws InterruptedException {
+        boolean isHealthy = false;
+        int retry = 0;
+        while (!isHealthy && retry < RETRY_COUNT) {
+            retry++;
+            System.out.println("Checking PNF health, try " + retry + " out of " + RETRY_COUNT);
+            isHealthy = performHealthCheck();
+            if (isHealthy) {
+                System.out.println("PNF is healthy");
+            } else {
+                System.out.println("PNF no healthy retrying in " + RETRY_INTERVAL);
+                Thread.sleep(RETRY_INTERVAL);
+            }
+        }
+    }
+
+    private static boolean performHealthCheck() {
+        boolean isUp = false;
+        try {
+            int statusCode = given().get(HEALTH_CHECK_ADDRESS).getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                isUp = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUp;
+    }
 
 }
