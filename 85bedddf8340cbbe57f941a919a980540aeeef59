@@ -16,6 +16,24 @@
       "revId": "85bedddf8340cbbe57f941a919a980540aeeef59",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d9f2e8e_22af21c5",
+        "filename": "pnfsimulator/src/main/resources/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-05-07T07:01:11Z",
+      "side": 0,
+      "message": "I don\u0027t see why we need \u0027refresh\u0027 and \u0027health check\u0027 on different port, due to fact that we need access to \u0027health check\u0027 from outside of docker container, the port would have to be exposed outside any way",
+      "parentUuid": "1bbd8f3a_95486c4b",
+      "revId": "85bedddf8340cbbe57f941a919a980540aeeef59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
