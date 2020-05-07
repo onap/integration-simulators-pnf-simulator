@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bae5a63d_c7bd1605",
+        "filename": "sanitycheck/tools/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T10:06:25Z",
+      "side": 1,
+      "message": "Change to\n\nStandalone PNF Simulator configuration for HTTPS communication with VES",
+      "revId": "0c0c75c698f52e517dd9f6f65bdb82ace18c8d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c85750be_74cc1cd0",
+        "filename": "sanitycheck/tools/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T10:06:25Z",
+      "side": 1,
+      "message": "docker-compose.yml .... with VES.",
+      "revId": "0c0c75c698f52e517dd9f6f65bdb82ace18c8d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35fa84df_e7312e6e",
+        "filename": "sanitycheck/tools/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T10:06:25Z",
+      "side": 1,
+      "message": "Add before line certs-init\n\nATTENTION",
+      "revId": "0c0c75c698f52e517dd9f6f65bdb82ace18c8d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ec73a1_c6fb5e69",
+        "filename": "sanitycheck/tools/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T10:06:25Z",
+      "side": 1,
+      "message": "add information\n\nATTENTION: Proper IPs to AAF must be set in the docker-compose.yml before start!",
+      "revId": "0c0c75c698f52e517dd9f6f65bdb82ace18c8d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f819bd_b157790a",
+        "filename": "sanitycheck/tools/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T10:06:25Z",
+      "side": 1,
+      "message": "Add information how to stop",
+      "revId": "0c0c75c698f52e517dd9f6f65bdb82ace18c8d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1124ec84_e0cad34c",
+        "filename": "sanitycheck/tools/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T10:06:25Z",
+      "side": 1,
+      "message": "add new section\n\n### Send event \n\nGive an example of json event.\n\nAnd write that ip address must be the same as IP used in docker-compose.yml for AAF",
+      "revId": "0c0c75c698f52e517dd9f6f65bdb82ace18c8d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
