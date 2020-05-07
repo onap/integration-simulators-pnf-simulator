@@ -21,7 +21,8 @@ The Frankfurt Release is the first official release of the PNF Simulator, Netcon
 
 **Known Issues**
 
-        N/A
+        - https://jira.onap.org/browse/INT-1533
+         File watcher thread crashes when empty file is added to template folder
 
 **Security Notes**
 
@@ -61,7 +62,8 @@ Version: 1.0.1
 
 **Bug Fixes**
 
-        - No new fixes were implemented for this release
+        - https://jira.onap.org/browse/INT-1533
+        File watcher no longer crashes after adding empty file to template folder. In stead it logs information about wrong template format
 
 **Known Issues**
 
