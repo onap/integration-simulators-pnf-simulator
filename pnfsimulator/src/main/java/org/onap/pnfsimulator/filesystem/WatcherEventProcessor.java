@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BSONException;
 import org.bson.json.JsonParseException;
 import org.onap.pnfsimulator.db.Storage;
 import org.onap.pnfsimulator.template.Template;
@@ -97,7 +98,7 @@ public enum WatcherEventProcessor {
                 processor.processEvent(templatePath, storage);
             } catch (IOException e) {
                 log.error("Error during processing DB record for template.", e);
-            } catch (JsonParseException e) {
+            } catch (BSONException | JsonParseException e) {
                 log.error("Invalid JSON format provided for template.", e);
             }
         });
