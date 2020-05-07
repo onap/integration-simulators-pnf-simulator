@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d817c0c4_22c66e20",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/filesystem/WatcherEventProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-07T12:37:59Z",
+      "side": 0,
+      "message": "pls update relase-notes.rst\n\nAdd information about existing bug and new section for new release with information which bug was fixed",
+      "revId": "85bedddf8340cbbe57f941a919a980540aeeef59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
