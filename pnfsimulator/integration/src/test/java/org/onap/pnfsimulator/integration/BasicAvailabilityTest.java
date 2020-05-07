@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.NetworkInterface;
@@ -35,6 +36,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.UUID;
+
+import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,11 +49,14 @@ import org.mockito.internal.verification.VerificationOverTimeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Main.class, TestConfiguration.class}, webEnvironment = WebEnvironment.DEFINED_PORT)
 public class BasicAvailabilityTest {
+
+    private static final int VERIFICATION_TIMEOUT_MILLIS = 10000;
 
     @Autowired
     VesSimulatorController vesSimulatorController;
@@ -73,7 +79,7 @@ public class BasicAvailabilityTest {
     }
 
     @Test
-    public void simulatorShouldFailWhenTriggeredNonexistentTemplate(){
+    public void simulatorShouldFailWhenTriggeredNonexistentTemplate() {
         //given
         String startUrl = prepareRequestUrl(ACTION_START);
         String body = "{\n"
@@ -93,7 +99,7 @@ public class BasicAvailabilityTest {
             .when()
             .post(startUrl)
             .then()
-            .statusCode(400)
+            .statusCode(HttpStatus.BAD_REQUEST.value())
             .body("message", equalTo("Cannot start simulator - template any_nonexistent_template.json not found."));
     }
 
@@ -119,11 +125,11 @@ public class BasicAvailabilityTest {
             .when()
             .post(startUrl)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.OK.value())
             .body("message", equalTo("Request started"));
 
         Mockito.verify(vesSimulatorService,
-            Mockito.timeout(3000))
+            Mockito.timeout(VERIFICATION_TIMEOUT_MILLIS))
             .sendEventToDmaapV5(parameterCaptor.capture());
 
         assertThat(parameterCaptor.getValue()
@@ -142,7 +148,7 @@ public class BasicAvailabilityTest {
         when()
             .post(cancelAllUrl)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.OK.value())
             .body("message", equalTo("Event(s) was cancelled"));
 
     }
@@ -167,7 +173,7 @@ public class BasicAvailabilityTest {
         Path newFile = Files.createFile(Paths.get("..", "templates", fileName));
         Files.write(newFile, templateBody.getBytes());
 
-        given()
+        Response postResponse = given()
             .contentType("application/json")
             .body(requestBody)
             .when()
@@ -176,7 +182,8 @@ public class BasicAvailabilityTest {
         Files.delete(newFile);
 
         //then
-        Mockito.verify(vesSimulatorService, Mockito.timeout(3000))
+        assertThat(postResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+        Mockito.verify(vesSimulatorService, Mockito.timeout(VERIFICATION_TIMEOUT_MILLIS))
             .sendEventToDmaapV5(parameterCaptor.capture());
         assertThat(parameterCaptor.getValue()
             .get("fake").getAsString()).isEqualTo("template");
@@ -205,7 +212,7 @@ public class BasicAvailabilityTest {
             .when()
             .post(startUrl)
             .then()
-            .statusCode(200)
+            .statusCode(HttpStatus.OK.value())
             .body("message", equalTo("Request started"));
 
         VerificationOverTimeImpl verificator = new VerificationOverTimeImpl(100, Mockito.times(4), false, new Timer(6000));
