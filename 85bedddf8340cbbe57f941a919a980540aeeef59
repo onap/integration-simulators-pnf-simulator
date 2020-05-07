@@ -16,6 +16,24 @@
       "revId": "85bedddf8340cbbe57f941a919a980540aeeef59",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2a2918_87f37557",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/filesystem/WatcherEventProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-05-07T12:53:23Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d817c0c4_22c66e20",
+      "revId": "85bedddf8340cbbe57f941a919a980540aeeef59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
