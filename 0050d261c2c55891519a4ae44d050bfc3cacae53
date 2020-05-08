@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a88d780_ce098925",
+        "filename": "release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-08T11:11:59Z",
+      "side": 1,
+      "message": "Format:\nLink to JIRA ticket - description (name of ticket)\n\nSo in our case it should be: INT-1533: File watcher thread crashes when empty file is added to template folder",
+      "revId": "0050d261c2c55891519a4ae44d050bfc3cacae53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3eb02ba_81481721",
+        "filename": "release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-05-08T11:11:59Z",
+      "side": 1,
+      "message": "The same here",
+      "revId": "0050d261c2c55891519a4ae44d050bfc3cacae53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
