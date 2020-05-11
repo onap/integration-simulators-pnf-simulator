@@ -14,39 +14,41 @@ You have to change the IP address in file events/vesAddressConfiguration.json
   "vesServerUrl": "http://<IP_Address>:8080/eventListener/v7"
 }
 ```
-and in file events/eventToVes.json
-
-```
-{
-"vesServerUrl": "http://<IP_Address>:8080/eventListener/v7",
-"event": { ...
-```
 ### 1. Build Projects
 ```
 make start
 ```
-### 2. Send one event
-```
-make generate-event
-```
-### 2.1 Check dmaap sim
-```
-make check-dmaap
-```
-### 3. Send few events:
-### 3.1 Reconfigure ves url
+### 2. Reconfigure ves url
 ```
 make reconfigure-ves-url
 ```
-### 3.2 Send events
-```
-make generate-multiple-events
-```
-### 3.3 Check dmaap sim
+### 2.1 Check dmaap sim
+should return empty list 
 ```
 make check-dmaap
 ```
-### 4. Clear environment
+### 3. Send one event
+### 3.1 Send events:
+```
+make generate-event
+```
+### 3.2 Check dmaap sim
+should return list containing 1 event
+```
+make check-dmaap
+```
+### 4. Send few events:
+### 4.1 Send events
+this will send 4 event with interval 1 second
+```
+make generate-multiple-events
+```
+### 4.2 Check dmaap sim
+should return list containing 5 event (1 from point 3.1 and 4 from point 4.1)
+```
+make check-dmaap
+```
+### 5. Clear environment
 ```
 make stop
 ```

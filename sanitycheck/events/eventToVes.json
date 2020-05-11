@@ -1,5 +1,4 @@
 {
-  "vesServerUrl": "http://172.17.0.1:8080/eventListener/v7",
   "event": {
     "event": {
       "commonEventHeader": {
