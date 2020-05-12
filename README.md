@@ -12,13 +12,13 @@ Project consists of three submodules:
 
 Detailed information about submodules can be found in ```README.md``` in their directories.
 
-## Project building
-```
-mvn clean package
-```
 ## Building Docker images
 ```
-mvn clean package -P docker -DskipTests=true
+mvn clean install -P docker
+```
+## Run integration tests
+```
+mvn verify -P integration
 ```
 
 ##Sanity check

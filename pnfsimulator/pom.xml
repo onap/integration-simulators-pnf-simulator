@@ -272,6 +272,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <skipTests>${skip-unit-tests}</skipTests>
                     <detail>true</detail>
                     <printSummary>true</printSummary>
                     <useSystemClassLoader>false</useSystemClassLoader>
