@@ -100,10 +100,13 @@
         <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
         <spring.kafka.version>2.2.7.RELEASE</spring.kafka.version>
         <before-after-spring-test-runner.version>0.1.0</before-after-spring-test-runner.version>
-        <docker-compose-rule-junit4.version>0.29.1</docker-compose-rule-junit4.version>
+        <docker-compose-rule-junit4.version>0.34.0</docker-compose-rule-junit4.version>
         <spring-test.version>5.0.4.RELEASE</spring-test.version>
         <junit-jupiter-migrationsupport.version>5.1.0</junit-jupiter-migrationsupport.version>
         <jsonassert.version>1.5.0</jsonassert.version>
+
+        <skip-integration-tests>true</skip-integration-tests>
+        <skip-unit-tests>false</skip-unit-tests>
     </properties>
 
     <dependencyManagement>
@@ -328,10 +331,14 @@
 
     <profiles>
         <profile>
-            <id>tests</id>
+            <id>integration</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
+            <properties>
+                <skip-integration-tests>false</skip-integration-tests>
+                <skip-unit-tests>true</skip-unit-tests>
+            </properties>
             <modules>
                 <module>pnfsimulator/integration</module>
             </modules>
