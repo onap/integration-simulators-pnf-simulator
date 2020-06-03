@@ -11,9 +11,9 @@ services:
     image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tls-init-container:2.1.0
     extra_hosts:
       #set worker IP with access to AAF
-      aaf-locate.onap: 10.183.35.177
-      aaf-cm.onap: 10.183.35.177
-      aaf-service.onap: 10.183.35.177
+      aaf-locate.onap: <WORKER_IP> #for example 10.183.35.177
+      aaf-cm.onap: <WORKER_IP> #for example 10.183.35.177
+      aaf-service.onap: <WORKER_IP> #for example 10.183.35.177
     environment:
       - aaf_locate_url=https://aaf-locate.onap:31111
       - aaf_url_cm=https://aaf-cm.onap:31114
