@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "2249e39c_25069d72",
+        "filename": "sanitycheck/pnfsimulator-secured/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5775
+      },
+      "writtenOn": "2020-06-04T10:14:35Z",
+      "side": 1,
+      "message": "AAF Certman",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c2d901_d526f24b",
+        "filename": "sanitycheck/pnfsimulator-secured/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5775
+      },
+      "writtenOn": "2020-06-04T10:14:35Z",
+      "side": 1,
+      "message": "CertService (CMPv2)",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46146db1_7023c04b",
+        "filename": "sanitycheck/pnfsimulator-secured/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5775
+      },
+      "writtenOn": "2020-06-04T10:14:35Z",
+      "side": 1,
+      "message": "AAF Certman",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b98cc69_62fb71a5",
+        "filename": "sanitycheck/pnfsimulator-secured/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5775
+      },
+      "writtenOn": "2020-06-04T10:14:35Z",
+      "side": 1,
+      "message": "CertService (CMPv2)",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9812ace8_8d3437cb",
         "filename": "sanitycheck/pnfsimulator-secured/README.md",
         "patchSetId": 4
@@ -34,6 +102,23 @@
       "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0747e6_b8a19c3e",
+        "filename": "sanitycheck/pnfsimulator-secured/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5775
+      },
+      "writtenOn": "2020-06-04T10:14:35Z",
+      "side": 1,
+      "message": "Not true, should be:\nDestination VES collector should use certificate generated from the same CMPv2 server for successful HTTPS ommunication.",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
