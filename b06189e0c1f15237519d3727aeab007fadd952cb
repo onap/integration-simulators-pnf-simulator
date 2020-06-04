@@ -1,0 +1,9 @@
+Verified+1: Bogumil Zebek <bogumil.zebek@nokia.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Paweł Baniewski <pawel.baniewski@nokia.com>
+Code-Review+2: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-by: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-at: Thu, 04 Jun 2020 11:48:39 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/simulators/pnf-simulator/+/108727
+Project: integration/simulators/pnf-simulator
+Branch: refs/heads/master
