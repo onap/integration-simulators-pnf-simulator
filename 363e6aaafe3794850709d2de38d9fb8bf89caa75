@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "29b0ec60_997fbb77",
+        "filename": "sanitycheck/pnfsimulator-secured/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-06-04T07:21:52Z",
+      "side": 1,
+      "message": "You need to add information that permission to folder client-volume must be set for all users to rw chmod 777 client-volume",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ccc4986_4253dabc",
         "filename": "sanitycheck/pnfsimulator-secured/README.md",
         "patchSetId": 4
@@ -53,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "a0a2ee14_94c36698",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-certman.yml",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-06-04T07:21:52Z",
+      "side": 1,
+      "message": "\u003cWORKER_IP\u003e #for example 10.183.35.177",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee1bcd62_b9cd1855",
         "filename": "sanitycheck/pnfsimulator-secured/docker-compose-certservice.yml",
         "patchSetId": 4
@@ -64,6 +98,23 @@
       "writtenOn": "2020-06-04T05:43:21Z",
       "side": 1,
       "message": "nexus3.onap.org:10003/onap/org.onap.aaf.certservice.aaf-certservice-api:latest",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3c8301f_532fa6e2",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-certservice.yml",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-06-04T07:21:52Z",
+      "side": 1,
+      "message": "remove this line - why michal is used here ?",
       "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -98,6 +149,40 @@
       "writtenOn": "2020-06-04T05:43:21Z",
       "side": 1,
       "message": "nexus3.onap.org:10003/onap/org.onap.integration.simulators.pnfsimulator",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b6d174_05b8621d",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-ves.yml",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-06-04T07:21:52Z",
+      "side": 1,
+      "message": "pls add information to README.md that ves image should be build with auth.method\u003dcertBasicAuth",
+      "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a4b779d_b053b1f2",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-ves.yml",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-06-04T07:21:52Z",
+      "side": 1,
+      "message": "pls add information to README.md that first you need to build dmaap-simulator image locally",
       "revId": "363e6aaafe3794850709d2de38d9fb8bf89caa75",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
