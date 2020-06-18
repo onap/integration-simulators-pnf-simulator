@@ -97,22 +97,6 @@ To update vesServerUrl *PUT* method is used, example request:
   
 Note: passed vesServerUrl must be wellformed URL.
 
-
-### Running simulator   
-The recommended way is to checkout PNF Simulator project from ONAP Git repository and use *simulator*.sh script.
-If you copy *simulator.sh* script to another location, keep in mind to copy also *docker-compose.yml* and directories: *config and templates*.
-In order to run simulator, invoke ./simulator.sh -e build to build required images and then invoke ./simulator.sh -e start
-Script downloads if necessary needed Docker images and runs instances of these images. 
-After simulator start it is advisable to setup default value for target vesServerUrl. 
-
-Example request:
-
-    PUT to http://<simulator_ip>:<simulator_port>/simulator/config
-
-    {
-       "vesServerUrl": "PUT HERE VALID URL TO YOUR VES EVENT LISTENER"
-    }
-
 ### Templates
 Template is a draft event. Merging event with patch will result in valid VES event. Template itself should be a correct VES event as well as valid json object. 
 In order to apply custom template, just copy it to ./templates directory.
