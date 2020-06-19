@@ -21,3 +21,4 @@ requests==2.20.1
 websockets==7.0
 asynctest
 mock
+pytest
