@@ -66,19 +66,6 @@ resources:
             EOF
             }
 
-            docker_remove () {
-                dnf -y remove docker \
-                              docker-client \
-                              docker-client-latest \
-                              docker-common \
-                              docker-latest \
-                              docker-latest-logrotate \
-                              docker-logrotate \
-                              docker-selinux \
-                              docker-engine-selinux \
-                              docker-engine
-            }
-
             docker_install_and_configure () {
                 curl "https://releases.rancher.com/install-docker/$DOCKER_VERSION.sh" | sh
                 mkdir -p /etc/systemd/system/docker.service.d/
