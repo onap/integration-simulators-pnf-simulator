@@ -86,18 +86,18 @@ resources:
                 chmod +x /usr/local/bin/docker-compose
             }
             pnf_sim_file_checkout () {
-                cd /root; git clone https://gerrit.onap.org/r/integration
+                cd /root; git clone https://gerrit.onap.org/r/integration/simulators/pnf-simulator
             }
 
             start_pnf_simulator () {
                docker login -u docker -p docker nexus3.onap.org:10003
-               cd ~/integration/test/mocks/pnfsimulator/pnfsimulator
+               cd ~/pnf-simulator/pnfsimulator
                docker-compose up -d
             }
 
             start_netconf_simulator () {
                docker login -u docker -p docker nexus3.onap.org:10003
-               cd ~/integration/test/mocks/pnfsimulator/netconfsimulator
+               cd ~/pnf-simulator/netconfsimulator
                docker-compose up -d
             }
 
