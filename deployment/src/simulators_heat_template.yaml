@@ -45,10 +45,13 @@ resources:
             }
 
             enable_root_ssh () {
-                sed -i 's/PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+                sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
                 sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
                 service sshd restart
                 echo -e "arthur\narthur" | passwd root
+                # Drop Nova injected hook that for forbids direct root login
+                AUTHORIZED_KEYS=$(grep -o ssh-rsa.* /root/.ssh/authorized_keys)
+                echo $AUTHORIZED_KEYS > /root/.ssh/authorized_keys
             }
 
             update_os () {
