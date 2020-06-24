@@ -94,7 +94,6 @@ resources:
             }
 
             start_pnf_simulator () {
-               docker login -u docker -p docker nexus3.onap.org:10003
                cd ~/pnf-simulator/pnfsimulator
                # Add registry address to Onap image; by default locally built one is used
                sed -i 's/image: onap/image: nexus3.onap.org:10003\/onap/' docker-compose.yml
@@ -102,7 +101,6 @@ resources:
             }
 
             start_netconf_simulator () {
-               docker login -u docker -p docker nexus3.onap.org:10003
                cd ~/pnf-simulator/netconfsimulator
                # Add registry address to Onap image; by default locally built one is used
                sed -i 's/image: onap/image: nexus3.onap.org:10003\/onap/' docker-compose.yml
