@@ -70,6 +70,7 @@ resources:
             }
 
             docker_install_and_configure () {
+                export DEBIAN_FRONTEND=noninteractive
                 curl "https://releases.rancher.com/install-docker/$DOCKER_VERSION.sh" | sh
                 mkdir -p /etc/systemd/system/docker.service.d/
                 cat > /etc/systemd/system/docker.service.d/docker.conf << EOF
