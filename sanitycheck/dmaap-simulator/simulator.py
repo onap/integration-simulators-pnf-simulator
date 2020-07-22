@@ -1,30 +1,40 @@
 import json
 import logging as sys_logging
 
-from flask import Flask, request, logging
+from flask import Flask, request, logging, Response
+
 app = Flask(__name__)
 
 sys_logging.basicConfig(level=sys_logging.DEBUG)
 logger = logging.create_logger(app)
-events = []
+events = {}
 
-@app.route("/events/unauthenticated.VES_NOTIFICATION_OUTPUT", methods=['POST'])
-def event_ves_notification_output():
-    return handle_new_event(request)
 
-@app.route("/events/unauthenticated.SEC_FAULT_OUTPUT", methods=['POST'])
-def event_sec_fault_output():
-    return handle_new_event(request)
+@app.route("/events/<path:topic>", methods=['POST'])
+def event_sec_fault_output(topic):
+    return handle_new_event(topic, request)
 
-def handle_new_event(http_request):
-    receive_events = decode_request_data(http_request.data)
-    for event in receive_events:
-        events.append(json.loads(event))
-    return {}, 200
 
 @app.route("/events", methods=['GET'])
 def get_events():
-    return json.dumps(events), 200
+    resp = Response(json.dumps(events))
+    resp.headers['Content-Type'] = 'application/json'
+    return resp
+
+
+@app.route("/events/<path:topic>", methods=['GET'])
+def get_events_from_topic(topic):
+    resp = Response(json.dumps(get_events_from_map(topic)))
+    resp.headers['Content-Type'] = 'application/json'
+    return resp
+
+
+def handle_new_event(topic, http_request):
+    receive_events = decode_request_data(http_request.data)
+    for event in receive_events:
+        add_event_to_map(topic, json.loads(event))
+    return {}, 200
+
 
 def decode_request_data(request_data):
     data = request_data.decode("utf-8")
@@ -37,11 +47,27 @@ def decode_request_data(request_data):
         correct_events.append(get_correct_json(event))
     return correct_events
 
+
 def get_correct_json(incorrect_json):
     json_start_position = incorrect_json.find("{")
     correct_json = incorrect_json[json_start_position:]
     correct_json = correct_json.replace("\r", "").replace("\t", "").replace(" ", "")
     return correct_json
+
+
+def add_event_to_map(topic, event):
+    if events.__contains__(topic):
+        events[topic].append(event)
+    else:
+        events[topic] = [event]
+
+
+def get_events_from_map(topic):
+    if events.__contains__(topic):
+        return events[topic]
+    else:
+        return []
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=3904)
