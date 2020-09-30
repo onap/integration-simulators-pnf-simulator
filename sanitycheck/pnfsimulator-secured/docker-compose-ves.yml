@@ -8,14 +8,8 @@ services:
       - "8444:8443"
     networks:
       - vesnetwork
-    command: bash -c "
-      rm -f /opt/app/VESCollector/etc/keystore
-      && echo $$(cat /opt/app/VESCollector/etc/trustpasswordfile)
-      && keytool -importkeystore -srckeystore /opt/app/VESCollector/etc/cert.p12 -srcstorepass $$(cat /opt/app/VESCollector/etc/passwordfile) -srcstoretype pkcs12 -destkeystore /opt/app/VESCollector/etc/keystore -deststoretype jks -deststorepass $$(cat /opt/app/VESCollector/etc/passwordfile)
-      && bin/docker-entry.sh
-      "
     volumes:
-    - ./certservice/client-resources/client-volume/cert.p12:/opt/app/VESCollector/etc/cert.p12
+    - ./certservice/client-resources/client-volume/keystore.jks:/opt/app/VESCollector/etc/keystore
     - ./certservice/client-resources/client-volume/keystore.pass:/opt/app/VESCollector/etc/passwordfile
     - ./certservice/client-resources/client-volume/trust.jks:/opt/app/VESCollector/etc/truststore
     - ./certservice/client-resources/client-volume/truststore.pass:/opt/app/VESCollector/etc/trustpasswordfile
