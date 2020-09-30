@@ -11,18 +11,18 @@ networks:
 services:
 
   aaf-cert-service:
-    image: nexus3.onap.org:10003/onap/org.onap.aaf.certservice.aaf-certservice-api:latest
+    image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-api:2.1.0
     volumes:
-      - ./certservice/certservice-resources/cmpServers.json:/etc/onap/aaf/certservice/cmpServers.json
-      - ./certservice/certs/truststore.jks:/etc/onap/aaf/certservice/certs/truststore.jks
-      - ./certservice/certs/root.crt:/etc/onap/aaf/certservice/certs/root.crt
-      - ./certservice/certs/certServiceServer-keystore.jks:/etc/onap/aaf/certservice/certs/certServiceServer-keystore.jks
-      - ./certservice/certs/certServiceServer-keystore.p12:/etc/onap/aaf/certservice/certs/certServiceServer-keystore.p12
+      - ./certservice/certservice-resources/cmpServers.json:/etc/onap/oom/certservice/cmpServers.json
+      - ./certservice/certs/truststore.jks:/etc/onap/oom/certservice/certs/truststore.jks
+      - ./certservice/certs/root.crt:/etc/onap/oom/certservice/certs/root.crt
+      - ./certservice/certs/certServiceServer-keystore.jks:/etc/onap/oom/certservice/certs/certServiceServer-keystore.jks
+      - ./certservice/certs/certServiceServer-keystore.p12:/etc/onap/oom/certservice/certs/certServiceServer-keystore.p12
     container_name: aafcert-service
     ports:
       - "8443:8443"
     healthcheck:
-      test: ["CMD-SHELL", "curl https://localhost:8443/actuator/health --cacert /etc/onap/aaf/certservice/certs/root.crt --cert-type p12 --cert /etc/onap/aaf/certservice/certs/certServiceServer-keystore.p12 --pass secret"]
+      test: ["CMD-SHELL", "curl https://localhost:8443/actuator/health --cacert /etc/onap/oom/certservice/certs/root.crt --cert-type p12 --cert /etc/onap/oom/certservice/certs/certServiceServer-keystore.p12 --pass secret"]
       interval: 10s
       timeout: 3s
       retries: 15
@@ -30,15 +30,15 @@ services:
       - certservice-network
 
   aaf-cert-client:
-    image: nexus3.onap.org:10003/onap/org.onap.aaf.certservice.aaf-certservice-client:latest
+    image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-client:2.1.0
     container_name: aafcert-client
     env_file: ./certservice/client-resources/client-configuration.env
     networks:
       - certservice-network
     volumes:
     - ./certservice/client-resources/client-volume:/var/certs:rw
-    - ./certservice/certs/truststore.jks:/etc/onap/aaf/certservice/certs/truststore.jks
-    - ./certservice/certs/certServiceClient-keystore.jks:/etc/onap/aaf/certservice/certs/certServiceClient-keystore.jks
+    - ./certservice/certs/truststore.jks:/etc/onap/oom/certservice/certs/truststore.jks
+    - ./certservice/certs/certServiceClient-keystore.jks:/etc/onap/oom/certservice/certs/certServiceClient-keystore.jks
     depends_on:
       aaf-cert-service:
         condition: service_healthy
@@ -76,8 +76,8 @@ services:
       - pnf-simulator-network
     command: bash -c "
       while [[ $$(ls -1 /app/store | wc -l) != '4' ]]; do echo 'Waiting for certs...'; sleep 3; done
-      && mv /app/store/truststore.jks /app/store/trust.jks
-      && mv /app/store/keystore.jks /app/store/cert.p12
+      && cp /app/store/truststore.jks /app/store/trust.jks
+      && cp /app/store/keystore.jks /app/store/cert.p12
       && export CLIENT_CERT_PASS=$$(cat /app/store/keystore.pass)
       && export TRUST_CERT_PASS=$$(cat /app/store/truststore.pass)
       && java -Dspring.config.location=file:/app/application.properties  -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main
