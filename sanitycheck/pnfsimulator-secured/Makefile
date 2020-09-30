@@ -15,7 +15,7 @@ clean-pnfsim-with-certman-setup:
 	docker-compose -f docker-compose-certman.yml down
 
 clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-client-volume
-	docker rm -f aafcert-ejbca || true
+	docker rm -f oomcert-ejbca || true
 	docker-compose -f docker-compose-certservice.yml down
 	docker-compose -f docker-compose-ves.yml down
 
@@ -23,7 +23,7 @@ clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-
 	docker run \
 		-d \
 		--rm \
-		--name aafcert-ejbca \
+		--name oomcert-ejbca \
 		--hostname cahostname \
  		-p 80:8080 \
  		-p 443:8443 \
@@ -35,7 +35,7 @@ clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-
 		primekey/ejbca-ce:6.15.2.5
 
 --configure-ejbca:
-	docker exec aafcert-ejbca /opt/primekey/scripts/ejbca-configuration.sh
+	docker exec oomcert-ejbca /opt/primekey/scripts/ejbca-configuration.sh
 
 --create-client-volume:
 	mkdir -p ./certservice/client-resources/client-volume -m 777
@@ -54,4 +54,4 @@ clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-
 
 --wait-for-ejbca:
 	@echo 'Waiting for EJBCA...'
-	until docker container inspect aafcert-ejbca | grep '"Status": "healthy"'; do sleep 3; done
+	until docker container inspect oomcert-ejbca | grep '"Status": "healthy"'; do sleep 3; done
