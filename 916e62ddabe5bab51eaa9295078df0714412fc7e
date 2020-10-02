@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e92b4b_be1647f3",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-certservice.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-10-02T11:25:36Z",
+      "side": 1,
+      "message": "Suggest to use the same command in 79 and 80 lines. Both as \u0027cp\u0027 would be find imo.",
+      "revId": "916e62ddabe5bab51eaa9295078df0714412fc7e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54c77982_14a772ad",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-certservice.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-10-02T11:25:36Z",
+      "side": 1,
+      "message": "It would be better to mount volume with certs to different location than now and \u0027cp\u0027 needed files to /app/store/ with proper names in \u0027command\u0027 part. This way volume will stay unchanged when other containers may try to use it e.g. VES.",
+      "revId": "916e62ddabe5bab51eaa9295078df0714412fc7e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36494251_cec1e1f5",
+        "filename": "sanitycheck/pnfsimulator-secured/docker-compose-ves.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5234
+      },
+      "writtenOn": "2020-10-02T11:25:36Z",
+      "side": 1,
+      "message": "Is this echo needed? If no then the whole \u0027command\u0027 part could be removed.",
+      "revId": "916e62ddabe5bab51eaa9295078df0714412fc7e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
