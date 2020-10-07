@@ -9,7 +9,7 @@ chosen source.
 Makefile offers functionalities that allows to:    
 
     * Run PNF simulator with fetching certs from AAF Certman
-    * Run PNF simulator with fetching certs from AAF Certservice (CMPv2)
+    * Run PNF simulator with fetching certs from OOM Certservice (CMPv2)
 
 ## Fetching from AAF Certman
 ### Description
@@ -103,7 +103,7 @@ To remove pnf-simulator containers use:
 make clean-pnfsim-with-certman-setup
 ```
 
-## Fetching certificates from AAF Certservice (CMPv2)
+## Fetching certificates from OOM Certservice (CMPv2)
 ### Description
 
 Running Makefile with Certservice target will start the following flow:
