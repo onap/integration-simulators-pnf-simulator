@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9c6ea36_3db40e70",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-10-08T08:43:09Z",
+      "side": 1,
+      "message": "normal to see such hardcoded stuff?",
+      "revId": "a195ff5238a17a8c7525e0e75de66d0ac6b19708",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
