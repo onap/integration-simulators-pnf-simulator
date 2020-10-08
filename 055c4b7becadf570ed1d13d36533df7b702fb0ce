@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48ac0b33_fb9c03ab",
+        "filename": "pnfsimulator/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "rename file to mongo_db_schema_creation.py",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1bb3b3f_5e226dbd",
+        "filename": "pnfsimulator/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "create requirements.txt file in the folder where is pnf_simulator_db.py\ntype concrete version of pymongo, for example pymongo\u003d\u003dx.x.x, in requirements.txt\nthen use python -m insatll -r /opt/db/config/requirements.txt",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "372358c2_80bd323c",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "rename file to be more informative, for example: mongo_db_schema_creation.py",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c9ddb09_5b915ecf",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "extract duplicated password to const. For example: MONGO_DB_PASSWORD\u003d...",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f33a8a05_6fa15837",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "put this line near the usage",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03b91595_ec1aec3a",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "extract this line to function: create_db_with_user_permissions()",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4468fc_699f9aa0",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "extract these if statements to method: init_mongo_db()",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc997a3_98647818",
+        "filename": "pnfsimulator/config/pnf_simulator_db.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2020-10-08T09:11:21Z",
+      "side": 1,
+      "message": "create if __name__ \u003d\u003d \"__main__\":\n  client \u003d ...\n  create_db_with_user_permissions()\n  init_mongo_db()\n  puth here this below print",
+      "revId": "055c4b7becadf570ed1d13d36533df7b702fb0ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
