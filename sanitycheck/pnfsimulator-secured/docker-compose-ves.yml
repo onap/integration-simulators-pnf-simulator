@@ -1,4 +1,11 @@
-version: '3'
+version: "2.1"
+
+networks:
+  public:
+    external: true
+  onap:
+    external: true
+
 services:
   ves:
     container_name: ves
@@ -7,19 +14,20 @@ services:
       - "8082:8080"
       - "8444:8443"
     networks:
-      - vesnetwork
+      - onap
+      - public
     volumes:
-    - ./certservice/client-resources/client-volume/keystore.jks:/opt/app/VESCollector/etc/keystore
-    - ./certservice/client-resources/client-volume/keystore.pass:/opt/app/VESCollector/etc/passwordfile
-    - ./certservice/client-resources/client-volume/trust.jks:/opt/app/VESCollector/etc/truststore
-    - ./certservice/client-resources/client-volume/truststore.pass:/opt/app/VESCollector/etc/trustpasswordfile
+      - ./certservice/client-resources/client-volume-for-ves/keystore.jks:/opt/app/VESCollector/etc/keystore
+      - ./certservice/client-resources/client-volume-for-ves/keystore.pass:/opt/app/VESCollector/etc/passwordfile
+      - ./certservice/client-resources/client-volume-for-ves/truststore.jks:/opt/app/VESCollector/etc/truststore
+      - ./certservice/client-resources/client-volume-for-ves/truststore.pass:/opt/app/VESCollector/etc/trustpasswordfile
+    depends_on:
+      - onap-dmaap
+
   onap-dmaap:
     container_name: dmaap
     image: dmaap-simulator
     ports:
       - "3904:3904"
     networks:
-      - vesnetwork
-networks:
-  vesnetwork:
-    driver: bridge
+      - onap
