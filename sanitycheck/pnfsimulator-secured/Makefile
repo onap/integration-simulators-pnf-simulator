@@ -3,7 +3,7 @@ default:
 
 start-ejbca: --run-ejbca-container --wait-for-ejbca --configure-ejbca
 
-start-pnfsim-with-certservice-certs: --create-certservice-internal-certs --create-client-volume --run-certservice-and-pnfsim-containers
+start-pnfsim-with-certservice-certs: --create-certservice-internal-certs --create-client-volumes --create-network-for-communication-between-ves-and-pnfsim --run-certservice-and-pnfsim-containers
 
 start-local-secured-ves:
 	docker-compose -f docker-compose-ves.yml up
@@ -14,10 +14,11 @@ start-pnfsim-with-certman-certs:
 clean-pnfsim-with-certman-setup:
 	docker-compose -f docker-compose-certman.yml down
 
-clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-client-volume
+clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-client-volumes
 	docker rm -f oomcert-ejbca || true
 	docker-compose -f docker-compose-certservice.yml down
 	docker-compose -f docker-compose-ves.yml down
+	make -C network stop-ves-pnfsim-network
 
 --run-ejbca-container:
 	docker run \
@@ -37,8 +38,9 @@ clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-
 --configure-ejbca:
 	docker exec oomcert-ejbca /opt/primekey/scripts/ejbca-configuration.sh
 
---create-client-volume:
+--create-client-volumes:
 	mkdir -p ./certservice/client-resources/client-volume -m 777
+	mkdir -p ./certservice/client-resources/client-volume-for-ves -m 777
 
 --run-certservice-and-pnfsim-containers:
 	docker-compose -f docker-compose-certservice.yml up
@@ -46,11 +48,15 @@ clean-pnfsim-with-certservice-setup: --clean-certservice-internal-certs --clean-
 --create-certservice-internal-certs:
 	make -C certservice/certs all
 
+--create-network-for-communication-between-ves-and-pnfsim:
+	make -C network start-ves-pnfsim-network
+
 --clean-certservice-internal-certs:
 	make -C certservice/certs clear
 
---clean-client-volume:
+--clean-client-volumes:
 	rm -rf certservice/client-resources/client-volume
+	rm -rf certservice/client-resources/client-volume-for-ves
 
 --wait-for-ejbca:
 	@echo 'Waiting for EJBCA...'

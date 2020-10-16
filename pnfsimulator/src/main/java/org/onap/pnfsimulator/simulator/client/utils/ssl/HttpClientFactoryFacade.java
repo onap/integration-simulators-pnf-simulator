@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2019 Nokia. All rights reserved.
+ * Copyright (C) 2020 Nokia. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,24 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import java.io.Serializable;
+import org.apache.http.client.HttpClient;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
-@Component
-@ConfigurationProperties(prefix = "ssl")
-@RefreshScope
-@Primary
-@Getter
-@Setter
-public class SslAuthenticationHelper implements Serializable {
+public class HttpClientFactoryFacade {
 
-    private boolean clientCertificateEnabled;
-    private boolean strictHostnameVerification;
-    private String clientCertificateDir;
-    private String clientCertificatePassword;
-    private String trustStoreDir;
-    private String trustStorePassword;
+    private HttpClientFactoryFacade() {
+    }
+
+    private static final CertificateReader CERTIFICATE_READER = new CertificateReader();
+    private static final SSLContextFactory SSL_CONTEXT_FACTORY = new SSLContextFactory(CERTIFICATE_READER);
+    private static final HttpClientFactory HTTP_CLIENT_FACTORY = new HttpClientFactory(SSL_CONTEXT_FACTORY);
+
+    public static HttpClient create(String url, SslAuthenticationHelper sslAuthenticationHelper) throws GeneralSecurityException, IOException {
+        return HTTP_CLIENT_FACTORY.create(url, sslAuthenticationHelper);
+    }
 }

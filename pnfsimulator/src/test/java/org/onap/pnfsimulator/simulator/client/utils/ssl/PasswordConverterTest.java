@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2019 Nokia. All rights reserved.
+ * Copyright (C) 2020 Nokia. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,28 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import java.io.Serializable;
+import org.junit.jupiter.api.Test;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@Component
-@ConfigurationProperties(prefix = "ssl")
-@RefreshScope
-@Primary
-@Getter
-@Setter
-public class SslAuthenticationHelper implements Serializable {
+class PasswordConverterTest {
 
-    private boolean clientCertificateEnabled;
-    private boolean strictHostnameVerification;
-    private String clientCertificateDir;
-    private String clientCertificatePassword;
-    private String trustStoreDir;
-    private String trustStorePassword;
+    @Test
+    void shouldSuccessfullyConvert() {
+        // given, when
+        final char[] result = PasswordConverter.convert("sw ./#%");
+
+        // then
+        assertArrayEquals(new char[]{'s', 'w', ' ', '.', '/', '#', '%'}, result);
+    }
+
+    @Test
+    void shouldReturnNull_whenNullPasswordUsed() {
+        // given, when, then
+        assertNull(PasswordConverter.convert(null));
+    }
 }

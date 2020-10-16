@@ -398,7 +398,7 @@ Warning: according to VES implementation which uses certificate with Common Name
  1. Generate a private key for the SSL client: ```openssl genrsa -out client.key 2048```
  2. Use the client’s private key to generate a cert request: ```openssl req -new -key client.key -out client.csr```
  3. Issue the client certificate using the cert request and the CA cert/key: ```openssl x509 -req -in client.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out client.crt -days 500 -sha256```
- 4. Convert the client certificate and private key to pkcs#12 format: openssl pkcs12 -export -inkey client.key -in client.cer -out client.p12
+ 4. Convert the client certificate and private key to pkcs#12 format: ```openssl pkcs12 -export -inkey client.key -in client.crt -out client.p12```
  5. Copy pkcs file into pnf simulators folder: ```/app/store/```
  
 #### How to generate correct truststore for pnf-simulator
@@ -417,8 +417,9 @@ For this purpose:
 2. If you want to replace keystore or truststore put them into the /app/store folder.
 3. Edit /app/application.properties file as follow:
 - ssl.clientCertificateEnabled=true (to disable/enable client authentication)
+- ssl.strictHostnameVerification=true (to disable/enable hostname verification)
 - ssl.clientCertificateDir=/app/store/client.p12 (to replace keystore file)
 - ssl.clientCertificatePassword=collector (to replace password for keystore)
 - ssl.trustStoreDir=/app/store/trustStore (to replace truststore file)
 - ssl.trustStorePassword=collector (to replace password for truststore)
-4. Refresh configuration by sending simple POST request to correct actuator endpoint at: ```curl http://localhost:5001/refresh -H 'Content-type: application/json' -X POST --data '{}'```
+4. Refresh configuration by sending simple POST request to correct actuator endpoint at: ```curl http://localhost:5000/refresh -H 'Content-type: application/json' -X POST --data '{}'```
