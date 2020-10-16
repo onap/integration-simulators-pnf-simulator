@@ -7,6 +7,8 @@ networks:
   pnf-simulator-network:
     driver: bridge
     name: pnf-simulator-network
+  ves-pnfsim:
+    external: true
 
 services:
 
@@ -43,6 +45,20 @@ services:
       oom-cert-service:
         condition: service_healthy
 
+  oom-cert-client-for-ves:
+    image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-client:2.1.0
+    container_name: oomcert-client-for-ves
+    env_file: ./certservice/client-resources/client-configuration-for-ves.env
+    networks:
+      - certservice-network
+    volumes:
+      - ./certservice/client-resources/client-volume-for-ves:/var/certs:rw
+      - ./certservice/certs/truststore.jks:/etc/onap/oom/certservice/certs/truststore.jks
+      - ./certservice/certs/certServiceClient-keystore.jks:/etc/onap/oom/certservice/certs/certServiceClient-keystore.jks
+    depends_on:
+      oom-cert-service:
+        condition: service_healthy
+
   mongo:
     image: mongo
     restart: always
@@ -74,6 +90,7 @@ services:
       - "5000:5000"
     networks:
       - pnf-simulator-network
+      - ves-pnfsim
     command: bash -c "
       while [[ $$(ls -1 /app/store | wc -l) != '4' ]]; do echo 'Waiting for certs...'; sleep 3; done
       && cp /app/store/truststore.jks /app/store/trust.jks

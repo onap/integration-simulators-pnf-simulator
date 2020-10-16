@@ -22,10 +22,11 @@ package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
@@ -83,32 +84,15 @@ public enum SslSupportLevel {
         }
     },
     CLIENT_CERT_AUTH {
-        @Override
         public HttpClient getClient(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper)
                 throws GeneralSecurityException, IOException {
-
-            SSLContext sslContext = SSLContexts.custom()
-                    .loadKeyMaterial(readCertificate(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), getPasswordAsCharArray(sslAuthenticationHelper.getClientCertificatePassword()))
-                    .loadTrustMaterial(readCertificate(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
-                    .build();
-
-            return HttpClients.custom()
-                    .setSSLContext(sslContext)
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setDefaultRequestConfig(requestConfig)
-                    .build();
+            return prepare(requestConfig, sslAuthenticationHelper, false);
         }
 
-        private KeyStore readCertificate(String certificate, String password, String type) throws GeneralSecurityException, IOException {
-            try (InputStream keyStoreStream = new FileInputStream(certificate)) {
-                KeyStore keyStore = KeyStore.getInstance(type);
-                keyStore.load(keyStoreStream, getPasswordAsCharArray(password));
-                return keyStore;
-            }
-        }
-
-        private char[] getPasswordAsCharArray(String clientCertificatePassword) {
-            return Optional.ofNullable(clientCertificatePassword).map(String::toCharArray).orElse(null);
+    },
+    CLIENT_CERT_AUTH_STRICT {
+        public HttpClient getClient(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper) throws GeneralSecurityException, IOException {
+            return prepare(requestConfig, sslAuthenticationHelper, true);
         }
     };
 
@@ -122,4 +106,30 @@ public enum SslSupportLevel {
     public abstract HttpClient getClient(RequestConfig config, SslAuthenticationHelper sslAuthenticationHelper)
             throws GeneralSecurityException, IOException;
 
+    private static HttpClient prepare(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper, boolean shouldValidateHostname) throws GeneralSecurityException, IOException {
+        return HttpClients.custom()
+                .setSSLContext(prepare(sslAuthenticationHelper))
+                .setDefaultRequestConfig(requestConfig)
+                .setSSLHostnameVerifier(shouldValidateHostname ? new DefaultHostnameVerifier() : new NoopHostnameVerifier())
+                .build();
+    }
+
+    private static SSLContext prepare(SslAuthenticationHelper sslAuthenticationHelper) throws GeneralSecurityException, IOException {
+        return SSLContexts.custom()
+                .loadKeyMaterial(readCertificate(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), convert(sslAuthenticationHelper.getClientCertificatePassword()))
+                .loadTrustMaterial(readCertificate(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
+                .build();
+    }
+
+    private static KeyStore readCertificate(String certificate, String password, String type) throws GeneralSecurityException, IOException {
+        try (InputStream keyStoreStream = new FileInputStream(certificate)) {
+            KeyStore keyStore = KeyStore.getInstance(type);
+            keyStore.load(keyStoreStream, convert(password));
+            return keyStore;
+        }
+    }
+
+    private static char[] convert(String clientCertificatePassword) {
+        return Optional.ofNullable(clientCertificatePassword).map(String::toCharArray).orElse(null);
+    }
 }
