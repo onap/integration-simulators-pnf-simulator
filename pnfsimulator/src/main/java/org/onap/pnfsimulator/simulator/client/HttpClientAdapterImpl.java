@@ -22,12 +22,11 @@ package org.onap.pnfsimulator.simulator.client;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.HttpClientFactory;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
-import org.onap.pnfsimulator.simulator.client.utils.ssl.SslSupportLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -45,26 +44,16 @@ import static org.onap.pnfsimulator.logging.MdcVariables.X_ONAP_REQUEST_ID;
 
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
-    private static final int CONNECTION_TIMEOUT = 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientAdapterImpl.class);
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
-    private static final RequestConfig CONFIG = RequestConfig.custom()
-        .setConnectTimeout(CONNECTION_TIMEOUT)
-        .setConnectionRequestTimeout(CONNECTION_TIMEOUT)
-        .setSocketTimeout(CONNECTION_TIMEOUT)
-        .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
-    private SslSupportLevel sslSupportLevel;
-    private HttpClient client;
+    private final HttpClient client;
     private final String targetUrl;
 
     public HttpClientAdapterImpl(String targetUrl, SslAuthenticationHelper sslAuthenticationHelper)
-        throws IOException, GeneralSecurityException {
-        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled()
-            ? SslSupportLevel.CLIENT_CERT_AUTH
-            : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
-        this.client = sslSupportLevel.getClient(CONFIG, sslAuthenticationHelper);
+            throws IOException, GeneralSecurityException {
+        this.client = HttpClientFactory.create(targetUrl, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }
 
@@ -82,10 +71,6 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: {}", e.getMessage(), e.getCause());
         }
-    }
-
-    public SslSupportLevel getSslSupportLevel() {
-        return sslSupportLevel;
     }
 
     private HttpResponse sendAndRetrieve(String content) throws IOException {
