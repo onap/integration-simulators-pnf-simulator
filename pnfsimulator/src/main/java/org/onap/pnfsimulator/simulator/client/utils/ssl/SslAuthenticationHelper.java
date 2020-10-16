@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component;
 public class SslAuthenticationHelper implements Serializable {
 
     private boolean clientCertificateEnabled;
+    private boolean strictHostnameVerification;
     private String clientCertificateDir;
     private String clientCertificatePassword;
     private String trustStoreDir;
