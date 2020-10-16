@@ -8,11 +8,12 @@ services:
       - "8444:8443"
     networks:
       - vesnetwork
+      - ves-pnfsim
     volumes:
-    - ./certservice/client-resources/client-volume/keystore.jks:/opt/app/VESCollector/etc/keystore
-    - ./certservice/client-resources/client-volume/keystore.pass:/opt/app/VESCollector/etc/passwordfile
-    - ./certservice/client-resources/client-volume/trust.jks:/opt/app/VESCollector/etc/truststore
-    - ./certservice/client-resources/client-volume/truststore.pass:/opt/app/VESCollector/etc/trustpasswordfile
+      - ./certservice/client-resources/client-volume-for-ves/keystore.jks:/opt/app/VESCollector/etc/keystore
+      - ./certservice/client-resources/client-volume-for-ves/keystore.pass:/opt/app/VESCollector/etc/passwordfile
+      - ./certservice/client-resources/client-volume-for-ves/truststore.jks:/opt/app/VESCollector/etc/truststore
+      - ./certservice/client-resources/client-volume-for-ves/truststore.pass:/opt/app/VESCollector/etc/trustpasswordfile
   onap-dmaap:
     container_name: dmaap
     image: dmaap-simulator
@@ -23,3 +24,5 @@ services:
 networks:
   vesnetwork:
     driver: bridge
+  ves-pnfsim:
+    external: true

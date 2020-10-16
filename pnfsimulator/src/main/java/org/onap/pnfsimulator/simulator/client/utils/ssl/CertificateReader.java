@@ -17,29 +17,22 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
+class CertificateReader {
 
-@Component
-@ConfigurationProperties(prefix = "ssl")
-@RefreshScope
-@Primary
-@Getter
-@Setter
-public class SslAuthenticationHelper implements Serializable {
-
-    private boolean clientCertificateEnabled;
-    private boolean strictHostnameVerification;
-    private String clientCertificateDir;
-    private String clientCertificatePassword;
-    private String trustStoreDir;
-    private String trustStorePassword;
+    KeyStore read(String certificate, String password, String type) throws GeneralSecurityException, IOException {
+        try (InputStream keyStoreStream = new FileInputStream(certificate)) {
+            KeyStore keyStore = KeyStore.getInstance(type);
+            keyStore.load(keyStoreStream, PasswordConverter.convert(password));
+            return keyStore;
+        }
+    }
 }
