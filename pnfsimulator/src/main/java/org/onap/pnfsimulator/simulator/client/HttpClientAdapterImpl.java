@@ -36,6 +36,7 @@ import org.slf4j.MarkerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.util.UUID;
 
@@ -55,16 +56,12 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         .setSocketTimeout(CONNECTION_TIMEOUT)
         .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
-    private SslSupportLevel sslSupportLevel;
     private HttpClient client;
     private final String targetUrl;
 
     public HttpClientAdapterImpl(String targetUrl, SslAuthenticationHelper sslAuthenticationHelper)
-        throws IOException, GeneralSecurityException {
-        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled()
-            ? SslSupportLevel.CLIENT_CERT_AUTH
-            : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
-        this.client = sslSupportLevel.getClient(CONFIG, sslAuthenticationHelper);
+            throws IOException, GeneralSecurityException {
+        this.client = prepare(targetUrl, sslAuthenticationHelper).getClient(CONFIG, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }
 
@@ -84,7 +81,15 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         }
     }
 
-    public SslSupportLevel getSslSupportLevel() {
+    private SslSupportLevel prepare(String targetUrl, SslAuthenticationHelper sslAuthenticationHelper) throws MalformedURLException {
+        SslSupportLevel sslSupportLevel;
+        if (!sslAuthenticationHelper.isClientCertificateEnabled()) {
+            sslSupportLevel = SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
+        } else if (sslAuthenticationHelper.isStrictHostnameVerification()) {
+            sslSupportLevel = SslSupportLevel.CLIENT_CERT_AUTH_STRICT;
+        } else {
+            sslSupportLevel = SslSupportLevel.CLIENT_CERT_AUTH;
+        }
         return sslSupportLevel;
     }
 
