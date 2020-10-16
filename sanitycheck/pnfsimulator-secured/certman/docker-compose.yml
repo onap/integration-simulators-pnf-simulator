@@ -32,7 +32,7 @@ services:
     networks:
       - tls-init-network
     volumes:
-      - ../../pnfsimulator/db:/docker-entrypoint-initdb.d
+      - ../../../pnfsimulator/db:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"
 
@@ -58,9 +58,9 @@ services:
       && java -Dspring.config.location=file:/app/application.properties -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main
       "
     volumes:
-      - ../../pnfsimulator/logs:/var/log
-      - ../../pnfsimulator/templates:/app/templates
-      - ../../pnfsimulator/src/main/resources/application.properties:/app/application.properties
+      - ../../../pnfsimulator/logs:/var/log
+      - ../../../pnfsimulator/templates:/app/templates
+      - ../../../pnfsimulator/src/main/resources/application.properties:/app/application.properties
       - certs-volume:/app/store
     networks:
       - tls-init-network
