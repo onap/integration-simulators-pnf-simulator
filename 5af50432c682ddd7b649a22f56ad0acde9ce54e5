@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "360f194d_278a1662",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6931
+      },
+      "writtenOn": "2020-10-19T12:33:52Z",
+      "side": 1,
+      "message": "you can also add test about nonexistent password file",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa0789a_b609d3ea",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 6931
+      },
+      "writtenOn": "2020-10-19T12:33:52Z",
+      "side": 1,
+      "message": "you have a constant for it",
+      "range": {
+        "startLine": 89,
+        "startChar": 72,
+        "endLine": 89,
+        "endChar": 94
+      },
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
