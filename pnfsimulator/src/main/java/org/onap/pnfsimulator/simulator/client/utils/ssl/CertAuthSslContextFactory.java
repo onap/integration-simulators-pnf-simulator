@@ -20,27 +20,34 @@
 
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
+import javax.net.ssl.SSLContext;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContexts;
 
-class CertificateReader {
+class CertAuthSslContextFactory {
 
-    KeyStore read(String certificatePath, String passwordPath, String type) throws GeneralSecurityException, IOException {
-        try (InputStream keyStoreStream = new FileInputStream(certificatePath)) {
-            KeyStore keyStore = KeyStore.getInstance(type);
-            keyStore.load(keyStoreStream, readPassword(passwordPath));
-            return keyStore;
-        }
+    private final CertificateReader certificateReader;
+
+    CertAuthSslContextFactory(CertificateReader certificateReader) {
+        this.certificateReader = certificateReader;
     }
 
-    char[] readPassword(String passwordPath) throws IOException {
-        final String password = Files.readString(Path.of(passwordPath));
-        return PasswordConverter.convert(password);
+    SSLContext createSslContext(SslAuthenticationHelper sslAuthenticationHelper)
+        throws GeneralSecurityException, IOException {
+        final String keystorePasswordPath = sslAuthenticationHelper.getClientCertificatePasswordPath();
+
+        final KeyStore keystore = certificateReader.read(sslAuthenticationHelper.getClientCertificatePath(),
+            keystorePasswordPath, "PKCS12");
+        final KeyStore truststore = certificateReader.read(sslAuthenticationHelper.getTrustStorePath(),
+            sslAuthenticationHelper.getTrustStorePasswordPath(), "JKS");
+
+        return SSLContexts.custom()
+            .loadKeyMaterial(keystore, certificateReader.readPassword(keystorePasswordPath))
+            .loadTrustMaterial(truststore, new TrustSelfSignedStrategy())
+            .build();
     }
 
 }
