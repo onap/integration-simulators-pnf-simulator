@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9e98e2f1_a23f2d3e",
+        "filename": "pnfsimulator/src/main/resources/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5775
+      },
+      "writtenOn": "2020-10-19T13:27:14Z",
+      "side": 1,
+      "message": "Mixture of AAF CertMan paths (keystore, password) and CMPv2 paths (password files).\nI propose to put here by default CMPv2 paths to keystore and truststore:\nssl.clientCertificatePath\u003d/app/store/keystore.p12\nssl.trustStorePath\u003d/app/store/truststore.p12\n\nI propose to rename files from store directory to keystore.p12 and truststore.jks and adjust two docker compose files:\n* in Certman version copy all files (cp /app/store/trust.jks /app/store/truststore.p12\n      \u0026\u0026 cp /app/store/cert.p12 /app/store/keystore.p12 \u0026\u0026 cp /app/store/p12.pass /apt/store/keystore.pass \u0026\u0026 cp /app/store/trust.pass /app/store/truststore.pass) \n* don\u0027 copy anything in CMPv2 docker compose\n* adjust env file for PNF simulator to request OUTPUT_TYPE\u003dP12",
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "360f194d_278a1662",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
         "patchSetId": 1
