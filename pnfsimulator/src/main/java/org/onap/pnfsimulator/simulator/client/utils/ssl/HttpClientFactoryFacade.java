@@ -20,10 +20,9 @@
 
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import org.apache.http.client.HttpClient;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import org.apache.http.client.HttpClient;
 
 public class HttpClientFactoryFacade {
 
@@ -31,7 +30,8 @@ public class HttpClientFactoryFacade {
     }
 
     private static final CertificateReader CERTIFICATE_READER = new CertificateReader();
-    private static final SSLContextFactory SSL_CONTEXT_FACTORY = new SSLContextFactory(CERTIFICATE_READER);
+    private static final CertAuthSslContextFactory CERT_AUTH_SSL_CONTEXT_FACTORY = new CertAuthSslContextFactory(CERTIFICATE_READER);
+    private static final SSLContextFactory SSL_CONTEXT_FACTORY = new SSLContextFactory(CERT_AUTH_SSL_CONTEXT_FACTORY);
     private static final HttpClientFactory HTTP_CLIENT_FACTORY = new HttpClientFactory(SSL_CONTEXT_FACTORY);
 
     public static HttpClient create(String url, SslAuthenticationHelper sslAuthenticationHelper) throws GeneralSecurityException, IOException {

@@ -38,8 +38,8 @@ public class SslAuthenticationHelper implements Serializable {
 
     private boolean clientCertificateEnabled;
     private boolean strictHostnameVerification;
-    private String clientCertificateDir;
-    private String clientCertificatePassword;
-    private String trustStoreDir;
-    private String trustStorePassword;
+    private String clientCertificatePath;
+    private String clientCertificatePasswordPath;
+    private String trustStorePath;
+    private String trustStorePasswordPath;
 }
