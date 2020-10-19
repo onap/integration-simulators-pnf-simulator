@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018,2020 Nokia. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,28 +20,21 @@
 
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+import javax.net.ssl.SSLContext;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustAllStrategy;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.net.ssl.SSLContext;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.KeyStore;
-import java.util.Optional;
 
 public enum SslSupportLevel {
 
@@ -86,29 +79,12 @@ public enum SslSupportLevel {
         @Override
         public HttpClient getClient(RequestConfig requestConfig, SslAuthenticationHelper sslAuthenticationHelper)
                 throws GeneralSecurityException, IOException {
-
-            SSLContext sslContext = SSLContexts.custom()
-                    .loadKeyMaterial(readCertificate(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), getPasswordAsCharArray(sslAuthenticationHelper.getClientCertificatePassword()))
-                    .loadTrustMaterial(readCertificate(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
-                    .build();
-
+            final SSLContext sslContext = CertAuthSslContextFactory.createSslContext(sslAuthenticationHelper);
             return HttpClients.custom()
                     .setSSLContext(sslContext)
                     .setSSLHostnameVerifier(new NoopHostnameVerifier())
                     .setDefaultRequestConfig(requestConfig)
                     .build();
-        }
-
-        private KeyStore readCertificate(String certificate, String password, String type) throws GeneralSecurityException, IOException {
-            try (InputStream keyStoreStream = new FileInputStream(certificate)) {
-                KeyStore keyStore = KeyStore.getInstance(type);
-                keyStore.load(keyStoreStream, getPasswordAsCharArray(password));
-                return keyStore;
-            }
-        }
-
-        private char[] getPasswordAsCharArray(String clientCertificatePassword) {
-            return Optional.ofNullable(clientCertificatePassword).map(String::toCharArray).orElse(null);
         }
     };
 
