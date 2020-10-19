@@ -44,8 +44,10 @@ clean-all: --clean-pnfsim --clean-env
 
 --clean-pnfsim:
 	docker-compose -f docker-compose-pnfsim.yml down
-	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/cert.p12 || true
 	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/trust.jks || true
+	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/cert.p12 || true
+	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/p12.pass || true
+	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/trust.pass || true
 
 --clean-env:
 	docker-compose -f docker-compose-ves-dmaap.yml down

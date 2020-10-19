@@ -44,10 +44,10 @@ services:
       - public
     command: bash -c "
       while [[ $$(ls -1 /app/store | wc -l) != '4' ]]; do echo 'Waiting for certs...'; sleep 3; done
-      && cp /app/store/truststore.jks /app/store/trust.jks
-      && cp /app/store/keystore.jks /app/store/cert.p12
-      && export CLIENT_CERT_PASS=$$(cat /app/store/keystore.pass)
-      && export TRUST_CERT_PASS=$$(cat /app/store/truststore.pass)
+      && cp /app/store/truststore.p12 /app/store/trust.jks
+      && cp /app/store/keystore.p12 /app/store/cert.p12
+      && cp /app/store/keystore.pass /app/store/p12.pass
+      && cp /app/store/truststore.pass /app/store/trust.pass
       && java -Dspring.config.location=file:/app/application.properties  -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main
       "
     volumes:
