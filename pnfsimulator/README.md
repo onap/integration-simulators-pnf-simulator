@@ -418,8 +418,8 @@ For this purpose:
 3. Edit /app/application.properties file as follow:
 - ssl.clientCertificateEnabled=true (to disable/enable client authentication)
 - ssl.strictHostnameVerification=true (to disable/enable hostname verification)
-- ssl.clientCertificateDir=/app/store/client.p12 (to replace keystore file)
-- ssl.clientCertificatePassword=collector (to replace password for keystore)
-- ssl.trustStoreDir=/app/store/trustStore (to replace truststore file)
-- ssl.trustStorePassword=collector (to replace password for truststore)
-4. Refresh configuration by sending simple POST request to correct actuator endpoint at: ```curl http://localhost:5000/refresh -H 'Content-type: application/json' -X POST --data '{}'```
+- ssl.clientCertificatePath=/app/store/client.p12 (to replace with keystore file)
+- ssl.clientCertificatePasswordPath=/app/store/keystore.pass (to replace with keystore password file)
+- ssl.trustStorePath=/app/store/trustStore (to replace with truststore file)
+- ssl.trustStorePasswordPath=/app/store/truststore.pass (to replace with truststore password file)
+4. Refresh configuration by sending simple POST request to correct actuator endpoint at: ```curl http://localhost:5001/refresh -H 'Content-type: application/json' -X POST --data '{}'```

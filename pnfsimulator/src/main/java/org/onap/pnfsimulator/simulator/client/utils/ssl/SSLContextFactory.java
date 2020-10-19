@@ -19,32 +19,26 @@
  */
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import org.apache.http.conn.ssl.TrustAllStrategy;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.SSLContexts;
-
-import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.SSLContext;
+import org.apache.http.conn.ssl.TrustAllStrategy;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.ssl.SSLContextBuilder;
 
 class SSLContextFactory {
     private static final TrustStrategy TRUST_STRATEGY_ALWAYS = new TrustAllStrategy();
 
-    private final CertificateReader certificateReader;
+    private final CertAuthSslContextFactory certAuthSslContextFactory;
 
-    SSLContextFactory(CertificateReader certificateReader) {
-        this.certificateReader = certificateReader;
+    SSLContextFactory(CertAuthSslContextFactory certAuthSslContextFactory) {
+        this.certAuthSslContextFactory = certAuthSslContextFactory;
     }
     SSLContext create(SslAuthenticationHelper sslAuthenticationHelper) throws GeneralSecurityException, IOException {
-        return SSLContexts.custom()
-                .loadKeyMaterial(certificateReader.read(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), PasswordConverter.convert(sslAuthenticationHelper.getClientCertificatePassword()))
-                .loadTrustMaterial(certificateReader.read(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
-                .build();
+        return certAuthSslContextFactory.createSslContext(sslAuthenticationHelper);
     }
 
     SSLContext createTrustAlways() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {

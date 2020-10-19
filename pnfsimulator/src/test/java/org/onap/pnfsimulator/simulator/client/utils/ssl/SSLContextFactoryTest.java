@@ -20,26 +20,27 @@
 
 package org.onap.pnfsimulator.simulator.client.utils.ssl;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 class SSLContextFactoryTest {
     private CertificateReader certificateReaderMock;
+    private CertAuthSslContextFactory certAuthSslContextFactory;
     private SSLContextFactory sslContextFactory;
 
     @BeforeEach
     void setup() {
         certificateReaderMock = mock(CertificateReader.class);
-        sslContextFactory = new SSLContextFactory(certificateReaderMock);
+        certAuthSslContextFactory = new CertAuthSslContextFactory(certificateReaderMock);
+        sslContextFactory = new SSLContextFactory(certAuthSslContextFactory);
     }
 
     @Test

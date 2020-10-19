@@ -53,8 +53,10 @@ services:
       - "5000:5000"
     command: bash -c "
       while [[ $$(ls -1 /app/store | wc -l) != '10' ]]; do echo 'Waiting for certs...'; sleep 3; done
-      && export CLIENT_CERT_PASS=$$(cat /app/store/p12.pass)
-      && export TRUST_CERT_PASS=$$(cat /app/store/trust.pass)
+      && cp /app/store/trust.jks /app/store/truststore.p12
+      && cp /app/store/cert.p12 /app/store/keystore.p12
+      && cp /app/store/p12.pass /app/store/keystore.pass
+      && cp /app/store/trust.pass /app/store/truststore.pass
       && java -Dspring.config.location=file:/app/application.properties -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main
       "
     volumes:
