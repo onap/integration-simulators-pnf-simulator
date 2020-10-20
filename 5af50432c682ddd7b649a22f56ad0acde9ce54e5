@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d726195c_1684d55a",
+        "filename": "pnfsimulator/src/main/resources/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-20T10:29:35Z",
+      "side": 1,
+      "message": "Currently PNF Simulator and VES use same certificates in CMPv2 mode. VES doesn\u0027t support p12 format, so we need to request separate certs for these components. It\u0027s done in another MR https://gerrit.onap.org/r/c/integration/simulators/pnf-simulator/+/113939. So I will wait till that MR is merged, then I will apply your suggestion here.",
+      "parentUuid": "9e98e2f1_a23f2d3e",
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "360f194d_278a1662",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0441f0ae_9fcaaef5",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-20T10:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "360f194d_278a1662",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfa0789a_b609d3ea",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5217a994_778cad8f",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-20T10:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfa0789a_b609d3ea",
+      "range": {
+        "startLine": 89,
+        "startChar": 72,
+        "endLine": 89,
+        "endChar": 94
+      },
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
