@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fadafc8_af971b78",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/HttpClientAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2020-10-20T06:25:20Z",
+      "side": 1,
+      "message": "I think it would be more readable if there would be only one return, at the end and instead of using if(...){...} and in next line \u0027?\u0027 operator, using if(){}else(){}, something like:\n\n        SslSupportLevel sslSupportLevel;\n        if (!sslAuthenticationHelper.isClientCertificateEnabled()) {\n            sslSupportLevel \u003d SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);\n        } else if (sslAuthenticationHelper.isStrictHostnameVerification()) {\n            sslSupportLevel \u003d SslSupportLevel.CLIENT_CERT_AUTH_STRICT;\n        } else {\n            sslSupportLevel \u003d SslSupportLevel.CLIENT_CERT_AUTH;\n        }\n        return sslSupportLevel;",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 147
+      },
+      "revId": "18c24ed05fe79676cc41fabd71d05690de0733e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
