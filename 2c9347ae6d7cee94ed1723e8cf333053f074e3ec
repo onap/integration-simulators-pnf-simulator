@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9adad6f_3d1f64e4",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/utils/ssl/SslSupportLevel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-20T11:03:37Z",
+      "side": 1,
+      "message": "Please rename this method to be distinguishable from method below (in line 117)",
+      "revId": "2c9347ae6d7cee94ed1723e8cf333053f074e3ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
