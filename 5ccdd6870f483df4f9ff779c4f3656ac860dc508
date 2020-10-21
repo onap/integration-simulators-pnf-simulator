@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "803e92fa_9521ff24",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/HttpClientAdapterImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-10-21T14:34:42Z",
+      "side": 1,
+      "message": "2018,2020",
+      "revId": "5ccdd6870f483df4f9ff779c4f3656ac860dc508",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae90193c_24a6e30d",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/utils/ssl/SslAuthenticationHelper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3435
+      },
+      "writtenOn": "2020-10-21T14:34:42Z",
+      "side": 1,
+      "message": "2019,2020",
+      "revId": "5ccdd6870f483df4f9ff779c4f3656ac860dc508",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
