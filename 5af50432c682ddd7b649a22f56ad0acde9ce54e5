@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fda497e2_08216ab9",
+        "filename": "pnfsimulator/src/main/resources/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-22T10:01:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d726195c_1684d55a",
+      "revId": "5af50432c682ddd7b649a22f56ad0acde9ce54e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "360f194d_278a1662",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/utils/ssl/CertAuthSslContextFactoryTest.java",
         "patchSetId": 1
