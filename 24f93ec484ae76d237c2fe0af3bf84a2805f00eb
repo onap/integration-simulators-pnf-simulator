@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "695c1f03_87c82fa1",
+        "filename": "sanitycheck/pnfsimulator-secured/certman/docker-compose.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-22T13:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "198ecd5d_6b6e4a16",
+      "revId": "24f93ec484ae76d237c2fe0af3bf84a2805f00eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ea3525_1b306481",
         "filename": "sanitycheck/pnfsimulator-secured/certservice/docker-compose-pnfsim.yml",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "24f93ec484ae76d237c2fe0af3bf84a2805f00eb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd6b92bf_7d4be178",
+        "filename": "sanitycheck/pnfsimulator-secured/certservice/docker-compose-pnfsim.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3771
+      },
+      "writtenOn": "2020-10-22T13:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ea3525_1b306481",
+      "revId": "24f93ec484ae76d237c2fe0af3bf84a2805f00eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
