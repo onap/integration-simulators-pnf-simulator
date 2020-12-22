@@ -35,6 +35,28 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: zXcVbN123!
 
+  http-server:
+    image: http-server
+    ports:
+      - "7080:80"
+      - "7443:443"
+    networks:
+      - pnfsimulator
+      - public
+    volumes:
+      - ~/httpservervolumes/:/usr/local/apache2/htdocs
+      - ../../../httpserver/resources/.htaccess:/usr/local/apache2/htdocs/.htaccess
+      - ../../../httpserver/logs:/var/log/apache2
+      - ./resources/certservice-client/client-volume-for-httpserver/:/etc/apache2/certs/
+    command: bash -c "
+      echo 'Http Server start';
+      while [[ $$(ls -1 /etc/apache2/certs/ | wc -l) != '3' ]]; do echo 'Waiting for certs...'; sleep 3; done;
+      chmod 777 /usr/local/apache2/htdocs;
+      cp /usr/local/apache2/conf/upload.php /usr/local/apache2/htdocs/upload.php;
+      /usr/sbin/apache2ctl -D FOREGROUND;
+      "
+    restart: on-failure
+
   pnf-simulator:
     image: nexus3.onap.org:10003/onap/org.onap.integration.simulators.pnfsimulator
     ports:

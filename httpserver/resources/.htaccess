@@ -1,0 +1,5 @@
+    AuthType Basic
+    AuthName "Secure file"
+    AuthBasicProvider file
+    AuthUserFile "/usr/local/apache2/passwd/.htpasswd"
+    Require valid-user

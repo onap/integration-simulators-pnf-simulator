@@ -11,7 +11,6 @@ restart-pnfsim: --clean-pnfsim start-pnfsim
 clean-all: --clean-pnfsim --clean-env
 
 
-
 --start-certservice-and-ejbca: --create-certservice-internal-certs --start-certservice-ejbca-containers --configure-ejbca
 
 --start-certservice-ejbca-containers:
@@ -34,25 +33,27 @@ clean-all: --clean-pnfsim --clean-env
 	@echo 'Waiting for client certifiactes...'
 	@until ls -1 ./resources/certservice-client/client-volume-for-pnfsim | grep "store" 1>/dev/null; do sleep 3; done
 	@until ls -1 ./resources/certservice-client/client-volume-for-ves | grep "store" 1>/dev/null; do sleep 3; done
+	@until ls -1 ./resources/certservice-client/client-volume-for-httpserver | grep "store" 1>/dev/null; do sleep 3; done
 
 --create-client-volumes:
 	mkdir -p ./resources/certservice-client/client-volume-for-pnfsim  -m 777
 	mkdir -p ./resources/certservice-client/client-volume-for-ves -m 777
+	mkdir -p ./resources/certservice-client/client-volume-for-httpserver -m 777
 
 --start-local-secured-ves:
 	docker-compose -f docker-compose-ves-dmaap.yml up
 
 --clean-pnfsim:
 	docker-compose -f docker-compose-pnfsim.yml down
-	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/trust.jks || true
-	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/cert.p12 || true
-	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/p12.pass || true
-	rm -rf ./resources/certservice-client/client-volume-for-pnfsim/trust.pass || true
+	rm -rf ./resources/certservice-client/client-volume-for-pnfsim || true
+	rm -rf ./resources/certservice-client/client-volume-for-httpserver || true
+
 
 --clean-env:
 	docker-compose -f docker-compose-ves-dmaap.yml down
 	docker-compose -f docker-compose-certservice-clients.yml down
 	rm -rf ./resources/certservice-client/client-volume-for-pnfsim || true
 	rm -rf ./resources/certservice-client/client-volume-for-ves || true
+	rm -rf ./resources/certservice-client/client-volume-for-httpserver || true
 	docker-compose -f docker-compose-certservice-ejbca.yml down
 	make -C resources/certs clear

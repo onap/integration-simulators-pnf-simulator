@@ -1,7 +1,6 @@
 DMaaP simulator
 ---------------
 
-
 ### Build an image
 ```
 make build

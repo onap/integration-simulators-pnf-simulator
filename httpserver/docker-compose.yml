@@ -1,0 +1,20 @@
+version: "2.1"
+
+services:
+  http-server:
+    image: http-server
+    ports:
+      - "7080:80"
+      - "7443:443"
+    volumes:
+      - ~/httpservervolumes/:/usr/local/apache2/htdocs
+      - ./resources/.htaccess:/usr/local/apache2/htdocs/.htaccess
+      - ./logs:/var/log/apache2
+    command: bash -c "
+      echo 'Http Server start';
+      while [[ $$(ls -1 /etc/apache2/certs/ | wc -l) != '3' ]]; do echo 'Waiting for certs...'; sleep 3; done;
+      chmod 777 /usr/local/apache2/htdocs;
+      cp /usr/local/apache2/conf/upload.php /usr/local/apache2/htdocs/upload.php;
+      /usr/sbin/apache2ctl -D FOREGROUND;
+      "
+    restart: on-failure
