@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   http-server:
-    image: http-server
+    image: onap/org.onap.integration.simulators.httpserver
     ports:
       - "7080:80"
       - "7443:443"

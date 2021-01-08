@@ -3,7 +3,7 @@ default:
 
 build-http-server:
 	@echo "##### Build http server docker image #####"
-	docker build . -t http-server
+	docker build . -t onap/org.onap.integration.simulators.httpserver
 	@echo "##### DONE #####"
 
 start-http-server:

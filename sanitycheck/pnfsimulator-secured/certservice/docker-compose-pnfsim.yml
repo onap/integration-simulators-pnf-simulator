@@ -36,7 +36,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: zXcVbN123!
 
   http-server:
-    image: http-server
+    image: onap/org.onap.integration.simulators.httpserver
     ports:
       - "7080:80"
       - "7443:443"
