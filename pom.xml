@@ -36,9 +36,9 @@
     <version>1.0.2-SNAPSHOT</version>
     <modules>
         <module>pnfsimulator</module>
+        <module>httpserver</module>
         <module>netconfsimulator</module>
         <module>deployment</module>
-        <module>httpserver</module>
     </modules>
 
     <properties>
