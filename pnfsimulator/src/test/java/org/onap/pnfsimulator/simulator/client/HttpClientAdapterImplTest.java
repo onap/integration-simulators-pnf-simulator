@@ -21,9 +21,11 @@
 package org.onap.pnfsimulator.simulator.client;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.message.BasicStatusLine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
@@ -33,6 +35,7 @@ import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -89,12 +92,22 @@ class HttpClientAdapterImplTest {
     }
 
     private void assertAdapterSentRequest(String targetUrl) throws IOException {
+        int responseCode = 202;
+        String responseMessage = "";
         HttpClientAdapter adapter = new HttpClientAdapterImpl(httpClient, targetUrl);
         doReturn(httpResponse).when(httpClient).execute(any());
+        BasicStatusLine statusLine = new BasicStatusLine(
+            new ProtocolVersion("1.0.0",1,0),
+            responseCode ,
+            responseMessage
+        );
+        doReturn(statusLine).when(httpResponse).getStatusLine();
+        doReturn(statusLine).when(httpResponse).getStatusLine();
 
-        adapter.send("test-msg");
+        HttpResponseAdapter response = adapter.send("test-msg");
 
         verify(httpClient).execute(any());
-        verify(httpResponse).getStatusLine();
+        assertEquals(response.getCode(),responseCode);
+        assertEquals(response.getMessage(),responseMessage);
     }
 }

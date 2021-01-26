@@ -110,7 +110,7 @@ public class OptionalTemplatesTest {
             .post(SINGLE_EVENT_URL)
             .then()
             .statusCode(202)
-            .body("message", equalTo("One-time direct event sent successfully"));
+            .body("message", equalTo("Accepted"));
 
         //then
         long afterExecution = Instant.now().getEpochSecond();
@@ -161,7 +161,7 @@ public class OptionalTemplatesTest {
             .post(SINGLE_EVENT_URL)
             .then()
             .statusCode(202)
-            .body("message", equalTo("One-time direct event sent successfully"));
+            .body("message", equalTo("Accepted"));
 
         //then
         Mockito.verify(vesSimulatorService,
