@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -33,6 +34,8 @@ import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
+import org.onap.pnfsimulator.simulator.client.HttpResponseAdapter;
+import org.onap.pnfsimulator.simulator.client.HttpTestUtils;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
@@ -46,12 +49,9 @@ import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -67,7 +67,7 @@ class SimulatorServiceTest {
     private static final JsonObject VALID_PATCH = GSON.fromJson("{\"event\": {\n"
         + "    \"commonEventHeader\": {\n"
         + "      \"sourceName\": \"SomeCustomSource\"}}}\n", JsonObject.class);
-    private static JsonObject VALID_FULL_EVENT = GSON.fromJson("{\"event\": {\n"
+    private static final JsonObject VALID_FULL_EVENT = GSON.fromJson("{\"event\": {\n"
         + "    \"commonEventHeader\": {\n"
         + "      \"domain\": \"notification\",\n"
         + "      \"eventName\": \"vFirewallBroadcastPackets\"\n"
@@ -77,7 +77,7 @@ class SimulatorServiceTest {
         + "        \"name\": \"A20161221.1031-1041.bin.gz\",\n"
         + "        \"hashMap\": {\n"
         + "          \"fileformatType\": \"org.3GPP.32.435#measCollec\"}}]}}}", JsonObject.class);
-    private static JsonObject FULL_EVENT_WITH_KEYWORDS = GSON.fromJson("{\"event\":{  \n"
+    private static final JsonObject FULL_EVENT_WITH_KEYWORDS = GSON.fromJson("{\"event\":{  \n"
         + "      \"commonEventHeader\":{  \n"
         + "         \"domain\":\"notification\",\n"
         + "         \"eventName\":\"#RandomString(20)\",\n"
@@ -99,14 +99,15 @@ class SimulatorServiceTest {
     private final ArgumentCaptor<String> eventIdCaptor = ArgumentCaptor.forClass(String.class);
     private final ArgumentCaptor<String> vesUrlCaptor = ArgumentCaptor.forClass(String.class);
     private final ArgumentCaptor<String> eventContentCaptor = ArgumentCaptor.forClass(String.class);
+    private final SslAuthenticationHelper sslAuthenticationHelper = new SslAuthenticationHelper();
+    private final TemplatePatcher templatePatcher = new TemplatePatcher();
+    private final TemplateReader templateReader = new FilesystemTemplateReader(
+        "src/test/resources/org/onap/pnfsimulator/simulator/", GSON);
+
     private SimulatorService simulatorService;
     private EventDataService eventDataService;
     private EventScheduler eventScheduler;
     private SimulatorConfigService simulatorConfigService;
-    private SslAuthenticationHelper sslAuthenticationHelper = new SslAuthenticationHelper() ;
-    private static TemplatePatcher templatePatcher = new TemplatePatcher();
-    private static TemplateReader templateReader = new FilesystemTemplateReader(
-        "src/test/resources/org/onap/pnfsimulator/simulator/", GSON);
 
     @BeforeEach
     void setUp() throws MalformedURLException {
@@ -197,8 +198,7 @@ class SimulatorServiceTest {
             new SslAuthenticationHelper()));
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
-        doNothing().when(adapterMock).send(eventContentCaptor.capture());
-        doReturn(adapterMock).when(spiedTestedService).createHttpClientAdapter(any(String.class));
+        prepareMocksWithAcceptedResponse(spiedTestedService, adapterMock);
         FullEvent event = new FullEvent(VES_URL, VALID_FULL_EVENT);
 
         spiedTestedService.triggerOneTimeEvent(event);
@@ -218,8 +218,7 @@ class SimulatorServiceTest {
         );
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
-        doNothing().when(adapterMock).send(eventContentCaptor.capture());
-        doReturn(adapterMock).when(spiedTestedService).createHttpClientAdapter(any(String.class));
+        prepareMocksWithAcceptedResponse(spiedTestedService, adapterMock);
         FullEvent event = new FullEvent(VES_URL, FULL_EVENT_WITH_KEYWORDS);
 
         spiedTestedService.triggerOneTimeEvent(event);
@@ -260,6 +259,12 @@ class SimulatorServiceTest {
         when(eventScheduler.cancelEvent(jobName)).thenReturn(true);
 
         assertTrue(simulatorService.cancelEvent(jobName));
+    }
+
+    private void prepareMocksWithAcceptedResponse(SimulatorService spiedTestedService, HttpClientAdapter adapterMock) throws IOException, GeneralSecurityException {
+        HttpResponseAdapter response = new HttpResponseAdapter(HttpStatus.SC_ACCEPTED, HttpTestUtils.HTTP_MESSAGE_ACCEPTER);
+        doReturn(response).when(adapterMock).send(eventContentCaptor.capture());
+        doReturn(adapterMock).when(spiedTestedService).createHttpClientAdapter(any(String.class));
     }
 
     private void assertEventHasExpectedStructure(String expectedVesUrl, String templateName, String sourceNameString) throws SchedulerException, IOException, GeneralSecurityException {

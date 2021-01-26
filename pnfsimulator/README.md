@@ -56,7 +56,12 @@ Sample Request:
 Enables direct, immediate event sending without need to have template deployed on backend.
 Keywords are supported,thus once passed, will also be substituted with proper strings. 
 Passed event body must be valid and complete event according to VES Collector interface. 
-To trigger sending use following endpoint *http://<simulator_ip>:5000/simulator/event*. 
+To trigger sending use following endpoint *http://<simulator_ip>:5000/simulator/event*.
+After sending event, response message from VES will be passed as response message from Simulator.
+Thanks to that when sending one-time event user will receive information about request.
+This is helpful when authentication fail or VES response with "Forbidden" when using http instead of https.
+In a situation when given URL address is not pointing to VES, Simulator response with status ```421```
+and information about communication problem.   
 
 Supported method: *POST*  
 Headers:  
