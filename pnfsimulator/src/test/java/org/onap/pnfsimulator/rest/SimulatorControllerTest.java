@@ -36,6 +36,7 @@ import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.SimulatorService;
+import org.onap.pnfsimulator.simulator.client.HttpResponseAdapter;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
 import org.quartz.SchedulerException;
 import org.springframework.http.MediaType;
@@ -81,6 +82,7 @@ class SimulatorControllerTest {
     private static final String SAMPLE_ID = "sampleId";
     private static final Gson GSON_OBJ = new Gson();
     private static final String JOB_NAME = "testJobName";
+    private static final HttpResponseAdapter TEST_HTTP_ACCEPTED_RESPONSE = new HttpResponseAdapter(202,"");
     private static String simulatorRequestBody;
     private MockMvc mockMvc;
     @InjectMocks
@@ -103,6 +105,7 @@ class SimulatorControllerTest {
     void setup() throws IOException, SchedulerException, GeneralSecurityException {
         MockitoAnnotations.initMocks(this);
         when(simulatorService.triggerEvent(any())).thenReturn("jobName");
+        when(simulatorService.triggerOneTimeEvent(any())).thenReturn(TEST_HTTP_ACCEPTED_RESPONSE);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(controller)
                 .build();

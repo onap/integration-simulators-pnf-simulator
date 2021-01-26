@@ -29,6 +29,7 @@ import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
+import org.onap.pnfsimulator.simulator.client.HttpResponseAdapter;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
@@ -93,14 +94,14 @@ public class SimulatorService {
                     patchedJsonWithVariablesSubstituted);
     }
 
-    public void triggerOneTimeEvent(FullEvent event) throws IOException, GeneralSecurityException {
+    public HttpResponseAdapter triggerOneTimeEvent(FullEvent event) throws IOException, GeneralSecurityException {
         KeywordsHandler keywordsHandler = new KeywordsHandler(new KeywordsExtractor(), id -> 1);
         JsonObject withKeywordsSubstituted = keywordsHandler.substituteKeywords(event.getEvent(), "").getAsJsonObject();
 
         HttpClientAdapter client = createHttpClientAdapter(event.getVesServerUrl());
         eventDataService.persistEventData(EMPTY_JSON_OBJECT, withKeywordsSubstituted, event.getEvent(), EMPTY_JSON_OBJECT);
 
-        client.send(withKeywordsSubstituted.toString());
+        return client.send(withKeywordsSubstituted.toString());
     }
 
     public SimulatorConfig getConfiguration() {

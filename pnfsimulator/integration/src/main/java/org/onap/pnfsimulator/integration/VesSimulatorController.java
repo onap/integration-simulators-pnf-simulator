@@ -23,10 +23,13 @@ package org.onap.pnfsimulator.integration;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RequestMapping("ves-simulator")
 @RestController
@@ -34,6 +37,9 @@ public class VesSimulatorController {
 
     private final VesSimulatorService vesSimulatorService;
     private final Gson gson;
+    private final ResponseEntity<String> response = ResponseEntity
+        .status(HttpStatus.ACCEPTED)
+        .body("Accepted");
 
     @Autowired
     public VesSimulatorController(VesSimulatorService vesSimulatorService, Gson gson) {
@@ -42,18 +48,21 @@ public class VesSimulatorController {
     }
 
     @PostMapping("eventListener/v5")
-    String sendEventToDmaapV5(@RequestBody String body) {
-        System.out.println("Received event" + body);
-        JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
+    ResponseEntity<String> sendEventToDmaapV5(@RequestBody String body) {
+        JsonObject jsonObject = getJsonObjectFromBody(body);
         vesSimulatorService.sendEventToDmaapV5(jsonObject);
-        return "MessageAccepted";
+        return response;
     }
 
     @PostMapping("eventListener/v7")
-    String sendEventToDmaapV7(@RequestBody String body) {
-        System.out.println("Received event" + body);
-        JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
+    ResponseEntity<String> sendEventToDmaapV7(@RequestBody String body) {
+        JsonObject jsonObject = getJsonObjectFromBody(body);
         vesSimulatorService.sendEventToDmaapV7(jsonObject);
-        return "MessageAccepted";
+        return response;
+    }
+
+    private JsonObject getJsonObjectFromBody(@RequestBody String body) {
+        System.out.println("Received event" + body);
+        return gson.fromJson(body, JsonObject.class);
     }
 }

@@ -23,6 +23,7 @@ package org.onap.pnfsimulator.integration;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.stringContainsInOrder;
 
 import com.google.gson.JsonObject;
 import com.mongodb.MongoClient;
@@ -39,6 +40,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Collections;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.bson.Document;
 import org.junit.After;
@@ -50,6 +53,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -109,8 +113,8 @@ public class OptionalTemplatesTest {
             .when()
             .post(SINGLE_EVENT_URL)
             .then()
-            .statusCode(202)
-            .body("message", equalTo("One-time direct event sent successfully"));
+            .statusCode(HttpStatus.ACCEPTED.value())
+            .body("message", equalTo("Accepted"));
 
         //then
         long afterExecution = Instant.now().getEpochSecond();
@@ -124,7 +128,7 @@ public class OptionalTemplatesTest {
             .get("sourceName").getAsString()).isEqualTo("Single_sourceName");
         assertThat(value
             .getAsJsonObject(COMMON_EVENT_HEADER)
-            .get("eventId1").getAsString().length()).isEqualTo(20);
+            .get("eventId1").getAsString()).hasSize(20);
         assertThat(value
             .getAsJsonObject(COMMON_EVENT_HEADER)
             .get("eventId2").getAsString()).isEqualTo("10");
@@ -160,8 +164,8 @@ public class OptionalTemplatesTest {
             .when()
             .post(SINGLE_EVENT_URL)
             .then()
-            .statusCode(202)
-            .body("message", equalTo("One-time direct event sent successfully"));
+            .statusCode(HttpStatus.ACCEPTED.value())
+            .body("message", equalTo("Accepted"));
 
         //then
         Mockito.verify(vesSimulatorService,
@@ -171,6 +175,57 @@ public class OptionalTemplatesTest {
         Document sourceNameInMongoDB = findSourceNameInMongoDB();
         Assertions.assertThat(sourceNameInMongoDB.get(PATCHED))
             .isEqualTo("{\"commonEventHeader\":{\"sourceName\":\"HistoricalEvent\",\"version\":3}}");
+    }
+
+    @Test
+    public void whenTriggeredSimulatorWithWrongVesIpInformationShouldBeReturned() {
+        //given
+        String body = "{\n"
+            + "\"vesServerUrl\": \"https://" + currentVesSimulatorIp + ":8080/ves-simulator/eventListener/v5\",\n"
+            + "\"event\": { \n"
+            + "\"commonEventHeader\": {\n"
+            + "\"sourceName\": \"HistoricalEvent\",\n"
+            + "\"version\": 3"
+            + "}\n"
+            + "}\n"
+            + "}";
+
+        //when
+        given()
+            .contentType("application/json")
+            .body(body)
+            .when()
+            .post(SINGLE_EVENT_URL)
+            .then()
+            .statusCode(421)
+            .body("message",
+                equalTo(
+                    "Fail to connect with ves: Connect to "+currentVesSimulatorIp+":8080 " +
+                    "[/"+currentVesSimulatorIp+"] " +
+                    "failed: Connection refused (Connection refused)"));
+    }
+
+    @Test
+    public void whenTriggeredSimulatorWithWrongEventShouldReturnedError() {
+        //given
+        String body = "{\n"
+            + "\"vesServerUrl\": \"https://" + currentVesSimulatorIp + ":9443/ves-simulator/eventListener/v5\",\n"
+            + "\"event\": { \n"
+            + "this is not JSON {}"
+            + "}\n"
+            + "}";
+
+        //when
+        given()
+            .contentType("application/json")
+            .body(body)
+            .when()
+            .post(SINGLE_EVENT_URL)
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("message",
+                stringContainsInOrder(List.of("JSON parse error:","Unexpected character ('t' (code 116)):"))
+            );
     }
 
     private Document findSourceNameInMongoDB() throws UnknownHostException {
