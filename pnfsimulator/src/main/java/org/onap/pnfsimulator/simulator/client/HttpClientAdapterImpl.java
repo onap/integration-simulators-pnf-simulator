@@ -48,11 +48,12 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
+    private static final HttpApacheResponseAdapterFactory responseFactory = new HttpApacheResponseAdapterFactory();
     private final HttpClient client;
     private final String targetUrl;
 
     public HttpClientAdapterImpl(String targetUrl, SslAuthenticationHelper sslAuthenticationHelper)
-            throws IOException, GeneralSecurityException {
+        throws IOException, GeneralSecurityException {
         this.client = HttpClientFactoryFacade.create(targetUrl, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }
@@ -63,14 +64,18 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
     }
 
     @Override
-    public void send(String content) {
+    public HttpResponseAdapter send(String content) {
+        HttpResponseAdapter vesResponse;
         try {
             HttpResponse response = sendAndRetrieve(content);
-            EntityUtils.consumeQuietly(response.getEntity()); //response has to be fully consumed otherwise apache won't release connection
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
+            vesResponse = responseFactory.create(response);
+            EntityUtils.consumeQuietly(response.getEntity()); //response has to be fully consumed otherwise apache won't release connection
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: {}", e.getMessage(), e.getCause());
+            vesResponse = new HttpResponseAdapter(421, String.format("Fail to connect with ves: %s", e.getMessage()));
         }
+        return vesResponse;
     }
 
     private HttpResponse sendAndRetrieve(String content) throws IOException {

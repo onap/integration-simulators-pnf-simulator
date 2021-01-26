@@ -21,6 +21,7 @@
 package org.onap.pnfsimulator.simulator.client;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -33,11 +34,15 @@ import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.onap.pnfsimulator.simulator.client.HttpTestUtils.createMockedHttpEntity;
+import static org.onap.pnfsimulator.simulator.client.HttpTestUtils.createStatusLine;
 
 class HttpClientAdapterImplTest {
 
@@ -55,12 +60,17 @@ class HttpClientAdapterImplTest {
 
     @Test
     void sendShouldSuccessfullySendRequestGivenValidUrl() throws IOException {
-        assertAdapterSentRequest("http://valid-url:8080");
+        assertAdapterSentRequest("http://valid-url:8080", HttpStatus.SC_FORBIDDEN, "Forbidden");
     }
 
     @Test
     void sendShouldSuccessfullySendRequestGivenValidUrlUsingHttps() throws IOException {
-        assertAdapterSentRequest("https://valid-url:8443");
+        assertAdapterSentRequest("https://valid-url:8443", HttpStatus.SC_ACCEPTED, "Accepted");
+    }
+
+    @Test
+    void sendShouldFailToSendRequestGivenInvalidUrlUsingAdnShouldInformUser() throws IOException {
+        assertAdapterInformsUserWhenServiceIsUnavailable("https://invalid-url:8080");
     }
 
     @Test
@@ -88,13 +98,29 @@ class HttpClientAdapterImplTest {
         }
     }
 
-    private void assertAdapterSentRequest(String targetUrl) throws IOException {
+    private void assertAdapterSentRequest(String targetUrl, int responseCode, String responseMessage) throws IOException {
         HttpClientAdapter adapter = new HttpClientAdapterImpl(httpClient, targetUrl);
         doReturn(httpResponse).when(httpClient).execute(any());
+        doReturn(createStatusLine(responseCode)).when(httpResponse).getStatusLine();
+        doReturn(createMockedHttpEntity(responseMessage)).when(httpResponse).getEntity();
 
-        adapter.send("test-msg");
+        HttpResponseAdapter response = adapter.send("test-msg");
 
         verify(httpClient).execute(any());
-        verify(httpResponse).getStatusLine();
+        assertEquals(responseCode, response.getCode());
+        assertEquals(responseMessage, response.getMessage());
     }
+
+    private void assertAdapterInformsUserWhenServiceIsUnavailable(String targetUrl) throws IOException {
+        HttpClientAdapter adapter = new HttpClientAdapterImpl(httpClient, targetUrl);
+        String exceptionMessage = "test message";
+        doThrow(new IOException(exceptionMessage)).when(httpClient).execute(any());
+
+        HttpResponseAdapter response = adapter.send("test-msg");
+
+        verify(httpClient).execute(any());
+        assertEquals(421, response.getCode());
+        assertEquals(String.format("Fail to connect with ves: %s", exceptionMessage), response.getMessage());
+    }
+
 }

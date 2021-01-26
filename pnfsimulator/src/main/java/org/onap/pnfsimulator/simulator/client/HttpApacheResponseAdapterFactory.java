@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2021 Nokia. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,21 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
-public interface HttpClientAdapter {
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 
-    HttpResponseAdapter send(String content);
+import java.io.IOException;
+
+public class HttpApacheResponseAdapterFactory  {
+
+    public HttpResponseAdapter create(HttpResponse response) throws IOException {
+        String message;
+        if(response.getEntity() != null) {
+            message = EntityUtils.toString(response.getEntity());
+        } else {
+            message = "";
+        }
+        return new HttpResponseAdapter(response.getStatusLine().getStatusCode(),message);
+    }
 
 }

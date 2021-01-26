@@ -33,6 +33,7 @@ import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
+import org.onap.pnfsimulator.simulator.client.HttpResponseAdapter;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
@@ -46,12 +47,9 @@ import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -99,14 +97,15 @@ class SimulatorServiceTest {
     private final ArgumentCaptor<String> eventIdCaptor = ArgumentCaptor.forClass(String.class);
     private final ArgumentCaptor<String> vesUrlCaptor = ArgumentCaptor.forClass(String.class);
     private final ArgumentCaptor<String> eventContentCaptor = ArgumentCaptor.forClass(String.class);
+    private final SslAuthenticationHelper sslAuthenticationHelper = new SslAuthenticationHelper();
+    private final TemplatePatcher templatePatcher = new TemplatePatcher();
+    private final TemplateReader templateReader = new FilesystemTemplateReader(
+        "src/test/resources/org/onap/pnfsimulator/simulator/", GSON);
+
     private SimulatorService simulatorService;
     private EventDataService eventDataService;
     private EventScheduler eventScheduler;
     private SimulatorConfigService simulatorConfigService;
-    private SslAuthenticationHelper sslAuthenticationHelper = new SslAuthenticationHelper() ;
-    private static TemplatePatcher templatePatcher = new TemplatePatcher();
-    private static TemplateReader templateReader = new FilesystemTemplateReader(
-        "src/test/resources/org/onap/pnfsimulator/simulator/", GSON);
 
     @BeforeEach
     void setUp() throws MalformedURLException {
@@ -197,7 +196,8 @@ class SimulatorServiceTest {
             new SslAuthenticationHelper()));
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
-        doNothing().when(adapterMock).send(eventContentCaptor.capture());
+        HttpResponseAdapter response = new HttpResponseAdapter(202,"Accepted");
+        doReturn(response).when(adapterMock).send(eventContentCaptor.capture());
         doReturn(adapterMock).when(spiedTestedService).createHttpClientAdapter(any(String.class));
         FullEvent event = new FullEvent(VES_URL, VALID_FULL_EVENT);
 
@@ -218,7 +218,8 @@ class SimulatorServiceTest {
         );
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
-        doNothing().when(adapterMock).send(eventContentCaptor.capture());
+        HttpResponseAdapter response = new HttpResponseAdapter(202,"Accepted");
+        doReturn(response).when(adapterMock).send(eventContentCaptor.capture());
         doReturn(adapterMock).when(spiedTestedService).createHttpClientAdapter(any(String.class));
         FullEvent event = new FullEvent(VES_URL, FULL_EVENT_WITH_KEYWORDS);
 
