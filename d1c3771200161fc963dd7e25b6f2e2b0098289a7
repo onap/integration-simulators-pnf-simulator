@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25722144_3b2ff62f",
+        "filename": "pnfsimulator/integration/src/main/java/org/onap/pnfsimulator/integration/VesSimulatorController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-01-28T09:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6c4f236_26cda0a2",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1924547e_8eae9f39",
         "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/HttpClientAdapterImpl.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2021-01-28T08:13:12Z",
       "side": 1,
       "message": "it should be moved to finally section.",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a08138_cc1ec7d9",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/HttpClientAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-01-28T09:17:09Z",
+      "side": 1,
+      "message": "This call can\u0027t be move to finally section, because if exception is thrown by \"sendAndRetrive\" method, then the \"response\" object is undefined. I have updated \"responseFacroty.create\" method to make sure that, if response is created nothing else can throw that exception. If there is more elegant way to do that please let me know.",
+      "parentUuid": "1924547e_8eae9f39",
       "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5c0c363b_57e3066b",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-01-28T09:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e5c473_2d74e273",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "375d58da_0c583873",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/HttpApacheResponseAdapterFactoryTest.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "6bbcbd99_1bdae151",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/HttpApacheResponseAdapterFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-01-28T09:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "375d58da_0c583873",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20205966_ddc8ff3b",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/HttpApacheResponseAdapterFactoryTest.java",
         "patchSetId": 3
@@ -84,6 +156,24 @@
       "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7be9704_0c9a6f4d",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/HttpApacheResponseAdapterFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-01-28T09:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20205966_ddc8ff3b",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
