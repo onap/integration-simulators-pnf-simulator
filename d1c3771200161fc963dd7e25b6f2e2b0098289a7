@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "6f565aea_49b2e600",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/HttpClientAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2021-01-28T10:16:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a08138_cc1ec7d9",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6e5c473_2d74e273",
         "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
         "patchSetId": 3
