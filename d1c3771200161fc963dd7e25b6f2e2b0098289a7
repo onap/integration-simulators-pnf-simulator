@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6c4f236_26cda0a2",
+        "filename": "pnfsimulator/integration/src/main/java/org/onap/pnfsimulator/integration/VesSimulatorController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2021-01-28T08:13:12Z",
+      "side": 1,
+      "message": "do not use system out. Pls use logging mechanism.",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1924547e_8eae9f39",
+        "filename": "pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/client/HttpClientAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2021-01-28T08:13:12Z",
+      "side": 1,
+      "message": "it should be moved to finally section.",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e5c473_2d74e273",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/SimulatorServiceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2021-01-28T08:13:12Z",
+      "side": 1,
+      "message": "extract Accepted to const and reuse in test",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "375d58da_0c583873",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/HttpApacheResponseAdapterFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2021-01-28T08:13:12Z",
+      "side": 1,
+      "message": "pls add given when then sections",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20205966_ddc8ff3b",
+        "filename": "pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/client/HttpApacheResponseAdapterFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3433
+      },
+      "writtenOn": "2021-01-28T08:13:12Z",
+      "side": 1,
+      "message": "code duplication. Make test parametrized or extract common parts to methods and reuse",
+      "revId": "d1c3771200161fc963dd7e25b6f2e2b0098289a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
