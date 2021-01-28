@@ -113,7 +113,7 @@ The simulator provides means for managing templates. Supported actions: adding, 
 ```GET /template/list```  
 Lists all templates known to the simulator.
 
-```GET /template/get-content/{name}```  
+```GET /template/get/{name}```  
 Gets template content based on *name* path variable.
 
 ```POST /template/upload?override=true```  
