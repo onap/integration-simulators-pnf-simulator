@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: Bogumil Zebek <bogumil.zebek@nokia.com>
+Code-Review+2: Lasse Kaihlavirta <l.kaihlavirt@partner.samsung.com>
+Code-Review+2: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-by: Bogumil Zebek <bogumil.zebek@nokia.com>
+Submitted-at: Fri, 29 Jan 2021 10:38:20 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/simulators/pnf-simulator/+/117181
+Project: integration/simulators/pnf-simulator
+Branch: refs/heads/master
