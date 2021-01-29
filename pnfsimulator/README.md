@@ -375,8 +375,14 @@ CA certificates are incorporated into simulator docker image, thus no additional
 
 Certificates can be found in docker container under path: */usr/local/share/ca-certificates/*
 
-Simulator works with VES that uses both self-signed certificate (already present in keystore) and VES integrated to AAF. 
- 
+Simulator works with VES that uses both self-signed certificate (already present in keystore) and VES integrated to AAF.
+
+Certification loading can be disabled by setting environment variable ```USE_CERTIFICATE_FOR_AUTHORIZATION``` to false. 
+Once certificate are not used for authorization, user can set up VES url using username and password.
+
+    {
+        "vesServerUrl": "http://<user>:<password>@<ves_url>:<port>/eventListener/v7"
+    }
 
 ## Developers Guide
 

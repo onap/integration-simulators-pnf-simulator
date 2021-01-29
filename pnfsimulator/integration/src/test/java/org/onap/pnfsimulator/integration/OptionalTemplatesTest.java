@@ -23,24 +23,15 @@ package org.onap.pnfsimulator.integration;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.stringContainsInOrder;
+import static org.onap.pnfsimulator.integration.TestUtils.COMMON_EVENT_HEADER;
+import static org.onap.pnfsimulator.integration.TestUtils.PATCHED;
+import static org.onap.pnfsimulator.integration.TestUtils.SINGLE_EVENT_URL;
+import static org.onap.pnfsimulator.integration.TestUtils.findSourceNameInMongoDB;
+import static org.onap.pnfsimulator.integration.TestUtils.getCurrentIpAddress;
 
 import com.google.gson.JsonObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import java.time.Instant;
-import java.net.Inet4Address;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.bson.Document;
@@ -59,16 +50,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Main.class, TestConfiguration.class}, webEnvironment = WebEnvironment.DEFINED_PORT)
 public class OptionalTemplatesTest {
-
-    private static final String PNF_SIMULATOR_DB = "pnf_simulator";
-    private static final String COMMON_EVENT_HEADER = "commonEventHeader";
-    private static final String PNF_SIMULATOR_DB_PSWD = "zXcVbN123!";
-    private static final String PNF_SIMULATOR_DB_USER = "pnf_simulator_user";
-    private static final String PATCHED = "patched";
-    private static final String SINGLE_EVENT_URL = "http://0.0.0.0:5000/simulator/event";
-
-    @Autowired
-    VesSimulatorController vesSimulatorController;
 
     @Autowired
     private VesSimulatorService vesSimulatorService;
@@ -175,85 +156,6 @@ public class OptionalTemplatesTest {
         Document sourceNameInMongoDB = findSourceNameInMongoDB();
         Assertions.assertThat(sourceNameInMongoDB.get(PATCHED))
             .isEqualTo("{\"commonEventHeader\":{\"sourceName\":\"HistoricalEvent\",\"version\":3}}");
-    }
-
-    @Test
-    public void whenTriggeredSimulatorWithWrongVesIpInformationShouldBeReturned() {
-        //given
-        String body = "{\n"
-            + "\"vesServerUrl\": \"https://" + currentVesSimulatorIp + ":8080/ves-simulator/eventListener/v5\",\n"
-            + "\"event\": { \n"
-            + "\"commonEventHeader\": {\n"
-            + "\"sourceName\": \"HistoricalEvent\",\n"
-            + "\"version\": 3"
-            + "}\n"
-            + "}\n"
-            + "}";
-
-        //when
-        given()
-            .contentType("application/json")
-            .body(body)
-            .when()
-            .post(SINGLE_EVENT_URL)
-            .then()
-            .statusCode(421)
-            .body("message",
-                equalTo(
-                    "Fail to connect with ves: Connect to "+currentVesSimulatorIp+":8080 " +
-                    "[/"+currentVesSimulatorIp+"] " +
-                    "failed: Connection refused (Connection refused)"));
-    }
-
-    @Test
-    public void whenTriggeredSimulatorWithWrongEventShouldReturnedError() {
-        //given
-        String body = "{\n"
-            + "\"vesServerUrl\": \"https://" + currentVesSimulatorIp + ":9443/ves-simulator/eventListener/v5\",\n"
-            + "\"event\": { \n"
-            + "this is not JSON {}"
-            + "}\n"
-            + "}";
-
-        //when
-        given()
-            .contentType("application/json")
-            .body(body)
-            .when()
-            .post(SINGLE_EVENT_URL)
-            .then()
-            .statusCode(HttpStatus.BAD_REQUEST.value())
-            .body("message",
-                stringContainsInOrder(List.of("JSON parse error:","Unexpected character ('t' (code 116)):"))
-            );
-    }
-
-    private Document findSourceNameInMongoDB() throws UnknownHostException {
-        MongoCredential credential = MongoCredential
-            .createCredential(PNF_SIMULATOR_DB_USER, PNF_SIMULATOR_DB, PNF_SIMULATOR_DB_PSWD.toCharArray());
-        MongoClient mongoClient = new MongoClient(new ServerAddress(Inet4Address.getLocalHost(), 27017),
-            credential, MongoClientOptions.builder().build());
-        MongoDatabase pnfSimulatorDb = mongoClient.getDatabase(PNF_SIMULATOR_DB);
-        MongoCollection<Document> table = pnfSimulatorDb.getCollection("eventData");
-        Document searchQuery = new Document();
-        searchQuery.put(PATCHED, new Document("$regex", ".*" + "HistoricalEvent" + ".*"));
-        FindIterable<Document> findOfPatched = table.find(searchQuery);
-        Document dbObject = null;
-        MongoCursor<Document> cursor = findOfPatched.iterator();
-        if (cursor.hasNext()) {
-            dbObject = cursor.next();
-        }
-        return dbObject;
-    }
-
-    private String getCurrentIpAddress() throws SocketException {
-        return Collections.list(NetworkInterface.getNetworkInterfaces()).stream()
-            .flatMap(i -> Collections.list(i.getInetAddresses()).stream())
-            .filter(ip -> ip instanceof Inet4Address)
-            .map(e -> (Inet4Address) e)
-            .findFirst()
-            .orElseThrow(RuntimeException::new)
-            .getHostAddress();
     }
 
 }
