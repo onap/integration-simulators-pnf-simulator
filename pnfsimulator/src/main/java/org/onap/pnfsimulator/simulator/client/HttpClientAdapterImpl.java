@@ -20,6 +20,8 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -35,6 +37,9 @@ import org.slf4j.MarkerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.UUID;
 
@@ -71,28 +76,44 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
             vesResponse = responseFactory.create(response);
             EntityUtils.consumeQuietly(response.getEntity()); //response has to be fully consumed otherwise apache won't release connection
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             LOGGER.warn("Error sending message to ves: {}", e.getMessage(), e.getCause());
             vesResponse = new HttpResponseAdapter(421, String.format("Fail to connect with ves: %s", e.getMessage()));
         }
         return vesResponse;
     }
 
-    private HttpResponse sendAndRetrieve(String content) throws IOException {
+    private HttpResponse sendAndRetrieve(String content) throws IOException, URISyntaxException {
         HttpPost request = createRequest(content);
         HttpResponse httpResponse = client.execute(request);
         request.releaseConnection();
         return httpResponse;
     }
 
-    private HttpPost createRequest(String content) throws UnsupportedEncodingException {
-        HttpPost request = new HttpPost(this.targetUrl);
+    private HttpPost createRequest(String content) throws UnsupportedEncodingException, URISyntaxException {
+        LOGGER.info("sending request using address: {}", this.targetUrl);
+        URI targetAddress = new URI(this.targetUrl);
+        HttpPost request = new HttpPost(targetAddress);
+        if(urlContainsUserInfo(targetAddress)) {
+            request.addHeader(HttpHeaders.AUTHORIZATION, getAuthenticationHeaderForUser(targetAddress.getUserInfo()));
+        }
         StringEntity stringEntity = new StringEntity(content);
         request.addHeader(CONTENT_TYPE, APPLICATION_JSON);
         request.addHeader(X_ONAP_REQUEST_ID, MDC.get(REQUEST_ID));
         request.addHeader(X_INVOCATION_ID, UUID.randomUUID().toString());
         request.setEntity(stringEntity);
         return request;
+    }
+
+    private boolean urlContainsUserInfo(URI targetAddress) {
+        return targetAddress.getUserInfo() != null && !targetAddress.getUserInfo().isEmpty();
+    }
+
+    private String getAuthenticationHeaderForUser(String userInfo) {
+        final byte[] encodedUserInfo = Base64.encodeBase64(
+            userInfo.getBytes(StandardCharsets.ISO_8859_1)
+        );
+        return String.format("Basic %s", new String(encodedUserInfo));
     }
 
 }

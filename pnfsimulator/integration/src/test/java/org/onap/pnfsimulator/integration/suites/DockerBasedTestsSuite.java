@@ -30,6 +30,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.onap.pnfsimulator.integration.BasicAvailabilityTest;
 import org.onap.pnfsimulator.integration.OptionalTemplatesTest;
 import org.onap.pnfsimulator.integration.SearchInTemplatesTest;
+import org.onap.pnfsimulator.integration.SingleEventTest;
 import org.onap.pnfsimulator.integration.TemplatesManagementTest;
 import org.onap.pnfsimulator.integration.VariablesReplacement;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(Suite.class)
 @SuiteClasses({BasicAvailabilityTest.class, TemplatesManagementTest.class, OptionalTemplatesTest.class,
-    SearchInTemplatesTest.class, VariablesReplacement.class})
+    SearchInTemplatesTest.class, VariablesReplacement.class, SingleEventTest.class})
 public class DockerBasedTestsSuite {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DockerBasedTestsSuite.class);

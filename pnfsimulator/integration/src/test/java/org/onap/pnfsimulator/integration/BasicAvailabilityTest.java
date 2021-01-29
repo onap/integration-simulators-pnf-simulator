@@ -24,6 +24,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.onap.pnfsimulator.integration.TestUtils.getCurrentIpAddress;
 
 import com.google.gson.JsonObject;
 
@@ -230,13 +231,4 @@ public class BasicAvailabilityTest {
         return "http://0.0.0.0:5000/simulator/" + action;
     }
 
-    private String getCurrentIpAddress() throws SocketException {
-        return Collections.list(NetworkInterface.getNetworkInterfaces()).stream()
-            .flatMap(i -> Collections.list(i.getInetAddresses()).stream())
-            .filter(ip -> ip instanceof Inet4Address)
-            .map(e -> (Inet4Address) e)
-            .findFirst()
-            .orElseThrow(RuntimeException::new)
-            .getHostAddress();
-    }
 }

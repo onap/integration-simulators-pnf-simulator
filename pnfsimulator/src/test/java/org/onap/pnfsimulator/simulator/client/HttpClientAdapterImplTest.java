@@ -20,18 +20,26 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
+import org.apache.http.Header;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.message.BasicHeader;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslAuthenticationHelper;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,12 +68,23 @@ class HttpClientAdapterImplTest {
 
     @Test
     void sendShouldSuccessfullySendRequestGivenValidUrl() throws IOException {
-        assertAdapterSentRequest("http://valid-url:8080", HttpStatus.SC_FORBIDDEN, HttpTestUtils.HTTP_MESSAGE_FORBIDDEN);
+        assertAdapterSentRequest("http://valid-url:8080",
+            HttpStatus.SC_FORBIDDEN, HttpTestUtils.HTTP_MESSAGE_FORBIDDEN);
     }
 
     @Test
     void sendShouldSuccessfullySendRequestGivenValidUrlUsingHttps() throws IOException {
-        assertAdapterSentRequest("https://valid-url:8443", HttpStatus.SC_ACCEPTED, HttpTestUtils.HTTP_MESSAGE_ACCEPTER);
+        assertAdapterSentRequest("https://valid-url:8443",
+            HttpStatus.SC_ACCEPTED, HttpTestUtils.HTTP_MESSAGE_ACCEPTER);
+    }
+
+    @Test
+    void sendShouldSuccessfullySendRequestUsingBasicAuth() throws IOException {
+        String testUserInfo = "user1:pass1";
+        Header authorizationHeader = createAuthorizationHeader(testUserInfo);
+        assertAdapterSentRequest("https://" + testUserInfo + "@valid-url:8443",
+            HttpStatus.SC_ACCEPTED, HttpTestUtils.HTTP_MESSAGE_ACCEPTER,
+            List.of(authorizationHeader));
     }
 
     @Test
@@ -98,7 +117,16 @@ class HttpClientAdapterImplTest {
         }
     }
 
+    private Header createAuthorizationHeader(String testUserInfo) {
+        String encodedUserInfo = new String(Base64.encodeBase64(testUserInfo.getBytes(StandardCharsets.UTF_8)));
+        return new BasicHeader(HttpHeaders.AUTHORIZATION, "Basic " + encodedUserInfo);
+    }
+
     private void assertAdapterSentRequest(String targetUrl, int responseCode, String responseMessage) throws IOException {
+        assertAdapterSentRequest(targetUrl, responseCode, responseMessage, List.of());
+    }
+
+    private void assertAdapterSentRequest(String targetUrl, int responseCode, String responseMessage, List<Header> expectedHeaders) throws IOException {
         HttpClientAdapter adapter = new HttpClientAdapterImpl(httpClient, targetUrl);
         doReturn(httpResponse).when(httpClient).execute(any());
         doReturn(createStatusLine(responseCode)).when(httpResponse).getStatusLine();
@@ -106,9 +134,12 @@ class HttpClientAdapterImplTest {
 
         HttpResponseAdapter response = adapter.send("test-msg");
 
-        verify(httpClient).execute(any());
+        ArgumentCaptor<HttpPost> httpPostCaptor = ArgumentCaptor.forClass(HttpPost.class);
+        verify(httpClient).execute(httpPostCaptor.capture());
+        Header[] headers = httpPostCaptor.getValue().getAllHeaders();
         assertEquals(responseCode, response.getCode());
         assertEquals(responseMessage, response.getMessage());
+        assertThat(headers).usingFieldByFieldElementComparator().containsAll(expectedHeaders);
     }
 
     private void assertAdapterInformsUserWhenServiceIsUnavailable(String targetUrl) throws IOException {
