@@ -3,6 +3,7 @@ package org.onap.pnfsimulator.integration;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.onap.pnfsimulator.integration.TestUtils.getCurrentIpAddress;
 
 import com.google.gson.JsonObject;
 import java.net.Inet4Address;
@@ -74,13 +75,6 @@ public class VariablesReplacement {
 
     private String prepareRequestUrl() {
         return "http://0.0.0.0:5000/simulator/start";
-    }
-
-    private String getCurrentIpAddress() throws SocketException {
-        return Collections.list(NetworkInterface.getNetworkInterfaces()).stream()
-                       .flatMap(i -> Collections.list(i.getInetAddresses()).stream())
-                       .filter(ip -> ip instanceof Inet4Address).map(e -> (Inet4Address) e).findFirst()
-                       .orElseThrow(RuntimeException::new).getHostAddress();
     }
 
 }
