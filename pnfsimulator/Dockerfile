@@ -14,4 +14,5 @@ RUN python -m pip install -r /opt/db/config/requirements.txt
 ADD certificates  /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 CMD python /opt/db/config/mongo_db_schema_creation.py \
+    && if [ -f /app/store/trust.pass ]; then cp /app/store/trust.pass /app/store/truststore.pass; fi \
     && java -Dspring.config.location=file:/app/application.properties  -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main \
