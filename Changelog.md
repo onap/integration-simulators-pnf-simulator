@@ -20,10 +20,9 @@ All notable changes to this project will be documented in this file.
    - https://jira.onap.org/browse/INT-1805
 
 ## [1.0.3]
+   
+## [1.0.4]
 
 ###  Fix
- - Fix integration test 
+- Fix integration test
    - https://jira.onap.org/browse/INT-1844
-
-
-## [1.0.4]
