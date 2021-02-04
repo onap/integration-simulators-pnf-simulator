@@ -1,0 +1,16 @@
+distribution_type: 'container'
+container_release_tag: '1.0.4'
+container_pull_registry: nexus3.onap.org:10003
+container_push_registry: nexus3.onap.org:10002
+project: 'integration-pnf-simulator'
+log_dir: 'integration-pnf-simulator-maven-docker-stage-master/318/'
+ref: cf0a4eb1def584cb9d982dbeac9b278e51502797
+containers:
+  - name: 'org.onap.integration.simulators.pnfsimulator'
+    version: '1.0.4-STAGE-20210204T134939Z'
+  - name: 'org.onap.integration.simulators.httpserver'
+    version: '1.0.4-STAGE-20210204T134939Z'
+  - name: 'org.onap.integration.simulators.netconfsimulator'
+    version: '1.0.4-STAGE-20210204T134939Z'
+  - name: 'org.onap.integration.simulators.netopeer'
+    version: '1.0.4-STAGE-20210204T134939Z'
