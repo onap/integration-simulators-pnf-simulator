@@ -26,3 +26,5 @@ All notable changes to this project will be documented in this file.
 ###  Fix
 - Fix integration test
    - https://jira.onap.org/browse/INT-1844
+    
+## [1.0.5]
