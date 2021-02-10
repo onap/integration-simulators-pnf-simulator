@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file.
    - https://jira.onap.org/browse/INT-1804
  - Possibility to authenticate in VES using username and password in VES URL
    - https://jira.onap.org/browse/INT-1805
-
+ - Extend PNF simulator with HTTP server
+   - https://jira.onap.org/browse/INT-1814
+    
 ## [1.0.3]
    
 ## [1.0.4]

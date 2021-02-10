@@ -5,10 +5,11 @@
 More information about the project and all its functionalities you can find under the wiki page:
 https://wiki.onap.org/display/DW/PNF+Simulator
 
-Project consists of three submodules:
+Project consists of four submodules:
 1. netconfsimulator
 2. pnfsimulator
 3. simulator-cli
+4. httpserver
 
 Detailed information about submodules can be found in ```README.md``` in their directories.
 
