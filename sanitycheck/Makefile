@@ -21,7 +21,7 @@ stop:
 
 upload-file-http-server:
 	@echo "##### Upload file to Http server #####"
-	curl -F "uploaded_file=@./resources/E_VES_bulkPM_IF_3GPP_3_example_1.xml.gz" -u demo:demo123456! http://localhost:7080/upload.php
+	curl -F "uploaded_file=@./resources/E_VES_bulkPM_IF_3GPP_3_example_1.xml.gz" -u demo:demo123456! http://localhost:32080/upload.php
 	@echo "\n##### DONE #####"
 
 generate-event:

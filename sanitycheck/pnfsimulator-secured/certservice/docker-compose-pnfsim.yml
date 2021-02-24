@@ -38,14 +38,16 @@ services:
   http-server:
     image: nexus3.onap.org:10003/onap/org.onap.integration.simulators.httpserver
     ports:
-      - "7080:80"
-      - "7443:443"
+      - "8080:8080"
+      - "32000:32000"
+      - "32080:80"
+      - "32100:32100"
+      - "32443:443"
     networks:
       - pnfsimulator
       - public
     volumes:
       - ~/httpservervolumes/:/usr/local/apache2/htdocs
-      - ../../../httpserver/resources/.htaccess:/usr/local/apache2/htdocs/.htaccess
       - ../../../httpserver/logs:/var/log/apache2
       - ./resources/certservice-client/client-volume-for-httpserver/:/etc/apache2/certs/
     command: bash -c "
@@ -53,6 +55,7 @@ services:
       while [[ $$(ls -1 /etc/apache2/certs/ | wc -l) != '3' ]]; do echo 'Waiting for certs...'; sleep 3; done;
       chmod 777 /usr/local/apache2/htdocs;
       cp /usr/local/apache2/conf/upload.php /usr/local/apache2/htdocs/upload.php;
+      touch /usr/local/apache2/htdocs/index.html;
       /usr/sbin/apache2ctl -D FOREGROUND;
       "
     restart: on-failure

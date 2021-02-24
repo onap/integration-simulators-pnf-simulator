@@ -23,7 +23,7 @@
           {
             "name": "C_28532_measData_pm_98.xml",
             "hashMap": {
-              "location": "http://httpserver:httpserver@localhost:7080/E_VES_bulkPM_IF_3GPP_3_example_1.xml.gz",
+              "location": "http://demo:demo123456!@localhost:32080/E_VES_bulkPM_IF_3GPP_3_example_1.xml.gz",
               "compression": "gzip",
               "fileFormatType": "org.3GPP.32.435#measCollec",
               "fileFormatVersion": "V10"

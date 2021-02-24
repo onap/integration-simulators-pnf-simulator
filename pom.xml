@@ -33,7 +33,7 @@
 
     <groupId>org.onap.integration.simulators.pnf-simulator</groupId>
     <artifactId>integration-pnf-simulator</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <modules>
         <module>pnfsimulator</module>
         <module>httpserver</module>
