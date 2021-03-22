@@ -27,4 +27,6 @@ RUN chmod 644 /usr/local/apache2/conf/httpd.conf
 RUN chmod 644 /usr/lib/x86_64-linux-gnu/libjwt.so.1
 RUN chmod 644 /usr/local/apache2/modules/mod_authnz_jwt.so
 RUN touch /usr/local/apache2/htdocs/index.html
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+CMD if [ -f /etc/apache2/certs/cacert.pem  ]; then cp /etc/apache2/certs/cacert.pem /etc/apache2/certs/truststore.pem; fi \
+    && if [ -f /etc/apache2/certs/cert.pem  ]; then cp /etc/apache2/certs/cert.pem /etc/apache2/certs/keystore.pem; fi \
+    && /usr/sbin/apache2ctl -D FOREGROUND
