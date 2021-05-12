@@ -27,12 +27,12 @@
     <parent>
         <groupId>org.onap.integration.simulators.pnf-simulator</groupId>
         <artifactId>integration-pnf-simulator</artifactId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.6-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>pnf-simulator-integration</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
     <name>pnf-simulator-integration</name>
 
     <repositories>

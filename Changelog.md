@@ -34,3 +34,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
  - httpserver to be consistent with DFC csit/integration test cases
    - https://jira.onap.org/browse/DCAEGEN2-2536
+ 
+## [1.0.6]
+ 
+### Changed
+ - Update EJBCA version from `6.15.2.5` to `7.4.3.2`
+   - https://jira.onap.org/browse/OOM-2649
