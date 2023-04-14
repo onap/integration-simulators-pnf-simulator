@@ -10,30 +10,30 @@ All instructions based at an article at https://www.vogella.com/tutorials/SonarQ
 
     a). Log in at http://localhost:9000
     
-     ![alt text](docs/sonarqube/login_sonarqube.png "Log in")
+     ![alt text](tutorials/sonarqube/login_sonarqube.png "Log in")
         
         Username: admin
         Password: admin
     
     b). Create a new Sonar project.
     
-    ![alt text](docs/sonarqube/create_new_project_sonarqube.png "Create a new project")
+    ![alt text](tutorials/sonarqube/create_new_project_sonarqube.png "Create a new project")
     
     - Set project name
     
-    ![alt text](docs/sonarqube/create_new_project_step1_sonarqube.png "Set project name")
+    ![alt text](tutorials/sonarqube/create_new_project_step1_sonarqube.png "Set project name")
     
     - Generate token
     
-    ![alt text](docs/sonarqube/create_new_project_step2_sonarqube.png "Generate token")
+    ![alt text](tutorials/sonarqube/create_new_project_step2_sonarqube.png "Generate token")
     
     You should see
     
-    ![alt text](docs/sonarqube/create_new_project_step3_sonarqube.png "Generated token")
+    ![alt text](tutorials/sonarqube/create_new_project_step3_sonarqube.png "Generated token")
     
     - Select code language and building technology
     
-    ![alt text](docs/sonarqube/create_new_project_step4_sonarqube.png "Select code language")
+    ![alt text](tutorials/sonarqube/create_new_project_step4_sonarqube.png "Select code language")
         
     c). Run code analyse using command from a previous step. 
     
@@ -56,7 +56,7 @@ All instructions based at an article at https://www.vogella.com/tutorials/SonarQ
     [INFO] Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
     ```
     Click at link http://localhost:9000/dashboard?id=pnf-simulator to see Sonar report
-    ![alt text](docs/sonarqube/sonarqube_report.png "Select code language")
+    ![alt text](tutorials/sonarqube/sonarqube_report.png "Select code language")
         
     IMPORTANT: Please note command used to run code analise. You will need it later.  
       
