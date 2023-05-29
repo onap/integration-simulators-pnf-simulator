@@ -149,7 +149,7 @@ class App(object):
 
 
 def main():
-    if len(sys.argv) is not 8:
+    if len(sys.argv) != 8:
         print("Usage: {1} <cert_dir> <ca_cert_filename> <server_cert_filename> "
               "<server_key_filename> <load_server_certs_xml_full_path> "
               "<tls_listen_full_path> <client_cert_filename>", sys.argv[0])
