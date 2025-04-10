@@ -1,4 +1,4 @@
-FROM docker.io/openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-alpine
 COPY --from=python:3.6 / /
 
 ARG VERSION=${version}
@@ -8,8 +8,7 @@ ADD config /opt/db/config
 ADD ./templates /app/templates
 ADD ./src/main/resources/application.properties /app/application.properties
 ADD target/pnfsimulator-${VERSION}.jar /app/pnf-simulator.jar
-CMD apk update
-CMD apk add ca-certificates
+
 RUN python -m pip install -r /opt/db/config/requirements.txt
 ADD certificates  /usr/local/share/ca-certificates/
 RUN update-ca-certificates
